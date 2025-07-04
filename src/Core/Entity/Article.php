@@ -5,7 +5,7 @@ use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Core\Repository\ArticleRepository")
  * @ORM\Table(name="core_article")
  * @ORM\HasLifecycleCallbacks
  */
@@ -23,6 +23,11 @@ class Article extends LifecycleEntity
      * @ORM\ManyToOne(targetEntity="App\Core\Entity\User", inversedBy="articles")
      */
     private ?User $author = null;
+
+    /**
+     * @ORM\OneToOne(targetEntity="App\Core\Entity\Post", inversedBy="article")
+     */
+    private ?Post $post;
 
     /**
      * @return int|null
@@ -46,5 +51,21 @@ class Article extends LifecycleEntity
     public function getAuthor(): ?User
     {
         return $this->author;
+    }
+
+    /**
+     * @return Post|null
+     */
+    public function getPost(): ?Post
+    {
+        return $this->post;
+    }
+
+    /**
+     * @param Post|null $post
+     */
+    public function setPost(?Post $post): void
+    {
+        $this->post = $post;
     }
 }

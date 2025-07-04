@@ -5,7 +5,7 @@ namespace App\Core\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-interface BaseController
+interface CRUDActionInterface
 {
     /** List Management */
     public function index(Request $request): Response;

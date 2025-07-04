@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Core\Controller\BaseController;
 use App\Form\Admin\Article\AddArticleForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Admin;
 
-use App\Core\Controller\BaseController;
+use App\Core\Controller\CRUDActionInterface;
 use App\Services\ArticleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,7 +14,7 @@ use Symfony\Component\Routing\Attribute\Route;
 /**
  * @Route(path="/cms/article")
  */
-class ArticleController extends AbstractController implements BaseController
+class ArticleController extends AbstractController implements CRUDActionInterface
 {
     private ArticleService $articleService;
 

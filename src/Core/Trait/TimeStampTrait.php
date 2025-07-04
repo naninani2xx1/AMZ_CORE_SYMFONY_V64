@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Core\Trait;
+use Doctrine\ORM\Mapping as ORM;
 
 trait TimeStampTrait
 {
