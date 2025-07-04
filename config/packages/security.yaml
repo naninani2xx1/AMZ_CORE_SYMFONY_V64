@@ -20,8 +20,8 @@ security:
             lazy: true
             provider: user_db
             logout:
-                path: app_logout
-                target: app_login
+                path: app_admin_security_logout
+                target: app_admin_security_login
             custom_authenticator: App\Security\AdminAuthenticator
 
             remember_me:
