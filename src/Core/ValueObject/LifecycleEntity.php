@@ -5,7 +5,7 @@ namespace App\Core\ValueObject;
 use App\Core\Trait\TimeStampTrait;
 use Doctrine\ORM\Mapping as ORM;
 
-abstract class BaseLifecycleEntity
+abstract class LifecycleEntity
 {
     use TimeStampTrait;
 

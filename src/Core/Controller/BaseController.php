@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Core\Controller;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+
+interface BaseController
+{
+    /** List Management */
+    public function index(Request $request): Response;
+    /** Add Item */
+    public function add(Request $request, int $id): Response;
+
+    /** Edit Item */
+    public function edit(Request $request, int $id): Response;
+    /** Remove Item */
+    public function delete(Request $request, int $id): Response;
+}
