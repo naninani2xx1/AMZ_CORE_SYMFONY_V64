@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Entity;
+namespace App\Core\Entity;
 
 
+use App\Core\ValueObject\BaseLifecycleEntity;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\LegacyPasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @UniqueEntity("username")
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="core_user")
+ * @ORM\HasLifecycleCallbacks
  */
-class User implements UserInterface, LegacyPasswordAuthenticatedUserInterface
+class User extends BaseLifecycleEntity implements UserInterface, LegacyPasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Column(type="integer")

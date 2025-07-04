@@ -12,13 +12,13 @@ class CoreExtensionRuntime implements RuntimeExtensionInterface
         // Inject dependencies if needed
     }
 
-    public function doSomething($value)
+    public function jsonDecode($value): string
     {
-        // ...
+        return json_decode($value, true);
     }
 
-    public function supports($value): bool
+    public function hasValue($value): bool
     {
-        return true;
+        return !empty($value);
     }
 }

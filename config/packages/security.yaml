@@ -9,7 +9,7 @@ security:
         users_in_memory: { memory: null }
         user_db:
             entity:
-                class: App\Entity\User
+                class: App\Core\Entity\User
                 property: username
     firewalls:
         dev:
