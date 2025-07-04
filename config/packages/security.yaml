@@ -15,13 +15,25 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        cms:
             pattern: ^/cms
             lazy: true
             provider: user_db
             logout:
                 path: app_logout
                 target: app_login
+            custom_authenticator: App\Security\AdminAuthenticator
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+        main:
+            pattern: ^/
+            lazy: true
+                # by default, the feature is enabled by checking a checkbox in the
+                # login form, uncomment the following line to always enable it.
+                #always_remember_me: true
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 

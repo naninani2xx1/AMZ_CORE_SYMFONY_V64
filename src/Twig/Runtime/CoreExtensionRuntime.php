@@ -6,7 +6,8 @@ use Twig\Extension\RuntimeExtensionInterface;
 
 class CoreExtensionRuntime implements RuntimeExtensionInterface
 {
-    public function __construct()
+    public function __construct(
+    )
     {
         // Inject dependencies if needed
     }
@@ -14,5 +15,10 @@ class CoreExtensionRuntime implements RuntimeExtensionInterface
     public function doSomething($value)
     {
         // ...
+    }
+
+    public function supports($value): bool
+    {
+        return true;
     }
 }

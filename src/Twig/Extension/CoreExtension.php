@@ -22,7 +22,7 @@ class CoreExtension extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('function_name', [CoreExtensionRuntime::class, 'doSomething']),
+            new TwigFunction('supports', [CoreExtensionRuntime::class, 'supports']),
         ];
     }
 }
