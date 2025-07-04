@@ -15,7 +15,8 @@ class CoreExtension extends AbstractExtension
             // If your filter generates SAFE HTML, you should add a third
             // parameter: ['is_safe' => ['html']]
             // Reference: https://twig.symfony.com/doc/3.x/advanced.html#automatic-escaping
-            new TwigFilter('filter_name', [CoreExtensionRuntime::class, 'doSomething']),
+            new TwigFilter('json_decode', [CoreExtensionRuntime::class, 'jsonDecode']),
+            new TwigFilter('has_value', [CoreExtensionRuntime::class, 'hasValue']),
         ];
     }
 
