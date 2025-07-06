@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-
+import axios from 'axios';
 /*
  * This is an example Stimulus controller!
  *
@@ -22,7 +22,7 @@ export default class extends Controller {
         changeProperty: {
             default: null,
             type: String
-        }
+        },
     }
     connect() {
          $(this.element).select2({
@@ -41,7 +41,10 @@ export default class extends Controller {
         $(this.element).off('select2:select', this.onChange.bind(this));
     }
 
-    onChange(e){
+    async onChange(e){
         const selectedVal = $(e).val();
+        if(this.urlValue === null) return;
+
+        const response = await axios.post(this.urlValue)
     }
 }

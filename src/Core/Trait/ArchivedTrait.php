@@ -9,14 +9,14 @@ trait ArchivedTrait
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    private bool $isArchived = ArchivedDataType::UN_ARCHIVED;
+    protected bool $isArchived = ArchivedDataType::UN_ARCHIVED;
 
-    public function isArchived(): bool
+    protected function isArchived(): bool
     {
         return $this->isArchived;
     }
 
-    public function setArchived(bool $isArchived): void
+    protected function setArchived(bool $isArchived): void
     {
         $this->isArchived = $isArchived;
     }

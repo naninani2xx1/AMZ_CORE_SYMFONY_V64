@@ -22,12 +22,12 @@ class Article extends LifecycleEntity
     /**
      * @ORM\ManyToOne(targetEntity="App\Core\Entity\User", inversedBy="articles")
      */
-    private ?User $author = null;
+    private $author = null;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Core\Entity\Post", inversedBy="article")
      */
-    private ?Post $post;
+    private $post;
 
     /**
      * @return int|null

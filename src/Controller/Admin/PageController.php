@@ -5,63 +5,65 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
-use App\Services\ArticleService;
+use App\Core\DTO\RequestDataTableDTO;
+use App\Core\Repository\PageRepository;
+use App\Services\PageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route(path="/cms/article")
+ * @Route(path="/cms/page")
  */
-class ArticleController extends AbstractController implements CRUDActionInterface
+class PageController extends AbstractController implements CRUDActionInterface
 {
-    private ArticleService $articleService;
+    private $pageService;
+    private $pageRepository;
 
-    public function __construct(ArticleService $articleService)
+    public function __construct(PageService $pageService, PageRepository $pageRepository)
     {
-        $this->articleService = $articleService;
+        $this->pageService = $pageService;
+        $this->pageRepository = $pageRepository;
     }
 
     /**
-     * @Route(path="/", name="app_admin_article_index")
+     * @Route(path="/", name="app_admin_page_index")
      * @param Request $request
      * @return Response
      */
     public function index(Request $request): Response
     {
-       return new Response();
+        return $this->render('Admin/views/page/index.html.twig', compact(''));
     }
 
     /**
-     * @Route(path="/add/{id}", name="app_admin_article_add")
+     * @Route(path="/add/{id}", name="app_admin_page_add")
      * @param Request $request
      * @return Response
      */
     public function add(Request $request): Response
     {
-        return $this->articleService->add($request);
+       return $this->pageService->add($request);
     }
-
     /**
-     * @Route(path="/edit/{id}", name="app_admin_article_edit")
+     * @Route(path="/edit/{id}", name="app_admin_page_edit")
      * @param Request $request
      * @param int $id
      * @return Response
      */
     public function edit(Request $request, int $id): Response
     {
-        return $this->articleService->edit($request, $id);
+        return $this->pageService->edit($request, $id);
     }
-
     /**
-     * @Route(path="/delete/{id}", name="app_admin_article_delete")
+     * @Route(path="/delete/{id}", name="app_admin_page_delete")
      * @param Request $request
      * @param int $id
      * @return Response
      */
     public function delete(Request $request, int $id): Response
     {
-        return $this->articleService->delete($request, $id);
+        return $this->pageService->delete($request, $id);
     }
 }

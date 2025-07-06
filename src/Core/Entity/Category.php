@@ -11,7 +11,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Core\Repository\CategoryRepository")
- * @ORM\Table(name="ore_category")
+ * @ORM\Table(name="core_category")
  * @ORM\HasLifecycleCallbacks
  */
 class Category extends LifecycleEntity

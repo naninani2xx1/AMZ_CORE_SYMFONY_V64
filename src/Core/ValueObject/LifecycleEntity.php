@@ -7,6 +7,9 @@ use App\Core\Trait\ArchivedTrait;
 use App\Core\Trait\TimeStampTrait;
 use Doctrine\ORM\Mapping as ORM;
 
+/**
+ * @ORM\MappedSuperclass
+ */
 abstract class LifecycleEntity
 {
     use TimeStampTrait, ArchivedTrait;

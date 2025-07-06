@@ -4,6 +4,7 @@
 namespace App\Core\Entity;
 
 use App\Core\DataType\BlockType;
+use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -14,7 +15,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  *
  */
-class Block
+class Block extends LifecycleEntity
 {
     /**
      * @ORM\Column(type="integer")
@@ -79,7 +80,7 @@ class Block
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private  $imageIcon;
+    private $imageIcon;
 
     /**
      * @ORM\Column(type="text", nullable=true)

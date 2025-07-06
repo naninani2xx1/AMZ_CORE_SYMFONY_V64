@@ -10,7 +10,7 @@ interface CRUDActionInterface
     /** List Management */
     public function index(Request $request): Response;
     /** Add Item */
-    public function add(Request $request, int $id): Response;
+    public function add(Request $request): Response;
 
     /** Edit Item */
     public function edit(Request $request, int $id): Response;

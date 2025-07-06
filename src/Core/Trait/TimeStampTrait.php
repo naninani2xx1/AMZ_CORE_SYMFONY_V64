@@ -6,19 +6,19 @@ use Doctrine\ORM\Mapping as ORM;
 trait TimeStampTrait
 {
     /**
-     * @ORM\Column(type="datetime",, nullable="true")
+     * @ORM\Column(type="datetime", nullable="true")
      */
-    private ?\DateTime $createdAt = null;
+    protected ?\DateTime $createdAt = null;
 
     /**
      * @ORM\Column(type="datetime", nullable="true")
      */
-    private ?\DateTime $updatedAt = null;
+    protected ?\DateTime $updatedAt = null;
 
     /**
      * @return \DateTime|null
      */
-    public function getCreatedAt(): ?\DateTime
+    protected function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
@@ -26,7 +26,7 @@ trait TimeStampTrait
     /**
      * @return \DateTime|null
      */
-    public function getUpdatedAt(): ?\DateTime
+    protected function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
@@ -34,7 +34,7 @@ trait TimeStampTrait
     /**
      * @param \DateTime|null $createdAt
      */
-    public function setCreatedAt(?\DateTime $createdAt): void
+    protected function setCreatedAt(?\DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -42,7 +42,7 @@ trait TimeStampTrait
     /**
      * @param \DateTime|null $updatedAt
      */
-    public function setUpdatedAt(?\DateTime $updatedAt): void
+    protected function setUpdatedAt(?\DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }
