@@ -9,19 +9,26 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class SettingService extends AbstractController
 {
+    private EntityManagerInterface $em;
+    private FormFactoryInterface $formFactory;
+    private UrlGeneratorInterface $urlGenerator;
+
     public function __construct(
-        private readonly EntityManagerInterface $em,
-        private readonly FormFactoryInterface $formFactory,
-        #[Autowire(service: 'router')]
-        private readonly UrlGeneratorInterface $urlGenerator
-    ) {}
+        EntityManagerInterface $em,
+        FormFactoryInterface $formFactory,
+        UrlGeneratorInterface $urlGenerator
+    ) {
+        $this->em = $em;
+        $this->formFactory = $formFactory;
+        $this->urlGenerator = $urlGenerator;
+    }
+
     public function add(Request $request): RedirectResponse
     {
         $setting = new Setting();
@@ -44,6 +51,7 @@ class SettingService extends AbstractController
         if (!$setting) {
             throw new NotFoundHttpException('Setting không tồn tại.');
         }
+
         $form = $this->formFactory->create(SettingType::class, $setting);
         $value = $setting->getSettingValue();
         if (is_array($value)) {
@@ -80,4 +88,3 @@ class SettingService extends AbstractController
         return new RedirectResponse($this->urlGenerator->generate('app_admin_setting_index'));
     }
 }
-
