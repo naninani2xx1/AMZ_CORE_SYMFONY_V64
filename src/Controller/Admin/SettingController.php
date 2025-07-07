@@ -28,10 +28,10 @@ class SettingController extends AbstractController
      */
     public function index(EntityManagerInterface $em): Response
     {
+
         $settings = $em->getRepository(Setting::class)->findAll();
         $form = $this->createForm(SettingType::class, new Setting());
-
-        return $this->render('admin/security/index.html.twig', [
+        return $this->render('Admin/security/index.html.twig', [
             'settings' => $settings,
             'form' => $form->createView(),
         ]);
