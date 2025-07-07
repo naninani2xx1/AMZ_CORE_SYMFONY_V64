@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Core\Entity\Setting;
 use App\Form\SettingCommonType;
+use App\Form\SettingImgType;
 use App\Form\SettingType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -35,11 +36,18 @@ class SettingService extends AbstractController
         $settingCommon = new Setting();
         $formCommon = $this->createForm(SettingCommonType::class, $settingCommon);
         $formCommon->handleRequest($request);
+        $settingImg = new Setting();
+        $formImg=$this->createForm(SettingImgType::class, $settingImg);
+        $formImg->handleRequest($request);
         if ($request->request->has('submit_setting') && $form->isSubmitted() && $form->isValid()) {
             $this->em->persist($setting);
             $this->em->flush();
         } elseif ($request->request->has('submit_common') && $formCommon->isSubmitted() && $formCommon->isValid()) {
             $this->em->persist($settingCommon);
+            $this->em->flush();
+        }
+        elseif ($request->request->has('submit_img') && $formImg->isSubmitted() && $formImg->isValid()) {
+            $this->em->persist($settingImg);
             $this->em->flush();
         }
         return new RedirectResponse($this->urlGenerator->generate('app_admin_setting_index'));

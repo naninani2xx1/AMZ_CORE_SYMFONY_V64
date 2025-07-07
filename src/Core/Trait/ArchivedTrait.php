@@ -9,7 +9,7 @@ trait ArchivedTrait
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
-    protected bool $isArchived = ArchivedDataType::UN_ARCHIVED;
+    protected ?bool $isArchived = ArchivedDataType::UN_ARCHIVED;
 
     protected function isArchived(): bool
     {

@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
 use App\Form\SettingCommonType;
+use App\Form\SettingImgType;
 use App\Form\SettingType;
 use App\Core\Entity\Setting;
 use App\Services\SettingService;
@@ -34,10 +35,12 @@ class SettingController extends AbstractController implements CRUDActionInterfac
         $settings = $this->em->getRepository(Setting::class)->findAll();
         $form = $this->createForm(SettingType::class, new Setting());
         $formCommon= $this->createForm(SettingCommonType::class, new Setting());
+        $formImg= $this->createForm(SettingImgType::class, new Setting());
         return $this->render('Admin/views/page/index.html.twig', [
             'settings' => $settings,
             'form' => $form->createView(),
             'formCommon' => $formCommon->createView(),
+            'formImg' => $formImg->createView(),
         ]);
     }
 

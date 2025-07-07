@@ -36,6 +36,7 @@
             </div>
             <button class="btn btn-primary" onclick="document.getElementById('settingModal').style.display='block'">+ Thêm cài đặt</button>
             <button class="btn btn-primary" onclick="document.getElementById('settingModalCommon').style.display='block'">+ Thêm Common</button>
+            <button class="btn btn-primary" onclick="document.getElementById('settingModalImg').style.display='block'">+ Thêm Img</button>
         </div>
 
         <div class="table-container">
@@ -62,7 +63,7 @@
                                 <div><strong>Width:</strong> {{ json.width }}</div>
                                 <div><strong>Height:</strong> {{ json.height }}</div>
                             {% else %}
-                                {{ setting.settingValue }}
+                               <img width="50" height="50" src=" {{ setting.settingValue }}" alt="image">
                             {% endif %}
                         </td>
                         <td>
@@ -96,7 +97,6 @@
                     method: 'POST'
                 }) }}
                 {{ form_row(form.settingKey) }}
-                {{ form_row(form.settingType) }}
                 {{ form_row(form.width) }}
                 {{ form_row(form.height) }}
                 <div class="form-group">
@@ -120,13 +120,35 @@
                     method: 'POST'
                 }) }}
                 {{ form_row(formCommon.settingKey) }}
-                {{ form_row(formCommon.settingType) }}
                 {{ form_row(formCommon.settingValue) }}
                 <div class="form-group">
                     <button type="submit" name="submit_common" class="btn btn-primary">Lưu</button>
                     <button type="button" class="btn btn-secondary" onclick="document.getElementById('settingModalCommon').style.display='none'">Hủy</button>
                 </div>
                 {{ form_end(formCommon) }}
+            </div>
+        </div>
+    </div>
+
+    <div id="settingModalImg" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Thêm cài đặt mới</h2>
+                <button class="close" onclick="document.getElementById('settingModalImg').style.display='none'">×</button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(formImg, {
+                    action: path('app_admin_setting_add'),
+                    method: 'POST'
+
+                }) }}
+                {{ form_row(formImg.settingKey) }}
+                {{ form_row(formImg.settingValue) }}
+                <div class="form-group">
+                    <button type="submit" name="submit_img" class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('settingModalImg').style.display='none'">Hủy</button>
+                </div>
+                {{ form_end(formImg) }}
             </div>
         </div>
     </div>

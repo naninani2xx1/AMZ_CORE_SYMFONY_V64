@@ -22,16 +22,6 @@ class SettingType extends AbstractType
                 'label' => 'Tên cài đặt',
                 'required' => true,
             ])
-            ->add('settingType', ChoiceType::class, [
-                'label' => 'Loại',
-                'required' => true,
-                'choices' => [
-                    'String' => 'string',
-                    'Number' => 'number',
-                    'Boolean' => 'boolean',
-                    'JSON' => 'json',
-                ],
-            ])
 
             ->add('width', TextType::class, [
                 'label' => 'Chiều rộng',
@@ -51,6 +41,7 @@ class SettingType extends AbstractType
                 'width' => $form->get('width')->getData(),
                 'height' => $form->get('height')->getData(),
             ];
+            $data->settingType('size');
             $data->setSettingValue(json_encode($json));
         });
 
