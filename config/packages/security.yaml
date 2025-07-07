@@ -1,18 +1,39 @@
 security:
     # https://symfony.com/doc/current/security.html#registering-the-user-hashing-passwords
     password_hashers:
-        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+#        Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
+        App\Entity\User:
+            algorithm: sha512
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
         users_in_memory: { memory: null }
+        user_db:
+            entity:
+                class: App\Core\Entity\User
+                property: username
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main:
+        cms:
+            pattern: ^/cms
             lazy: true
-            provider: users_in_memory
+            provider: user_db
+            logout:
+                path: app_admin_security_logout
+                target: app_admin_security_login
+            custom_authenticator: App\Security\AdminAuthenticator
 
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+        main:
+            pattern: ^/
+            lazy: true
+                # by default, the feature is enabled by checking a checkbox in the
+                # login form, uncomment the following line to always enable it.
+                #always_remember_me: true
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
 
@@ -22,7 +43,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+         - { path: ^/cms, roles: [] }
         # - { path: ^/profile, roles: ROLE_USER }
 
 when@test:

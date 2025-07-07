@@ -1,0 +1,28 @@
+{% extends 'Admin/base.html.twig' %}
+{% block title %}CMS-Page Management{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}Page Management{% endblock toolbar_title %}
+
+        {% block toolbar_breadcrumbs %}
+            <!--begin::Item-->
+            <li class="breadcrumb-item text-muted">
+                <a href="#" class="text-muted text-hover-primary">Page</a>
+            </li>
+            <!--end::Item-->
+        {% endblock toolbar_breadcrumbs %}
+
+        {% block toolbar_button_actions %}
+
+        {% endblock toolbar_button_actions %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

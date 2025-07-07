@@ -16,6 +16,11 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
+    #register controller CMS
+    'select2_controller' => [
+        'path' => './assets/controllers/select2_controller.js',
+        'entrypoint' => true,
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
@@ -25,4 +30,8 @@ return [
     '@hotwired/turbo' => [
         'version' => '7.3.0',
     ],
+    'axios' => [
+        'version' => '1.10.0',
+    ],
+
 ];
