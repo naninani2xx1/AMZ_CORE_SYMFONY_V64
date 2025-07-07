@@ -32,11 +32,7 @@ class SettingType extends AbstractType
                     'JSON' => 'json',
                 ],
             ])
-            ->add('value', TextType::class, [
-                'label' => 'Giá trị',
-                'mapped' => false,
-                'required' => false,
-            ])
+
             ->add('width', TextType::class, [
                 'label' => 'Chiều rộng',
                 'mapped' => false,
@@ -51,19 +47,17 @@ class SettingType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $form = $event->getForm();
             $data = $event->getData();
-
             $json = [
-                'value' => $form->get('value')->getData(),
                 'width' => $form->get('width')->getData(),
                 'height' => $form->get('height')->getData(),
             ];
-
-            $data->setSettingValue($json);
-            $event->setData($data);
+            $data->setSettingValue(json_encode($json));
         });
+
+
     }
 
-    public function configureOptions(OptionsResolver $resolver): void
+        public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Setting::class,

@@ -17,7 +17,7 @@ class Setting
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    private  $id;
 
     /**
      * @ORM\Column (type="string", unique=true, nullable = true)
@@ -104,15 +104,14 @@ class Setting
         return $this;
     }
 
-    public function getSettingValue(): ?array
+    public function getSettingValue()
     {
-        return $this->settingValue ? json_decode($this->settingValue, true) : null;
+      return $this->settingValue;
     }
 
-    public function setSettingValue(array $value): self
+    public function setSettingValue($value): static
     {
-        $this->settingValue = json_encode($value);
-
+        $this->settingValue = $value;
         return $this;
     }
 

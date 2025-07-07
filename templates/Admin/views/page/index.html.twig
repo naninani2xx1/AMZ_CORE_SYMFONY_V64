@@ -1,6 +1,11 @@
 {% extends 'Admin/base.html.twig' %}
 {% block title %}CMS-Page Management{% endblock %}
 
+{% block stylesheets %}
+{{ parent() }}
+<link rel="stylesheet" href="{{ asset('/styles/setting.css') }}" >
+{% endblock %}
+
 {% block toolbar %}
     {% embed 'Admin/partials/toolbar.html.twig' %}
         {% block toolbar_title %}Page Management{% endblock toolbar_title %}
@@ -20,7 +25,113 @@
 {% endblock %}
 
 {% block body %}
+    <div class="container">
+        <div class="header">
+            <h1>Quản lý cài đặt</h1>
+        </div>
 
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Tìm kiếm...">
+            </div>
+            <button class="btn btn-primary" onclick="document.getElementById('settingModal').style.display='block'">+ Thêm cài đặt</button>
+            <button class="btn btn-primary" onclick="document.getElementById('settingModalCommon').style.display='block'">+ Thêm Common</button>
+        </div>
+
+        <div class="table-container">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Setting_key</th>
+                    <th>Setting_value</th>
+                    <th>Setting_value</th>
+                    <th>Created_at</th>
+                    <th>Button</th>
+                </tr>
+                </thead>
+                <tbody id="settingsTableBody">
+                {% for setting in settings %}
+                    <tr>
+                        <td>{{ setting.id }}</td>
+                        <td><span class="setting-key">{{ setting.settingKey }}</span></td>
+                        <td>
+                            {% set json = setting.settingValue %}
+                            {% if json is iterable %}
+                                <div><strong>Value:</strong> {{ json.value }}</div>
+                                <div><strong>Width:</strong> {{ json.width }}</div>
+                                <div><strong>Height:</strong> {{ json.height }}</div>
+                            {% else %}
+                                {{ setting.settingValue }}
+                            {% endif %}
+                        </td>
+                        <td>
+                            {{ setting.settingType }}
+                        </td>
+                        <td>{{ setting.createdAt|date('Y-m-d H:i') }}</td>
+                        <td>
+                            <div class="actions">
+                                <button class="btn btn-warning" onclick="editSetting({{ setting.id }})">Sửa</button>
+                                <a href="{{ path('app_admin_setting_destroy', {'id': setting.id}) }}" onclick="deleteSetting({{ setting.id }})" class="btn btn-danger">Xóa</a>
+                            </div>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr><td colspan="6">Không có dữ liệu cài đặt.</td></tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="settingModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Thêm cài đặt mới</h2>
+                <button class="close" onclick="document.getElementById('settingModal').style.display='none'">×</button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(form, {
+                    action: path('app_admin_setting_add'),
+                    method: 'POST'
+                }) }}
+                {{ form_row(form.settingKey) }}
+                {{ form_row(form.settingType) }}
+                {{ form_row(form.width) }}
+                {{ form_row(form.height) }}
+                <div class="form-group">
+                    <button type="submit" name="submit_setting" class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('settingModal').style.display='none'">Hủy</button>
+                </div>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+
+    <div id="settingModalCommon" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Thêm cài đặt mới</h2>
+                <button class="close" onclick="document.getElementById('settingModalCommon').style.display='none'">×</button>
+            </div>
+            <div class="modal-body">
+                {{ form_start(formCommon, {
+                    action: path('app_admin_setting_add'),
+                    method: 'POST'
+                }) }}
+                {{ form_row(formCommon.settingKey) }}
+                {{ form_row(formCommon.settingType) }}
+                {{ form_row(formCommon.settingValue) }}
+                <div class="form-group">
+                    <button type="submit" name="submit_common" class="btn btn-primary">Lưu</button>
+                    <button type="button" class="btn btn-secondary" onclick="document.getElementById('settingModalCommon').style.display='none'">Hủy</button>
+                </div>
+                {{ form_end(formCommon) }}
+            </div>
+        </div>
+    </div>
+
+    <div id="editModalContainer"></div>
 {% endblock %}
 
 {% block javascripts %}

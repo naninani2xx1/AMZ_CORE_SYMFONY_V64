@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Core\Entity\Setting;
+use App\Form\SettingCommonType;
 use App\Form\SettingType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -16,34 +17,34 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 class SettingService extends AbstractController
 {
     private EntityManagerInterface $em;
-    private FormFactoryInterface $formFactory;
     private UrlGeneratorInterface $urlGenerator;
 
     public function __construct(
         EntityManagerInterface $em,
-        FormFactoryInterface $formFactory,
         UrlGeneratorInterface $urlGenerator
     ) {
         $this->em = $em;
-        $this->formFactory = $formFactory;
         $this->urlGenerator = $urlGenerator;
     }
 
     public function add(Request $request): RedirectResponse
     {
         $setting = new Setting();
-        $form = $this->formFactory->create(SettingType::class, $setting);
+        $form = $this->createForm(SettingType::class, $setting);
         $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        $settingCommon = new Setting();
+        $formCommon = $this->createForm(SettingCommonType::class, $settingCommon);
+        $formCommon->handleRequest($request);
+        if ($request->request->has('submit_setting') && $form->isSubmitted() && $form->isValid()) {
             $this->em->persist($setting);
             $this->em->flush();
-
-            $this->addFlash('success', 'Thêm cài đặt thành công!');
+        } elseif ($request->request->has('submit_common') && $formCommon->isSubmitted() && $formCommon->isValid()) {
+            $this->em->persist($settingCommon);
+            $this->em->flush();
         }
-
         return new RedirectResponse($this->urlGenerator->generate('app_admin_setting_index'));
     }
+
 
     public function edit(Request $request, int $id): Response
     {
@@ -51,14 +52,7 @@ class SettingService extends AbstractController
         if (!$setting) {
             throw new NotFoundHttpException('Setting không tồn tại.');
         }
-
-        $form = $this->formFactory->create(SettingType::class, $setting);
-        $value = $setting->getSettingValue();
-        if (is_array($value)) {
-            $form->get('value')->setData($value['value'] ?? '');
-            $form->get('width')->setData($value['width'] ?? '');
-            $form->get('height')->setData($value['height'] ?? '');
-        }
+        $form=$this->createForm(SettingType::class, $setting);
 
         $form->handleRequest($request);
 
@@ -68,7 +62,7 @@ class SettingService extends AbstractController
             return new RedirectResponse($this->urlGenerator->generate('app_admin_setting_index'));
         }
 
-        return $this->render('admin/security/edit_modal.html.twig', [
+        return $this->render('Admin/views/setting/edit_modal.html.twig', [
             'form' => $form->createView(),
             'setting' => $setting,
         ]);

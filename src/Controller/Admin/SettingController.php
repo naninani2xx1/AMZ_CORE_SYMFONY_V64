@@ -2,6 +2,8 @@
 
 namespace App\Controller\Admin;
 
+use App\Core\Controller\CRUDActionInterface;
+use App\Form\SettingCommonType;
 use App\Form\SettingType;
 use App\Core\Entity\Setting;
 use App\Services\SettingService;
@@ -14,26 +16,28 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/cms/setting")
  */
-class SettingController extends AbstractController
+class SettingController extends AbstractController implements CRUDActionInterface
 {
-    private SettingService $settingService;
 
-    public function __construct(SettingService $settingService)
+    public function __construct(private readonly SettingService $settingService
+                            ,   private readonly EntityManagerInterface $em
+    )
     {
-        $this->settingService = $settingService;
-    }
 
+    }
     /**
      * @Route("/", name="app_admin_setting_index")
      */
-    public function index(EntityManagerInterface $em): Response
+    public function index(Request $request): Response
     {
 
-        $settings = $em->getRepository(Setting::class)->findAll();
+        $settings = $this->em->getRepository(Setting::class)->findAll();
         $form = $this->createForm(SettingType::class, new Setting());
-        return $this->render('Admin/security/index.html.twig', [
+        $formCommon= $this->createForm(SettingCommonType::class, new Setting());
+        return $this->render('Admin/views/page/index.html.twig', [
             'settings' => $settings,
             'form' => $form->createView(),
+            'formCommon' => $formCommon->createView(),
         ]);
     }
 
@@ -56,7 +60,7 @@ class SettingController extends AbstractController
     /**
      * @Route("/destroy/{id}", name="app_admin_setting_destroy")
      */
-    public function destroy(int $id): Response
+    public function delete(Request $request,int $id): Response
     {
         return $this->settingService->delete($id);
     }
