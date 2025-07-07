@@ -2,12 +2,17 @@
 
 namespace App\Core\ValueObject;
 
+use App\Core\DataType\ArchivedDataType;
+use App\Core\Trait\ArchivedTrait;
 use App\Core\Trait\TimeStampTrait;
 use Doctrine\ORM\Mapping as ORM;
 
-abstract class BaseLifecycleEntity
+/**
+ * @ORM\MappedSuperclass
+ */
+abstract class LifecycleEntity
 {
-    use TimeStampTrait;
+    use TimeStampTrait, ArchivedTrait;
 
     /**
      * @ORM\PrePersist
@@ -17,6 +22,7 @@ abstract class BaseLifecycleEntity
         $now = new \DateTime();
         $this->setCreatedAt($now);
         $this->setUpdatedAt($now);
+        $this->setArchived(ArchivedDataType::UN_ARCHIVED);
     }
 
     /**

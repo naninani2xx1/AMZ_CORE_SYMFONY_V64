@@ -3,7 +3,10 @@
 namespace App\Core\Entity;
 
 
-use App\Core\ValueObject\BaseLifecycleEntity;
+use App\Core\ValueObject\LifecycleEntity;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\LegacyPasswordAuthenticatedUserInterface;
@@ -11,11 +14,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @UniqueEntity("username")
- * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @ORM\Entity(repositoryClass="App\Core\Repository\UserRepository")
  * @ORM\Table(name="core_user")
  * @ORM\HasLifecycleCallbacks
  */
-class User extends BaseLifecycleEntity implements UserInterface, LegacyPasswordAuthenticatedUserInterface
+class User extends LifecycleEntity implements UserInterface, LegacyPasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -43,6 +46,16 @@ class User extends BaseLifecycleEntity implements UserInterface, LegacyPasswordA
      * @ORM\Column(type="simple_array", nullable="true")
      */
     private ?array $roles = null;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Core\Entity\Article", mappedBy="author")
+     */
+    private ?Collection $articles = null;
+
+    public function __construct()
+    {
+        $this->articles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -105,5 +118,33 @@ class User extends BaseLifecycleEntity implements UserInterface, LegacyPasswordA
     public function getUserIdentifier(): string
     {
         return $this->username;
+    }
+
+    /**
+     * @return Collection|null
+     */
+    public function getArticles(): ?Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Article $article): self
+    {
+        if(!$this->articles->contains($article)) {
+            $this->articles->add($article);
+        }
+        return $this;
+    }
+
+    public function removeArticle(Article $article): static
+    {
+        if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getAuthor() === $this) {
+                $article->setAuthor(null);
+            }
+        }
+
+        return $this;
     }
 }
