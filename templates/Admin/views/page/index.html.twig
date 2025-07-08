@@ -25,8 +25,6 @@
 {% endblock %}
 
 {% block body %}
-
-
     {% embed 'Admin/partials/table.html.twig' %}
         {% import 'Admin/partials/macros.html.twig' as macros %}
         {% block columns %}
@@ -64,9 +62,6 @@
             {% endfor %}
         {% endblock %}
     {% endembed %}
-
-    <div id="editModalContainer"></div>
-
 {% endblock %}
 
 {% block javascripts %}
