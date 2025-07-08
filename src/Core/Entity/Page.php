@@ -58,7 +58,7 @@ class Page extends LifecycleEntity
     /**
      * @ORM\Column(type="string", name="css", nullable=true)
      */
-    private  $css;
+    private $css;
 
     /**
      * @ORM\Column(type="text", name="custom_css", nullable=true)

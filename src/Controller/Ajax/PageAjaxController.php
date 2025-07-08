@@ -20,6 +20,7 @@ class PageAjaxController extends AbstractController
     {
         $this->pageRepository = $pageRepository;
     }
+
     /**
      * @Route(path="/update-table", name="app_admin_page_ajax_update_table")
      */

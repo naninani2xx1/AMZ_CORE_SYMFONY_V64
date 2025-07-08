@@ -21,6 +21,43 @@
 
 {% block body %}
 
+    {% embed 'Admin/partials/table.html.twig' %}
+        {% import 'Admin/partials/macros.html.twig' as macros %}
+        {% block columns %}
+            {{ macros.table_column_default("Page Name", 'text-start') }}
+            {{ macros.table_column_default("Language", 'text-start') }}
+            {{ macros.table_column_default("CreatedAt", 'text-start') }}
+            {{ macros.table_column_default("UpdatedAt",  'text-start') }}
+        {% endblock %}
+        {% block rows %}
+            {% for item in pagination %}
+            <tr class="py-3 align-middle  border-bottom border-gray-300 fs-7">
+                <td class="action-column">
+                    <a href="#" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                        <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
+                            {{ macros.icon_edit() }}
+                        </span>
+                    </a>
+
+                    <a href="#" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                        <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
+                            {{ macros.icon_delete() }}
+                        </span>
+                    </a>
+                    <a href="#" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                        <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
+                            {{ macros.icon_copy() }}
+                        </span>
+                    </a>
+                </td>
+                <td>{{ item.name }}</td>
+                <td>Vietnamese</td>
+                <td>{{ item.createdAt | date('d/m/Y H:i:a') }}</td>
+                <td>{{ item.updatedAt | date('d/m/Y H:i:a') }}</td>
+            </tr>
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
 {% endblock %}
 
 {% block javascripts %}

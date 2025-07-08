@@ -11,12 +11,12 @@ trait ArchivedTrait
      */
     protected bool $isArchived = ArchivedDataType::UN_ARCHIVED;
 
-    protected function isArchived(): bool
+    public function isArchived(): bool
     {
         return $this->isArchived;
     }
 
-    protected function setArchived(bool $isArchived): void
+    public function setArchived(bool $isArchived): void
     {
         $this->isArchived = $isArchived;
     }
