@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Core\Entity\Setting;
+
 use App\Form\SettingCommonType;
 use App\Form\SettingImgType;
 use App\Form\SettingType;
+use App\Security\Voter\SettingVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\FormFactoryInterface;
@@ -28,35 +30,58 @@ class SettingService extends AbstractController
         $this->urlGenerator = $urlGenerator;
     }
 
-    public function add(Request $request): RedirectResponse
+
+    public function add(Request $request): Response
     {
+
+        $type = $request->query->get('type', 'common');
         $setting = new Setting();
-        $form = $this->createForm(SettingType::class, $setting);
+        $this->denyAccessUnlessGranted(SettingVoter::CREATE,$setting);
+        switch ($type) {
+            case 'common':
+                $form = $this->createForm(SettingCommonType::class, $setting, [
+                    'action' => $this->generateUrl('app_admin_setting_add', ['type' => 'common']),
+                ]);
+                $template = 'Admin/views/setting/modals/form_common.html.twig';
+                break;
+
+            case 'size':
+                $form = $this->createForm(SettingType::class, $setting, [
+                    'action' => $this->generateUrl('app_admin_setting_add', ['type' => 'size']),
+                ]);
+                $template = 'Admin/views/setting/modals/form_size.html.twig';
+                break;
+
+            case 'img':
+                $form = $this->createForm(SettingImgType::class, $setting, [
+                    'action' => $this->generateUrl('app_admin_setting_add', ['type' => 'img']),
+                ]);
+                $template = 'Admin/views/setting/modals/form_img.html.twig';
+                break;
+
+            default:
+                $this->addFlash('error', 'Không xác định được loại setting.');
+                return $this->redirectToRoute('app_admin_setting_index');
+        }
+
         $form->handleRequest($request);
-        $settingCommon = new Setting();
-        $formCommon = $this->createForm(SettingCommonType::class, $settingCommon);
-        $formCommon->handleRequest($request);
-        $settingImg = new Setting();
-        $formImg=$this->createForm(SettingImgType::class, $settingImg);
-        $formImg->handleRequest($request);
-        if ($request->request->has('submit_setting') && $form->isSubmitted() && $form->isValid()) {
+
+        if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($setting);
             $this->em->flush();
-        } elseif ($request->request->has('submit_common') && $formCommon->isSubmitted() && $formCommon->isValid()) {
-            $this->em->persist($settingCommon);
-            $this->em->flush();
+
+            return $this->redirectToRoute('app_admin_setting_index');
         }
-        elseif ($request->request->has('submit_img') && $formImg->isSubmitted() && $formImg->isValid()) {
-            $this->em->persist($settingImg);
-            $this->em->flush();
-        }
-        return new RedirectResponse($this->urlGenerator->generate('app_admin_setting_index'));
+        return $this->render($template, [
+            'form' => $form->createView(),
+        ]);
     }
 
 
     public function edit(Request $request, int $id): Response
     {
         $setting = $this->em->getRepository(Setting::class)->find($id);
+        $this->denyAccessUnlessGranted(SettingVoter::EDIT,$setting);
         if (!$setting) {
             throw new NotFoundHttpException('Setting không tồn tại.');
         }
@@ -79,14 +104,12 @@ class SettingService extends AbstractController
     public function delete(int $id): RedirectResponse
     {
         $setting = $this->em->getRepository(Setting::class)->find($id);
-        if (!$setting) {
-            throw new NotFoundHttpException('Không tìm thấy cài đặt để xóa.');
+        $this->denyAccessUnlessGranted(SettingVoter::DELETE,$setting);
+        if ($setting) {
+            $this->addFlash('success', 'Không thể xóa!');
         }
-
-        $this->em->remove($setting);
-        $this->em->flush();
-
-        $this->addFlash('success', 'Xóa thành công!');
         return new RedirectResponse($this->urlGenerator->generate('app_admin_setting_index'));
     }
+
+
 }

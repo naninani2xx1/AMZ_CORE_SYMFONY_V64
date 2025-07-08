@@ -31,24 +31,19 @@ class SettingController extends AbstractController implements CRUDActionInterfac
      */
     public function index(Request $request): Response
     {
-
+        $this->denyAccessUnlessGranted('SETTING_VIEW');
         $settings = $this->em->getRepository(Setting::class)->findAll();
-        $form = $this->createForm(SettingType::class, new Setting());
-        $formCommon= $this->createForm(SettingCommonType::class, new Setting());
-        $formImg= $this->createForm(SettingImgType::class, new Setting());
-        return $this->render('Admin/views/page/index.html.twig', [
+        return $this->render('Admin/views/setting/index.html.twig', [
             'settings' => $settings,
-            'form' => $form->createView(),
-            'formCommon' => $formCommon->createView(),
-            'formImg' => $formImg->createView(),
         ]);
     }
 
     /**
-     * @Route("/add", name="app_admin_setting_add", methods={"POST"})
+     * @Route("/add", name="app_admin_setting_add", methods={"GET","POST"})
      */
     public function add(Request $request): Response
     {
+
         return $this->settingService->add($request);
     }
 

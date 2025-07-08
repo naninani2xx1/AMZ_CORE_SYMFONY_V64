@@ -41,7 +41,7 @@ class SettingType extends AbstractType
                 'width' => $form->get('width')->getData(),
                 'height' => $form->get('height')->getData(),
             ];
-            $data->settingType('size');
+            $data->setSettingType('size');
             $data->setSettingValue(json_encode($json));
         });
 

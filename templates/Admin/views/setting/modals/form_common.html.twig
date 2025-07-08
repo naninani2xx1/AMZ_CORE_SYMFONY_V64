@@ -1,0 +1,10 @@
+<div class="modal-body">
+    {{ form_start(form, {
+        action: path('app_admin_setting_add', {'type': 'common'}),
+    }) }}
+            {{ form_row(form.settingKey) }}
+            {{ form_row(form.settingValue) }}
+            <div class="form-group">
+                <button type="submit" name="submit_common" class="btn btn-primary">Lưu</button>
+                <button type="button" class="btn btn-secondary" onclick="document.getElementById('settingModalCommon').style.display='none'">Hủy</button></div>
+    {{ form_end(form) }}</div>

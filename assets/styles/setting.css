@@ -198,3 +198,9 @@ body {
         overflow-x: auto;
     }
 }
+.align-middle td{
+    text-align: center;
+}
+.modal{
+    z-index: 9999;
+}

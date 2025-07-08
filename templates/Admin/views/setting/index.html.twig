@@ -1,160 +1,100 @@
 {% extends 'Admin/base.html.twig' %}
-{% block title %}CMS-Page Management{% endblock %}
+{% block title %}Setting Management{% endblock %}
 
 {% block stylesheets %}
     {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('/styles/setting.css') }}" >
+    <link rel="stylesheet" href="{{ asset('/styles/setting.css') }}">
 {% endblock %}
 
 {% block toolbar %}
     {% embed 'Admin/partials/toolbar.html.twig' %}
-        {% block toolbar_title %}Page Management{% endblock toolbar_title %}
+        {% block toolbar_title %}Setting Management{% endblock toolbar_title %}
 
         {% block toolbar_breadcrumbs %}
             <!--begin::Item-->
             <li class="breadcrumb-item text-muted">
-                <a href="#" class="text-muted text-hover-primary">Page</a>
+                <a href="#" class="text-muted text-hover-primary">Setting</a>
             </li>
             <!--end::Item-->
         {% endblock toolbar_breadcrumbs %}
 
         {% block toolbar_button_actions %}
-
+            <div>
+                <button class="btn btn-primary" onclick="openSettingForm('size')"  >+ Thêm cài đặt</button>
+                <button class="btn btn-primary" onclick="openSettingForm('common')" >+ Thêm Common</button>
+                <button class="btn btn-primary" onclick="openSettingForm('img')"  >+ Thêm Img</button>
+            </div>
         {% endblock toolbar_button_actions %}
     {% endembed %}
 {% endblock %}
 
 {% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-5">
+        <input type="text" id="searchInput" class="form-control w-25" placeholder="Tìm kiếm...">
 
-
-<div class="container">
-    <div class="header">
-        <h1>Quản lý cài đặt</h1>
     </div>
 
-    <div class="controls">
-        <div class="search-box">
-            <input type="text" id="searchInput" placeholder="Tìm kiếm...">
-        </div>
-        <button class="btn btn-primary" onclick="document.getElementById('settingModal').style.display='block'">+ Thêm cài đặt</button>
-        <button class="btn btn-primary" onclick="document.getElementById('settingModalCommon').style.display='block'">+ Thêm Common</button>
-        <button class="btn btn-primary" onclick="document.getElementById('settingModalImg').style.display='block'">+ Thêm Img</button>
-    </div>
+    {% embed 'Admin/partials/table.html.twig' %}
+        {% import 'Admin/partials/macros.html.twig' as macros %}
+        {% block columns %}
+            {{ macros.table_column_default("ID") }}
+            {{ macros.table_column_default("Setting Key") }}
+            {{ macros.table_column_default("Setting Value") }}
+            {{ macros.table_column_default("Setting Type") }}
+            {{ macros.table_column_default("Created At") }}
+        {% endblock %}
 
-    <div class="table-container">
-        <table class="table">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Setting_key</th>
-                <th>Setting_value</th>
-                <th>Setting_type</th>
-                <th>Created_at</th>
-                <th>Button</th>
-            </tr>
-            </thead>
-            <tbody id="settingsTableBody">
+        {% block rows %}
             {% for setting in settings %}
-                <tr>
+                <tr class="align-middle border-bottom border-gray-300 fs-7">
+                    <td>
+                        <a href="#" class="btn btn-icon btn-active-light-primary me-1" onclick="editSetting({{ setting.id }})">
+                            {{ macros.icon_edit() }}
+                        </a>
+                        <a href="{{ path('app_admin_setting_destroy', {'id': setting.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                            {{ macros.icon_delete() }}
+                        </a>
+                    </td>
                     <td>{{ setting.id }}</td>
-                    <td><span class="setting-key">{{ setting.settingKey }}</span></td>
-                    {% set value = setting.settingValue %}
-                    {% if value ends with '.jpg' or value ends with '.jpeg' or value ends with '.png' or value ends with '.gif' %}
-                       <td><img width="50" height="50" src="{{ value }}" alt="image"></td>
-                    {% else %}
-                        <td>{{ value }}</td>
-                    {% endif %}
-
+                    <td>{{ setting.settingKey }}</td>
                     <td>
-                        {{ setting.settingType }}
+                        {% if setting.settingValue matches '/\.(jpg|jpeg|png|gif)$/' %}
+                            <img src="{{ setting.settingValue }}" width="50" height="50" alt="image">
+                        {% else %}
+                            {{ setting.settingValue }}
+                        {% endif %}
                     </td>
+                    <td>{{ setting.settingType }}</td>
                     <td>{{ setting.createdAt|date('Y-m-d H:i') }}</td>
-                    <td>
-                        <div class="actions">
-                            <button class="btn btn-warning" onclick="editSetting({{ setting.id }})">Sửa</button>
-                            <a href="{{ path('app_admin_setting_destroy', {'id': setting.id}) }}" onclick="deleteSetting({{ setting.id }})" class="btn btn-danger">Xóa</a>
-                        </div>
-                    </td>
+
                 </tr>
             {% else %}
                 <tr><td colspan="6">Không có dữ liệu cài đặt.</td></tr>
             {% endfor %}
-            </tbody>
-        </table>
-    </div>
-</div>
-
-<div id="settingModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Thêm cài đặt mới</h2>
-            <button class="close" onclick="document.getElementById('settingModal').style.display='none'">×</button>
-        </div>
-        <div class="modal-body">
-            {{ form_start(form, {
-                action: path('app_admin_setting_add'),
-                method: 'POST'
-            }) }}
-            {{ form_row(form.settingKey) }}
-            {{ form_row(form.width) }}
-            {{ form_row(form.height) }}
-            <div class="form-group">
-                <button type="submit" name="submit_setting" class="btn btn-primary">Lưu</button>
-                <button type="button" class="btn btn-secondary" onclick="document.getElementById('settingModal').style.display='none'">Hủy</button>
+        {% endblock %}
+    {% endembed %}
+    <div id="formModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Thêm cài đặt mới</h2>
+                <button class="close" onclick="document.getElementById('formModal').style.display='none'">×</button>
             </div>
-            {{ form_end(form) }}
-        </div>
-    </div>
-</div>
+            <div class="modal-body" id="formContainer">
 
-<div id="settingModalCommon" class="modal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Thêm cài đặt mới</h2>
-            <button class="close" onclick="document.getElementById('settingModalCommon').style.display='none'">×</button>
-        </div>
-        <div class="modal-body">
-            {{ form_start(formCommon, {
-                action: path('app_admin_setting_add'),
-                method: 'POST'
-            }) }}
-            {{ form_row(formCommon.settingKey) }}
-            {{ form_row(formCommon.settingValue) }}
-            <div class="form-group">
-                <button type="submit" name="submit_common" class="btn btn-primary">Lưu</button>
-                <button type="button" class="btn btn-secondary" onclick="document.getElementById('settingModalCommon').style.display='none'">Hủy</button>
             </div>
-            {{ form_end(formCommon) }}
         </div>
     </div>
-</div>
 
-<div id="settingModalImg" class="modal" style="display: none;">
-    <div class="modal-content">
-        <div class="modal-header">
-            <h2>Thêm cài đặt mới</h2>
-            <button class="close" onclick="document.getElementById('settingModalImg').style.display='none'">×</button>
-        </div>
-        <div class="modal-body">
-            {{ form_start(formImg, {
-                action: path('app_admin_setting_add'),
-                method: 'POST'
-
-            }) }}
-            {{ form_row(formImg.settingKey) }}
-            {{ form_row(formImg.settingValue) }}
-            <div class="form-group">
-                <button type="submit" name="submit_img" class="btn btn-primary">Lưu</button>
-                <button type="button" class="btn btn-secondary" onclick="document.getElementById('settingModalImg').style.display='none'">Hủy</button>
-            </div>
-            {{ form_end(formImg) }}
-        </div>
-    </div>
-</div>
-
-
-<div id="editModalContainer"></div>
-
+<script>
+    function openSettingForm(type) {
+        fetch(`/cms/setting/add?type=${type}`)
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('formContainer').innerHTML = html;
+                document.getElementById('formModal').style.display = 'block';
+            });
+    }
+</script>
 {% endblock %}
 
 {% block javascripts %}
