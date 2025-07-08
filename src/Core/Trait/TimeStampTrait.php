@@ -18,7 +18,7 @@ trait TimeStampTrait
     /**
      * @return \DateTime|null
      */
-    protected function getCreatedAt(): ?\DateTime
+    public function getCreatedAt(): ?\DateTime
     {
         return $this->createdAt;
     }
@@ -26,7 +26,7 @@ trait TimeStampTrait
     /**
      * @return \DateTime|null
      */
-    protected function getUpdatedAt(): ?\DateTime
+    public function getUpdatedAt(): ?\DateTime
     {
         return $this->updatedAt;
     }
@@ -34,7 +34,7 @@ trait TimeStampTrait
     /**
      * @param \DateTime|null $createdAt
      */
-    protected function setCreatedAt(?\DateTime $createdAt): void
+    public function setCreatedAt(?\DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
@@ -42,7 +42,7 @@ trait TimeStampTrait
     /**
      * @param \DateTime|null $updatedAt
      */
-    protected function setUpdatedAt(?\DateTime $updatedAt): void
+    public function setUpdatedAt(?\DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }

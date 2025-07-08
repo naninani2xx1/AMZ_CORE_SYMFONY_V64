@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
-use App\Core\DTO\RequestDataTableDTO;
 use App\Core\Repository\PageRepository;
 use App\Services\PageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -34,7 +33,8 @@ class PageController extends AbstractController implements CRUDActionInterface
      */
     public function index(Request $request): Response
     {
-        return $this->render('Admin/views/page/index.html.twig', compact(''));
+        $pagination = $this->pageRepository->findAllPaginated();
+        return $this->render('Admin/views/page/index.html.twig', compact('pagination'));
     }
 
     /**

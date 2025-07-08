@@ -1,11 +1,11 @@
 import { Controller } from '@hotwired/stimulus';
-import axios from 'axios';
+import { axiosPost } from "@ApiHelper";
 
 export default class extends Controller {
     static targets = ['tableBody', 'pagination', 'searchInput', 'filterSelect'];
 
     static values = {
-        apiUrl: String, // URL của API (ví dụ: /api/posts)
+        apiUrl: String,
         page: { type: Number, default: 1 },
         limit: { type: Number, default: 10 },
         search: { type: String, default: '' }, // keyword for search
@@ -25,16 +25,19 @@ export default class extends Controller {
                 search: this.searchValue,
                 filter: this.filterValue,
             };
+            const options = {
+                url: this.urlValue,
+                data: params,
+            };
+            axiosPost(options, {
+                success: res => {
 
-            const response = await axios.get(this.apiUrlValue, { params });
-            const { items, total, currentPage, totalPages } = response.data;
+                },
+                error: res => {},
+                final: res => {}
+            })
 
-            // update table
-            this.renderTable(items);
-            // update pagination
-            this.renderPagination(currentPage, totalPages);
         } catch (error) {
-            console.error('Error fetching data:', error);
             this.tableBodyTarget.innerHTML = '<tr><td colspan="5">Error loading data.</td></tr>';
         }
     }

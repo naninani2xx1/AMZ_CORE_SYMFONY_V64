@@ -21,6 +21,12 @@ return [
         'path' => './assets/controllers/select2_controller.js',
         'entrypoint' => true,
     ],
+    '@ApiHelper' => [
+        'path' => './assets/api_helper.js',
+    ],
+    '@Common' => [
+        'path' => './assets/common.js',
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],

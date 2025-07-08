@@ -20,6 +20,18 @@
             <!--begin::Global Stylesheets Bundle(mandatory for all pages)-->
             <link href="{{ asset('themes/css/style.bundle.css') }}" rel="stylesheet" type="text/css" />
             <link href="{{ asset('themes/plugins/global/plugins.bundle.css') }}" rel="stylesheet" type="text/css" />
+            <style>
+                .action-column, .action-column-header {
+                    position: sticky;
+                    top: 0;
+                    left: 0;
+                    z-index: 5;
+                }
+
+                .action-column-header {
+                    z-index: 1025;
+                }
+            </style>
             <!--end::Global Stylesheets Bundle-->
         {% endblock %}
 
