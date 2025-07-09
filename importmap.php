@@ -39,5 +39,7 @@ return [
     'axios' => [
         'version' => '1.10.0',
     ],
-
+    '@symfony/ux-live-component' => [
+        'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
+    ],
 ];

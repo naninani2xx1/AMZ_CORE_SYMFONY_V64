@@ -34,7 +34,7 @@ class ArticleController extends AbstractController implements CRUDActionInterfac
     }
 
     /**
-     * @Route(path="/add/{id}", name="app_admin_article_add")
+     * @Route(path="/add", name="app_admin_article_add")
      * @param Request $request
      * @return Response
      */
