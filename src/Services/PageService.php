@@ -7,6 +7,7 @@ use App\Core\Entity\Page;
 use App\Core\Repository\PageRepository;
 use App\Form\Admin\Article\AddArticleForm;
 use App\Form\Admin\Page\AddPageForm;
+use App\Security\Voter\PageVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -28,14 +29,17 @@ class PageService extends AbstractController
     public function add(Request $request): Response
     {
         $page = new Page();
-        $form = $this->createForm(AddArticleForm::class);
+        //check permission
+        $this->denyAccessUnlessGranted(PageVoter::ADD, $page);
+
+        $form = $this->createForm(AddPageForm::class, $page);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             //logic here
             $this->entityManager->persist($form->getData());
             $this->entityManager->flush();
         }
-        return new Response("Added Page Successfully");
+        return $this->render('Admin/views/page/add.html.twig', compact('form'));
     }
 
     public function edit(Request $request, int $id): Response

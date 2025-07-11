@@ -47,4 +47,19 @@
     <th class="sticky-top fw-semibold bg-light-primary {{ align }}">{{ label }}</th>
 {% endmacro %}
 
+{% macro table_get_input_search() %}
+    <div class="position-relative my-1">
+        <i class="ki-outline ki-magnifier fs-2 position-absolute top-50 translate-middle-y ms-4"></i>
+        <input type="search" data-model="debounce(500)|keyword"
+               class="form-control  w-200px ps-13" placeholder="Search...">
+    </div>
+{% endmacro %}
 {# Area: End Table #}
+
+
+{% macro toggle(label, name = "toogle-default" ,checked = false, id) %}
+    <div class="form-check form-switch form-check-custom form-check-solid">
+        <input class="form-check-input" type="checkbox" name="{{ name }}" id="{{ id }}"  {% if checked %} checked="checked" {% endif %}>
+        <label class="form-check-label fw-semibold text-gray-500 ms-3" for="{{ id }}">{{ label }}</label>
+    </div>
+{% endmacro %}

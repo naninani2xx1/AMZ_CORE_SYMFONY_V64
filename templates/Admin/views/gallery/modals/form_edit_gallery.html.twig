@@ -1,0 +1,9 @@
+{{ form_start(form,{action:path('app_admin_gallery_edit',{'id': gallery.id})}) }}
+{{ form_row(form.name) }}
+
+<div class="form-group">
+    <button type="submit" class="btn btn-primary">Lưu</button>
+    <button type="button" class="btn btn-secondary" onclick="document.getElementById('formModal').style.display='none'">Hủy</button>
+</div>
+
+{{ form_end(form) }}

@@ -38,7 +38,7 @@ class PageController extends AbstractController implements CRUDActionInterface
     }
 
     /**
-     * @Route(path="/add/{id}", name="app_admin_page_add")
+     * @Route(path="/add", name="app_admin_page_add")
      * @param Request $request
      * @return Response
      */

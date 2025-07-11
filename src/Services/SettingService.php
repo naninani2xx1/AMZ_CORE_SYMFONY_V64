@@ -3,17 +3,15 @@
 namespace App\Services;
 
 use App\Core\Entity\Setting;
-
-use App\Form\SettingCommonType;
-use App\Form\SettingImgType;
-use App\Form\SettingType;
+use App\Form\Admin\Setting\SettingCommonType;
+use App\Form\Admin\Setting\SettingImgType;
+use App\Form\Admin\Setting\SettingType;
 use App\Security\Voter\SettingVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
@@ -39,23 +37,17 @@ class SettingService extends AbstractController
         $this->denyAccessUnlessGranted(SettingVoter::CREATE,$setting);
         switch ($type) {
             case 'common':
-                $form = $this->createForm(SettingCommonType::class, $setting, [
-                    'action' => $this->generateUrl('app_admin_setting_add', ['type' => 'common']),
-                ]);
+                $form = $this->createForm(SettingCommonType::class, $setting);
                 $template = 'Admin/views/setting/modals/form_common.html.twig';
                 break;
 
             case 'size':
-                $form = $this->createForm(SettingType::class, $setting, [
-                    'action' => $this->generateUrl('app_admin_setting_add', ['type' => 'size']),
-                ]);
+                $form = $this->createForm(SettingType::class, $setting);
                 $template = 'Admin/views/setting/modals/form_size.html.twig';
                 break;
 
-            case 'img':
-                $form = $this->createForm(SettingImgType::class, $setting, [
-                    'action' => $this->generateUrl('app_admin_setting_add', ['type' => 'img']),
-                ]);
+            case 'image':
+                $form = $this->createForm(SettingImgType::class, $setting);
                 $template = 'Admin/views/setting/modals/form_img.html.twig';
                 break;
 
@@ -77,36 +69,62 @@ class SettingService extends AbstractController
         ]);
     }
 
-
     public function edit(Request $request, int $id): Response
     {
         $setting = $this->em->getRepository(Setting::class)->find($id);
-        $this->denyAccessUnlessGranted(SettingVoter::EDIT,$setting);
         if (!$setting) {
             throw new NotFoundHttpException('Setting không tồn tại.');
         }
-        $form=$this->createForm(SettingType::class, $setting);
+
+        $this->denyAccessUnlessGranted(SettingVoter::EDIT, $setting);
+
+        $type = $request->query->get('type', $setting->getSettingType());
+
+        switch ($type) {
+            case 'common':
+                $form = $this->createForm(SettingCommonType::class, $setting);
+                $template = 'Admin/views/setting/modals/form_edit_common.html.twig';
+                break;
+
+            case 'size':
+                $form = $this->createForm(SettingType::class, $setting);
+                $template = 'Admin/views/setting/modals/form_edit_size.html.twig';
+                break;
+
+            case 'image':
+                $form = $this->createForm(SettingImgType::class, $setting);
+                $template = 'Admin/views/setting/modals/form_edit_img.html.twig';
+                break;
+
+            default:
+                return $this->redirectToRoute('app_admin_setting_index');
+        }
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->flush();
-            $this->addFlash('success', 'Cập nhật thành công!');
-            return new RedirectResponse($this->urlGenerator->generate('app_admin_setting_index'));
+            return $this->redirectToRoute('app_admin_setting_index');
         }
 
-        return $this->render('Admin/views/setting/edit_modal.html.twig', [
+        return $this->render($template, [
             'form' => $form->createView(),
             'setting' => $setting,
         ]);
     }
 
+
     public function delete(int $id): RedirectResponse
     {
         $setting = $this->em->getRepository(Setting::class)->find($id);
         $this->denyAccessUnlessGranted(SettingVoter::DELETE,$setting);
-        if ($setting) {
-            $this->addFlash('success', 'Không thể xóa!');
+        if (!$setting) {
+            $this->addFlash('success', 'Không tìm thấy ');
+        }
+        if($setting->isArchived()==0){
+            $setting->setArchived(1);
+        }else{
+            $setting->setArchived(0);
         }
         return new RedirectResponse($this->urlGenerator->generate('app_admin_setting_index'));
     }

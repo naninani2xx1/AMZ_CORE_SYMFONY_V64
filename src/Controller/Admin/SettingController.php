@@ -3,12 +3,9 @@
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
-use App\Form\SettingCommonType;
-use App\Form\SettingImgType;
-use App\Form\SettingType;
-use App\Core\Entity\Setting;
+use App\Core\Repository\SettingRepository;
+
 use App\Services\SettingService;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,11 +14,11 @@ use Symfony\Component\Routing\Annotation\Route;
 /**
  * @Route("/cms/setting")
  */
-class SettingController extends AbstractController implements CRUDActionInterface
+class   SettingController extends AbstractController implements CRUDActionInterface
 {
 
     public function __construct(private readonly SettingService $settingService
-                            ,   private readonly EntityManagerInterface $em
+                            ,   private readonly SettingRepository $settingRepository
     )
     {
 
@@ -32,7 +29,7 @@ class SettingController extends AbstractController implements CRUDActionInterfac
     public function index(Request $request): Response
     {
         $this->denyAccessUnlessGranted('SETTING_VIEW');
-        $settings = $this->em->getRepository(Setting::class)->findAll();
+        $settings = $this->settingRepository->findAll();
         return $this->render('Admin/views/setting/index.html.twig', [
             'settings' => $settings,
         ]);
@@ -48,7 +45,7 @@ class SettingController extends AbstractController implements CRUDActionInterfac
     }
 
     /**
-     * @Route("/edit/{id}", name="app_admin_setting_edit")
+     * @Route("/edit/{id}", name="app_admin_setting_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, int $id): Response
     {

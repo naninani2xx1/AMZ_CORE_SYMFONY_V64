@@ -1,0 +1,16 @@
+<div class="modal-body">
+    {{ form_start(form, {
+        action: path('app_admin_setting_edit', {'id': setting.id, 'type': 'size'})
+    }) }}
+
+    {{ form_row(form.settingKey) }}
+    {{ form_row(form.width) }}
+    {{ form_row(form.height) }}
+
+    <div class="form-group">
+        <button type="submit" name="submit_setting" class="btn btn-primary">Lưu</button>
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('formModal').style.display='none'">Hủy</button>
+    </div>
+
+    {{ form_end(form) }}
+</div>

@@ -2,15 +2,16 @@
 
 namespace App\Core\Entity;
 
+use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\SettingRepository")
+ * @ORM\Entity(repositoryClass="App\Core\Repository\SettingRepository")
  * @ORM\Table(name="core_setting")
  * @ORM\HasLifecycleCallbacks
  */
-class Setting
+class Setting extends LifecycleEntity
 {
     /**
      * @ORM\Column(type="integer")
@@ -34,34 +35,6 @@ class Setting
      */
     private $settingType;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAt;
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist()
-    {
-        $now = new \DateTime('now');
-        $this->setUpdatedAt($now);
-        $this->setCreatedAt($now);
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function preUpdate()
-    {
-        $now = new \DateTime('now');
-        $this->setUpdatedAt($now);
-    }
 
     public function getId(): ?int
     {
@@ -80,29 +53,6 @@ class Setting
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
 
     public function getSettingValue()
     {

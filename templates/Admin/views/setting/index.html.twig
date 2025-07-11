@@ -22,57 +22,15 @@
             <div>
                 <button class="btn btn-primary" onclick="openSettingForm('size')"  >+ Thêm cài đặt</button>
                 <button class="btn btn-primary" onclick="openSettingForm('common')" >+ Thêm Common</button>
-                <button class="btn btn-primary" onclick="openSettingForm('img')"  >+ Thêm Img</button>
+                <button class="btn btn-primary" onclick="openSettingForm('image')"  >+ Thêm Img</button>
             </div>
         {% endblock toolbar_button_actions %}
     {% endembed %}
 {% endblock %}
 
 {% block body %}
-    <div class="d-flex justify-content-between align-items-center mb-5">
-        <input type="text" id="searchInput" class="form-control w-25" placeholder="Tìm kiếm...">
 
-    </div>
-
-    {% embed 'Admin/partials/table.html.twig' %}
-        {% import 'Admin/partials/macros.html.twig' as macros %}
-        {% block columns %}
-            {{ macros.table_column_default("ID") }}
-            {{ macros.table_column_default("Setting Key") }}
-            {{ macros.table_column_default("Setting Value") }}
-            {{ macros.table_column_default("Setting Type") }}
-            {{ macros.table_column_default("Created At") }}
-        {% endblock %}
-
-        {% block rows %}
-            {% for setting in settings %}
-                <tr class="align-middle border-bottom border-gray-300 fs-7">
-                    <td>
-                        <a href="#" class="btn btn-icon btn-active-light-primary me-1" onclick="editSetting({{ setting.id }})">
-                            {{ macros.icon_edit() }}
-                        </a>
-                        <a href="{{ path('app_admin_setting_destroy', {'id': setting.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
-                            {{ macros.icon_delete() }}
-                        </a>
-                    </td>
-                    <td>{{ setting.id }}</td>
-                    <td>{{ setting.settingKey }}</td>
-                    <td>
-                        {% if setting.settingValue matches '/\.(jpg|jpeg|png|gif)$/' %}
-                            <img src="{{ setting.settingValue }}" width="50" height="50" alt="image">
-                        {% else %}
-                            {{ setting.settingValue }}
-                        {% endif %}
-                    </td>
-                    <td>{{ setting.settingType }}</td>
-                    <td>{{ setting.createdAt|date('Y-m-d H:i') }}</td>
-
-                </tr>
-            {% else %}
-                <tr><td colspan="6">Không có dữ liệu cài đặt.</td></tr>
-            {% endfor %}
-        {% endblock %}
-    {% endembed %}
+    {{ component('TableSettingLiveComponent', {'id': "TableSettingLive"}) }}
     <div id="formModal" class="modal" style="display: none;">
         <div class="modal-content">
             <div class="modal-header">
@@ -84,19 +42,28 @@
             </div>
         </div>
     </div>
-
-<script>
-    function openSettingForm(type) {
-        fetch(`/cms/setting/add?type=${type}`)
-            .then(response => response.text())
-            .then(html => {
-                document.getElementById('formContainer').innerHTML = html;
-                document.getElementById('formModal').style.display = 'block';
-            });
-    }
-</script>
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
+    <script>
+        function openSettingForm(type) {
+            fetch(`/cms/setting/add?type=${type}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('formContainer').innerHTML = html;
+                    document.getElementById('formModal').style.display = 'block';
+                });
+        }
+
+        function editSetting(id, type) {
+            fetch(`/cms/setting/edit/${id}?type=${type}`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('formContainer').innerHTML = html;
+                    document.getElementById('formModal').style.display = 'block';
+                });
+        }
+
+    </script>
 {% endblock %}

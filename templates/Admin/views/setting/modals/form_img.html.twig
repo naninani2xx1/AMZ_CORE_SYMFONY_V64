@@ -1,12 +1,12 @@
 <div class="modal-body">
-            {{ form_start(form, {
-                action: path('app_admin_setting_add',{'type':'img'}),
-            }) }}
-            {{ form_row(form.settingKey) }}
-            {{ form_row(form.settingValue) }}
-            <div class="form-group">
-                <button type="submit" name="submit_img" class="btn btn-primary">Lưu</button>
-                <button type="button" class="btn btn-secondary" onclick="document.getElementById('settingModalImg').style.display='none'">Hủy</button>
-            </div>
-            {{ form_end(form) }}
-        </div>
+    {{ form_start(form, {
+        action: path('app_admin_setting_add',{'type':'image'}),
+    }) }}
+    {{ form_row(form.settingKey) }}
+    {{ form_row(form.settingValue) }}
+    <div class="form-group">
+        <button type="submit" name="submit_img" class="btn btn-primary">Lưu</button>
+        <button type="button" class="btn btn-secondary" onclick="document.getElementById('settingModalImg').style.display='none'">Hủy</button>
+    </div>
+    {{ form_end(form) }}
+</div>

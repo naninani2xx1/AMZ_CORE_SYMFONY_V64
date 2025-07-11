@@ -10,6 +10,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\LegacyPasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -18,7 +19,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="core_user")
  * @ORM\HasLifecycleCallbacks
  */
-class User extends LifecycleEntity implements UserInterface, LegacyPasswordAuthenticatedUserInterface
+class User extends LifecycleEntity implements UserInterface , LegacyPasswordAuthenticatedUserInterface
 {
     /**
      * @ORM\Column(type="integer")
@@ -55,6 +56,7 @@ class User extends LifecycleEntity implements UserInterface, LegacyPasswordAuthe
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->salt = $this->generateSalt();
     }
 
     public function getId(): ?int
@@ -79,7 +81,7 @@ class User extends LifecycleEntity implements UserInterface, LegacyPasswordAuthe
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -91,13 +93,15 @@ class User extends LifecycleEntity implements UserInterface, LegacyPasswordAuthe
         return $this->salt;
     }
 
-    public function setSalt(string $salt): static
+    public function setSalt(string $salt): self
     {
         $this->salt = $salt;
-
         return $this;
     }
-
+    private function generateSalt(): string
+    {
+        return md5(time());
+    }
     public function getRoles(): array
     {
         return $this->roles;

@@ -57,6 +57,7 @@ class Category extends LifecycleEntity
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
+
     private $sortOrder = 1;
 
     /**

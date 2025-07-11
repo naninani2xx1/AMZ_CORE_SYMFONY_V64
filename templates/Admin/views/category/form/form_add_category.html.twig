@@ -1,0 +1,61 @@
+
+
+{{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+<div>
+    {{ form_label(form.title) }}
+    {{ form_widget(form.title) }}
+    {{ form_errors(form.title) }}
+</div>
+
+<div>
+    {{ form_label(form.slug) }}
+    {{ form_widget(form.slug) }}
+    {{ form_errors(form.slug) }}
+</div>
+
+<div>
+    {{ form_label(form.icon) }}
+    {{ form_widget(form.icon) }}
+    {{ form_errors(form.icon) }}
+</div>
+
+<div>
+    {{ form_label(form.thumbnail) }}
+    {{ form_widget(form.thumbnail) }}
+    {{ form_errors(form.thumbnail) }}
+</div>
+
+<div>
+    {{ form_label(form.description) }}
+    {{ form_widget(form.description) }}
+    {{ form_errors(form.description) }}
+</div>
+
+<div>
+    {{ form_label(form.sortOrder) }}
+    {{ form_widget(form.sortOrder) }}
+    {{ form_errors(form.sortOrder) }}
+</div>
+
+<div>
+    {{ form_label(form.level) }}
+    {{ form_widget(form.level) }}
+    {{ form_errors(form.level) }}
+</div>
+
+<div>
+    {{ form_label(form.customPath) }}
+    {{ form_widget(form.customPath) }}
+    {{ form_errors(form.customPath) }}
+</div>
+
+<div>
+    {{ form_label(form.parent) }}
+    {{ form_widget(form.parent) }}
+    {{ form_errors(form.parent) }}
+</div>
+
+<button class="btn btn-primary">Save</button>
+
+{{ form_end(form) }}

@@ -1,0 +1,24 @@
+{{ form_start(form, {
+    'action': path('app_admin_user_add'),
+}) }}
+<div class="form-group">
+    {{ form_label(form.username) }}
+    {{ form_widget(form.username, {'attr': {'required': true}}) }}
+    {{ form_errors(form.username) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.password) }}
+    {{ form_widget(form.password, {'attr': {'required': true}}) }}
+    {{ form_errors(form.password) }}
+</div>
+
+<div class="form-group">
+    {{ form_label(form.roles) }}
+    {{ form_widget(form.roles, {'attr': {'required': true}}) }}
+    {{ form_errors(form.roles) }}
+</div>
+
+<button type="submit" name="submit_common" class="btn btn-primary">Lưu</button>
+<a href="{{ path('app_admin_user_index') }}" class="btn btn-secondary">Hủy</a>
+{{ form_end(form) }}

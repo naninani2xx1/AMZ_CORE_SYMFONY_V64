@@ -11,6 +11,7 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PostRepository extends ServiceEntityRepository
 {
+    const ALIAS = 'post';
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Post::class);

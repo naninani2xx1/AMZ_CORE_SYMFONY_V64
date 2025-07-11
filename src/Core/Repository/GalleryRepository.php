@@ -2,19 +2,40 @@
 
 namespace App\Core\Repository;
 
+
 use App\Core\Entity\Gallery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Gallery>
  */
 class GalleryRepository extends ServiceEntityRepository
 {
-    public function __construct(ManagerRegistry $registry)
+    const ALIAS = 'gallery';
+    private $paginator;
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
         parent::__construct($registry, Gallery::class);
+        $this->paginator = $paginator;
     }
+
+    /**
+     * @param $page
+     * @param $limit
+     *
+     * */
+
+    public function findGallery(int $page=10 , int $limit=10): \Knp\Component\Pager\Pagination\PaginationInterface|array
+    {
+        $queryBuilder = $this->createQueryBuilder(self::ALIAS);
+        $queryBuilder->orderBy(self::ALIAS . '.createdAt', 'ASC');
+
+        return $this->paginator->paginate($queryBuilder, $page, $limit);
+    }
+
+
 
     //    /**
     //     * @return User[] Returns an array of User objects
