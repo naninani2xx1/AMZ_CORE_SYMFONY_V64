@@ -4,56 +4,96 @@ namespace App\Core\Repository;
 
 use App\Core\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Category>
  */
 class CategoryRepository extends ServiceEntityRepository
 {
-    const ALIAS = 'category';
-    private $paginator;
-    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
+    private readonly QueryBuilder $builder;
+
+    const ALIAS = "category";
+
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Category::class);
-        $this->paginator = $paginator;
+        $this->builder = $this->createQueryBuilder(self::ALIAS);
     }
 
     /**
-     * @param $page
-     * @param $limit
+     * Get all categories in a hierarchical order with level numbers.
+     *
+     * @return array
      */
-
-    public function getCategies( int $limit = 1 , int $page = 1):  \Knp\Component\Pager\Pagination\PaginationInterface|array
+    public function findAllHierarchical(): array
     {
-        $queryBuilder = $this->createQueryBuilder(self::ALIAS);
-        $queryBuilder->orderBy(self::ALIAS.'.createdAt', 'DESC');
-        return $this->paginator->paginate($queryBuilder, $page,$limit);
+        $categories = $this->createQueryBuilder('c')
+            ->where('c.parent IS NULL')
+            ->getQuery()
+            ->getResult();
+
+        $result = [];
+        $this->buildHierarchy($categories, $result, []);
+        return $result;
     }
 
-    //    /**
-    //     * @return User[] Returns an array of User objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('u.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    /**
+     * Build hierarchical structure with level numbers.
+     *
+     * @param array $categories
+     * @param array &$result
+     * @param array $level
+     */
+    private function buildHierarchy(array $categories, array &$result, array $level): void
+    {
+        /**
+         * @var  Category $category
+         */
+        foreach ($categories as $index => $category) {
+            $newLevel = array_merge($level, [$index + 1]);
+            $category->setLevel((string) implode('.', $newLevel));
+            $result[] = $category;
 
-    //    public function findOneBySomeField($value): ?User
-    //    {
-    //        return $this->createQueryBuilder('u')
-    //            ->andWhere('u.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+            $children = $this->createQueryBuilder('c')
+                ->where('c.parent = :parent')
+                ->setParameter('parent', $category)
+                ->getQuery()
+                ->getResult();
+
+            if (!empty($children))
+                $this->buildHierarchy($children, $result, $newLevel);
+        }
+    }
+
+
+
+    public function findAllCategories()
+    {
+
+        return $this->builder->getQuery()->getResult();
+    }
+
+    /**
+     * Tìm levelNumber lớn nhất của các danh mục gốc (parent là null)
+     * @return string|null
+     * @throws NonUniqueResultException
+     */
+
+    public function findMaxRootLevelNumber(): ?string
+    {
+        $result = $this->builder
+            ->select("category.level")
+            ->orderBy("category.level", 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        return $result['level'] ?? null;
+    }
+
 }

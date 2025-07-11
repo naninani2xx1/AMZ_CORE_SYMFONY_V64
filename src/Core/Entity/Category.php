@@ -153,12 +153,12 @@ class Category extends LifecycleEntity
         return $this;
     }
 
-    public function getLevel(): ?int
+    public function getLevel(): ?string
     {
         return $this->level;
     }
 
-    public function setLevel(?int $level): self
+    public function setLevel(?string $level): self
     {
         $this->level = $level;
 
@@ -272,4 +272,14 @@ class Category extends LifecycleEntity
     {
         return $this->children;
     }
+
+
+    public function getCategoryNameWithLevel(): string
+    {
+        return $this->getLevel() . ' - ' . $this->getTitle();
+    }
+
+
 }
+
+

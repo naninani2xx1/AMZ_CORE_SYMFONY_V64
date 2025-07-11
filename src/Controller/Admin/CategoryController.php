@@ -29,7 +29,7 @@ class CategoryController extends AbstractController implements CRUDActionInterfa
      */
     public function index(Request $request): Response
     {
-        $categories=$this->categoryRepository->getCategies();
+        $categories=$this->categoryRepository->findAllCategories();
         return $this->render('Admin/views/category/index.html.twig', [
             'categories' => $categories,
         ]);
@@ -42,7 +42,7 @@ class CategoryController extends AbstractController implements CRUDActionInterfa
         return $this->categoryService->add($request);
     }
     /**
-     * @Route("/edit/{id}", name="app_admin_category_edit")
+     * @Route("/edit/{id}", name="app_admin_category_edit", methods={"GET", "POST"})
      * */
     public function edit(Request $request, int $id): Response
     {

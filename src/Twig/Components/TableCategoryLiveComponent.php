@@ -24,7 +24,7 @@ final class TableCategoryLiveComponent extends BaseTableLiveComponent
         // TODO: common
         $qb->where(
             $expr->eq(CategoryRepository::ALIAS.'.isArchived', $expr->literal(ArchivedDataType::UN_ARCHIVED)),
-        )->orderBy(CategoryRepository::ALIAS .'.createdAt', 'DESC');
+        )->orderBy(CategoryRepository::ALIAS .'.level', 'ASC');
 
         // TODO: filter
         if(!empty($this->filter)){
@@ -39,7 +39,7 @@ final class TableCategoryLiveComponent extends BaseTableLiveComponent
     protected function getSearchColumns(): array
     {
         return array(
-            CategoryRepository::ALIAS.'.username',
+            CategoryRepository::ALIAS.'.title',
         );
     }
 }
