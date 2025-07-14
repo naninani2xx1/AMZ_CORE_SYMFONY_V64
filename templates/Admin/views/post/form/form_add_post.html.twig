@@ -1,0 +1,50 @@
+{{ form_start(form,
+    {action: path('app_admin_post_add')}
+) }}
+
+<p>Tiêu đề:</p>
+{{ form_widget(form.title) }}
+
+<p>Sub tiêu đề:</p>
+{{ form_widget(form.subTitle) }}
+
+<p>Slug:</p>
+{{ form_widget(form.slug) }}
+
+<p>URL:</p>
+{{ form_widget(form.url) }}
+
+<p>Thumbnail (link hình ảnh):</p>
+{{ form_widget(form.thumbnail) }}
+
+<p>Thứ tự hiển thị (sortOrder):</p>
+{{ form_widget(form.sortOrder) }}
+
+<p>Mô tả ngắn:</p>
+{{ form_widget(form.description) }}
+
+<p>Nội dung chi tiết:</p>
+{{ form_widget(form.content) }}
+
+<p>Bài viết nổi bật (isHot):</p>
+{{ form_widget(form.isHot) }}
+
+<p>Bài viết mới (isNew):</p>
+{{ form_widget(form.isNew) }}
+
+<p>Loại bài viết (postType):</p>
+{{ form_widget(form.postType) }}
+
+<p>Trạng thái xuất bản:</p>
+{{ form_widget(form.published) }}
+
+<p>Tag (ngăn cách bởi dấu phẩy):</p>
+{{ form_widget(form.tag) }}
+
+<p>Cấu hình (config - JSON hoặc text):</p>
+{{ form_widget(form.config) }}
+
+<br>
+<button type="submit">Lưu</button>
+
+{{ form_end(form) }}

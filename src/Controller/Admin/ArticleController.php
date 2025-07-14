@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
+use App\Core\Repository\ArticleRepository;
 use App\Services\ArticleService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,19 +19,22 @@ class ArticleController extends AbstractController implements CRUDActionInterfac
 {
     private ArticleService $articleService;
 
-    public function __construct(ArticleService $articleService)
+    public function __construct(ArticleService $articleService,
+        private ArticleRepository $articleRepository
+    )
     {
         $this->articleService = $articleService;
     }
 
     /**
      * @Route(path="/", name="app_admin_article_index")
-     * @param Request $request
-     * @return Response
      */
     public function index(Request $request): Response
     {
-       return new Response();
+      $data=$this->articleRepository->findAllArticle();
+      return  $this->render('Admin/views/article/index.html.twig', [
+          'articles' => $data,
+      ]);
     }
 
     /**

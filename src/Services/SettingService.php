@@ -6,7 +6,6 @@ use App\Core\Entity\Setting;
 use App\Form\Admin\Setting\SettingCommonType;
 use App\Form\Admin\Setting\SettingImgType;
 use App\Form\Admin\Setting\SettingType;
-use App\Security\Voter\SettingVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -34,7 +33,6 @@ class SettingService extends AbstractController
 
         $type = $request->query->get('type', 'common');
         $setting = new Setting();
-        $this->denyAccessUnlessGranted(SettingVoter::CREATE,$setting);
         switch ($type) {
             case 'common':
                 $form = $this->createForm(SettingCommonType::class, $setting);
@@ -76,7 +74,6 @@ class SettingService extends AbstractController
             throw new NotFoundHttpException('Setting không tồn tại.');
         }
 
-        $this->denyAccessUnlessGranted(SettingVoter::EDIT, $setting);
 
         $type = $request->query->get('type', $setting->getSettingType());
 
@@ -117,7 +114,6 @@ class SettingService extends AbstractController
     public function delete(int $id): RedirectResponse
     {
         $setting = $this->em->getRepository(Setting::class)->find($id);
-        $this->denyAccessUnlessGranted(SettingVoter::DELETE,$setting);
         if (!$setting) {
             $this->addFlash('success', 'Không tìm thấy ');
         }

@@ -36,7 +36,7 @@
                 <td>{{ setting.id }}</td>
                 <td>{{ setting.settingKey }}</td>
                 <td>
-                    {% if setting.settingValue matches '/\.(jpg|jpeg|png|gif)$/' %}
+                    {% if setting.settingValue matches '/\.(jpg|jpeg|png|gif|webp)$/' %}
                         <img src="{{ setting.settingValue }}" width="50" height="50" alt="image">
                     {% else %}
                         {{ setting.settingValue }}

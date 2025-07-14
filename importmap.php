@@ -16,7 +16,6 @@ return [
         'path' => './assets/app.js',
         'entrypoint' => true,
     ],
-    #register controller CMS
     'select2_controller' => [
         'path' => './assets/controllers/select2_controller.js',
         'entrypoint' => true,
@@ -39,5 +38,7 @@ return [
     'axios' => [
         'version' => '1.10.0',
     ],
-
+    '@symfony/ux-live-component' => [
+        'path' => './vendor/symfony/ux-live-component/assets/dist/live_controller.js',
+    ],
 ];

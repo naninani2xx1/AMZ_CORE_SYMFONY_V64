@@ -28,7 +28,6 @@ class   SettingController extends AbstractController implements CRUDActionInterf
      */
     public function index(Request $request): Response
     {
-        $this->denyAccessUnlessGranted('SETTING_VIEW');
         $settings = $this->settingRepository->findAll();
         return $this->render('Admin/views/setting/index.html.twig', [
             'settings' => $settings,

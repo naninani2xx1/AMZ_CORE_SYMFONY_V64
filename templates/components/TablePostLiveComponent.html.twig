@@ -1,0 +1,88 @@
+<div{{ attributes }}>
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    <div class="d-flex flex-wrap flex-stack mb-6">
+        {{ macros.table_get_input_search() }}
+        <div class="d-flex my-2"></div>
+    </div>
+
+    {% embed 'Admin/partials/table.html.twig' %}
+        {% import 'Admin/partials/macros.html.twig' as macros %}
+
+        {% block columns %}
+            {{ macros.table_column_default("ID") }}
+            {{ macros.table_column_default("Tiêu đề") }}
+            {{ macros.table_column_default("Sub tiêu đề") }}
+            {{ macros.table_column_default("Slug") }}
+            {{ macros.table_column_default("URL") }}
+            {{ macros.table_column_default("Thumbnail") }}
+            {{ macros.table_column_default("Sort Order") }}
+            {{ macros.table_column_default("Mô tả") }}
+            {{ macros.table_column_default("Nội dung") }}
+            {{ macros.table_column_default("Is Hot") }}
+            {{ macros.table_column_default("Is New") }}
+            {{ macros.table_column_default("Loại bài viết") }}
+            {{ macros.table_column_default("Trạng thái") }}
+            {{ macros.table_column_default("Gallery") }}
+            {{ macros.table_column_default("Tag") }}
+            {{ macros.table_column_default("Config") }}
+            {{ macros.table_column_default("Category") }}
+            {{ macros.table_column_default("Article") }}
+            {{ macros.table_column_default("Page") }}
+            {{ macros.table_column_default("Social Sharing") }}
+            {{ macros.table_column_default("Blocks") }}
+        {% endblock %}
+
+        {% block rows %}
+            {% for post in computed.data %}
+                <tr class="align-middle border-bottom border-gray-300 fs-7">
+                    <td>
+                        <a href="{{ path('app_admin_post_edit', { 'id': post.id }) }}" class="btn btn-icon btn-active-light-primary me-1">
+                            {{ macros.icon_edit() }}
+                        </a>
+                        <a href="{{ path('app_admin_post_delete', { 'id': post.id }) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                            {{ macros.icon_delete() }}
+                        </a>
+                    </td>
+                    <td>{{ post.id }}</td>
+                    <td>{{ post.title }}</td>
+                    <td>{{ post.subTitle }}</td>
+                    <td>{{ post.slug }}</td>
+                    <td>{{ post.url }}</td>
+                    <td>
+                        {% if post.thumbnail %}
+                            <img src="{{ asset(post.thumbnail) }}" alt="thumbnail" style="max-width: 80px;">
+                        {% else %}
+                            ---
+                        {% endif %}
+                    </td>
+                    <td>{{ post.sortOrder }}</td>
+                    <td>{{ post.description }}</td>
+                    <td>{{ post.content }}</td>
+                    <td>{{ post.isHot }}</td>
+                    <td>{{ post.isNew }}</td>
+                    <td>{{ post.postType }}</td>
+                    <td>{{ post.published }}</td>
+                    <td>{{ post.gallery ? post.gallery.id : '---' }}</td>
+                    <td>{{ post.tag ? post.tag|join(', ') : '---' }}</td>
+                    <td>{{ post.config }}</td>
+                    <td>{{ post.article ? post.article.id : '---' }}</td>
+                    <td>{{ post.page ? post.page.id : '---' }}</td>
+                    <td>{{ post.socialSharing ? post.socialSharing.id : '---' }}</td>
+                    <td>
+                        {% if post.blocks|length > 0 %}
+                            <ul>
+                                {% for block in post.blocks %}
+                                    <li>#{{ block.id }} - {{ block.title|default('Không có tiêu đề') }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% else %}
+                            ---
+                        {% endif %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="99">Không có bài viết nào.</td></tr>
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+</div>

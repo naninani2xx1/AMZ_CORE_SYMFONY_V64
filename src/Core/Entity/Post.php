@@ -30,7 +30,7 @@ class Post extends LifecycleEntity
     private ?string $title;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Core\Entity\Article", mappedBy="post")
+     * @ORM\OneToOne(targetEntity="App\Core\Entity\Article", mappedBy="post",cascade={"persist"} )
      */
     private ?Article $article;
 
