@@ -1,0 +1,105 @@
+{{ form_start(form, {'attr': {'enctype': 'multipart/form-data'}}) }}
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.sortOrder) }}
+    </div>
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.status) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.title) }}
+    </div>
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.subTitle) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_row(form.description) }}
+</div>
+
+<div class="mb-3">
+    {{ form_row(form.config) }}
+</div>
+
+<div class="mb-3">
+    {{ form_row(form.content) }}
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.slug) }}
+    </div>
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.kind) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.url) }}
+    </div>
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.videoUrl) }}
+    </div>
+</div>
+
+<div class="mb-3">
+    {{ form_row(form.location) }}
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.textIcon) }}
+    </div>
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.type) }}
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.post) }}
+    </div>
+    <div class="col-md-6 mb-3">
+        {{ form_row(form.category) }}
+    </div>
+</div>
+
+<hr class="my-4">
+
+{#<h5>Hình ảnh</h5>#}
+
+{#<div class="row">#}
+{#    <div class="col-md-6 mb-3">#}
+{#        {{ form_row(form.imageIcon) }}#}
+{#    </div>#}
+{#    <div class="col-md-6 mb-3">#}
+{#        {{ form_row(form.image) }}#}
+{#    </div>#}
+{#</div>#}
+
+{#<div class="row">#}
+{#    <div class="col-md-6 mb-3">#}
+{#        {{ form_row(form.imageMobile) }}#}
+{#    </div>#}
+{#    <div class="col-md-6 mb-3">#}
+{#        {{ form_row(form.background) }}#}
+{#    </div>#}
+{#</div>#}
+
+{#<div class="mb-3">#}
+{#    {{ form_row(form.mobileBackground) }}#}
+{#</div>#}
+
+<hr class="my-4">
+
+<div class="text-end">
+    <button type="submit" class="btn btn-primary">Lưu block</button>
+</div>
+
+{{ form_end(form) }}

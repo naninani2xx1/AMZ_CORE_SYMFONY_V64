@@ -49,6 +49,13 @@
                     document.getElementById('formModal').style.display = 'block';
                 })
         }
-
+        function openModalEdit(id){
+            fetch(`/cms/gallery/edit/${id}`)
+                .then(res => res.text())
+                .then(html => {
+                    document.getElementById('formContainer').innerHTML = html;
+                    document.getElementById('formModal').style.display = 'block';
+                })
+        }
     </script>
 {% endblock %}

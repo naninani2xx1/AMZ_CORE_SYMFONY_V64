@@ -34,7 +34,14 @@ class GalleryRepository extends ServiceEntityRepository
 
         return $this->paginator->paginate($queryBuilder, $page, $limit);
     }
-
+    public function findGalleriesWithoutPost(): array
+    {
+        return $this->createQueryBuilder('g')
+            ->leftJoin('App\Core\Entity\Post', 'p', 'WITH', 'p.gallery = g')
+            ->where('p.id IS NULL')
+            ->getQuery()
+            ->getResult();
+    }
 
 
     //    /**

@@ -1,0 +1,72 @@
+<div{{ attributes }}>
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    <div class="d-flex flex-wrap flex-stack mb-6">
+        <!--begin::Title-->
+        {{ macros.table_get_input_search() }}
+        <!--end::Title-->
+        <!--begin::Controls-->
+        <div class="d-flex my-2">
+
+        </div>
+        <!--end::Controls-->
+    </div>
+
+    {% embed 'Admin/partials/table.html.twig' %}
+        {% import 'Admin/partials/macros.html.twig' as macros %}
+        {% block columns %}
+            {{ macros.table_column_default("Title") }}
+            {{ macros.table_column_default("Sub Title") }}
+            {{ macros.table_column_default("Description") }}
+            {{ macros.table_column_default("Type") }}
+            {{ macros.table_column_default("Slug") }}
+            {{ macros.table_column_default("Image") }}
+            {{ macros.table_column_default("Image Mobile") }}
+            {{ macros.table_column_default("Icon") }}
+            {{ macros.table_column_default("URL") }}
+            {{ macros.table_column_default("Location") }}
+            {{ macros.table_column_default("Video URL") }}
+            {{ macros.table_column_default("Sort Order") }}
+            {{ macros.table_column_default("Status") }}
+            {{ macros.table_column_default("Created At") }}
+            {{ macros.table_column_default("Updated At") }}
+            {{ macros.table_column_default("Is Archived") }}
+        {% endblock %}
+
+
+        {% block rows %}
+            {% for block in computed.data %}
+                <tr class="align-middle border-bottom border-gray-300 fs-7 text-center">
+                    <td>
+                        <a href="{{ path('app_admin_block_edit',{'id':block.id}) }}" class="btn btn-icon btn-active-light-primary me-1">
+                            {{ macros.icon_edit() }}
+                        </a>
+                        <a href="{{ path('app_admin_block_delete', {'id': block.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                            {{ macros.icon_delete() }}
+                        </a>
+                    </td>
+                    <td>{{ block.title }}</td>
+                    <td>{{ block.subTitle }}</td>
+                    <td>{{ block.description }}</td>
+                    <td>{{ block.type }}</td>
+                    <td>{{ block.slug }}</td>
+                    <td><img src="{{ asset(block.image)??null }}" alt="image" style="max-height: 40px"></td>
+                    <td><img src="{{ asset(block.imageMobile)??null }}" alt="imageMobile" style="max-height: 40px"></td>
+                    <td><img src="{{ asset(block.imageIcon)??null }}" alt="imageIcon" style="max-height: 40px"></td>
+                    <td><a href="{{ block.url }}" target="_blank">{{ block.url }}</a></td>
+                    <td>{{ block.location }}</td>
+                    <td>{{ block.videoUrl }}</td>
+                    <td>{{ block.sortOrder }}</td>
+                    <td>{{ block.status }}</td>
+                    <td>{{ block.createdAt|date('Y-m-d H:i') }}</td>
+                    <td>{{ block.updatedAt|date('Y-m-d H:i') }}</td>
+                    <td>{{ block.isArchived == 0 ? 'Lưu trữ' : 'Đã xóa' }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="100%">Không có dữ liệu cài đặt.</td></tr>
+            {% endfor %}
+        {% endblock %}
+
+    {% endembed %}
+
+
+</div>

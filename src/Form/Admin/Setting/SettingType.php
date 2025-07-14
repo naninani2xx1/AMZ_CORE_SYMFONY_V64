@@ -3,7 +3,7 @@
 namespace App\Form\Admin\Setting;
 
 use App\Core\Entity\Setting;
-use App\Utils\SettingUtil;
+use App\Utils\ConvertValue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -42,7 +42,7 @@ class SettingType extends AbstractType
             ];
             $data->setSettingType('size');
             $data->setSettingValue(json_encode($json));
-            $data->setSettingKey(SettingUtil::convertSettingKey($data->getSettingKey()));
+            $data->setSettingKey(ConvertValue::standardizationDash($data->getSettingKey()));
         });
 
 
