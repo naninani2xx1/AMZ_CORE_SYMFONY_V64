@@ -25,10 +25,8 @@
             {{ macros.table_column_default("Gallery") }}
             {{ macros.table_column_default("Tag") }}
             {{ macros.table_column_default("Config") }}
-            {{ macros.table_column_default("Category") }}
             {{ macros.table_column_default("Article") }}
             {{ macros.table_column_default("Page") }}
-            {{ macros.table_column_default("Social Sharing") }}
             {{ macros.table_column_default("Blocks") }}
         {% endblock %}
 
@@ -65,9 +63,9 @@
                     <td>{{ post.gallery ? post.gallery.id : '---' }}</td>
                     <td>{{ post.tag ? post.tag|join(', ') : '---' }}</td>
                     <td>{{ post.config }}</td>
-                    <td>{{ post.article ? post.article.id : '---' }}</td>
+                    <td>{{ post.article.author.username }}</td>
                     <td>{{ post.page ? post.page.id : '---' }}</td>
-                    <td>{{ post.socialSharing ? post.socialSharing.id : '---' }}</td>
+
                     <td>
                         {% if post.blocks|length > 0 %}
                             <ul>

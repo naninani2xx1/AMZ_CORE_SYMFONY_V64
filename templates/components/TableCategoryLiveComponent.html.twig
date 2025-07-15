@@ -33,7 +33,7 @@
                         <a href="{{ path('app_admin_category_edit', {'id': cate.id}) }}" class="btn btn-icon btn-active-light-primary me-1">
                             {{ macros.icon_edit() }}
                         </a>
-                        <a href="" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                        <a href="{{ path('app_admin_category_delete', {'id':cate.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
                             {{ macros.icon_delete() }}
                         </a>
                     </td>

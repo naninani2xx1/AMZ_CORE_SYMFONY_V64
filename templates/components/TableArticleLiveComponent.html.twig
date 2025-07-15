@@ -14,31 +14,29 @@
     {% embed 'Admin/partials/table.html.twig' %}
         {% import 'Admin/partials/macros.html.twig' as macros %}
         {% block columns %}
-            {{ macros.table_column_default("ID") }}
-            {{ macros.table_column_default("Name") }}
-            {{ macros.table_column_default("Type") }}
+            {{ macros.table_column_default("User") }}
+            {{ macros.table_column_default("Title") }}
+            {{ macros.table_column_default("Sub Title") }}
+            {{ macros.table_column_default("Thumbnail") }}
             {{ macros.table_column_default("Created At") }}
-            {{ macros.table_column_default("Updated At") }}
-            {{ macros.table_column_default('Is Archived') }}
         {% endblock %}
 
         {% block rows %}
-            {% for gallery in computed.data %}
+            {% for article in computed.data %}
                 <tr class="align-middle border-bottom border-gray-300 fs-7 text-center">
                     <td>
-                        <a onclick="editModal({{ gallery.id }})" class="btn btn-icon btn-active-light-primary me-1">
+                        <a href="{{ path('app_admin_post_edit',{'id':article.id}) }}" class="btn btn-icon btn-active-light-primary me-1">
                             {{ macros.icon_edit() }}
                         </a>
-                        <a href="{{ path('app_admin_gallery_delete', {'id': gallery.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                        <a href="{{ path('app_admin_article_delete', {'id': article.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
                             {{ macros.icon_delete() }}
                         </a>
                     </td>
-                    <td>{{ gallery.id }}</td>
-                    <td>{{ gallery.name }}</td>
-                    <td>{{ gallery.type }}</td>
-                    <td>{{ gallery.createdAt|date('Y-m-d H:i') }}</td>
-                    <td>{{ gallery.updatedAt|date('Y-m-d H:i') }}</td>
-                    <td>{{ gallery.isArchived==0?'Lưu trữ':'Đã xóa' }}</td>
+                    <td>{{ article.getAuthor.username }}</td>
+                    <td>{{ article.getPost.getTitle }}</td>
+                    <td>{{ article.getPost.getSubTitle }}</td>
+                    <td><img src="{{ article.getPost.getThumbnail }}" alt=""{{ article.getPost.getTitle }} width="40" height="40"></td>
+                    <td>{{ article.createdAt|date('Y-m-d H:i') }}</td>
                 </tr>
             {% else %}
                 <tr><td colspan="6">Không có dữ liệu cài đặt.</td></tr>
