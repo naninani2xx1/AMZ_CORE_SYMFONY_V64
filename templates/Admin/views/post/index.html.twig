@@ -25,30 +25,10 @@
 
 {% block body %}
     {{ component('TablePostLiveComponent', {'id': "TablePostLive"}) }}
-    <div id="formModal" class="modal" style="display: none">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Thêm cài đặt mới</h2>
-                <button class="close" onclick="document.getElementById('formModal').style.display='none'">×</button>
-            </div>
-            <div class="modal-body" id="formContainer">
 
-            </div>
-        </div>
-    </div>
-{% endblock %}
+        {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        function openModal(){
-            fetch('/cms/post/add')
-                .then(res => res.text())
-                .then(html => {
-                    document.getElementById('formContainer').innerHTML = html;
-                    document.getElementById('formModal').style.display = 'block';
-                })
-        }
 
-    </script>
 {% endblock %}

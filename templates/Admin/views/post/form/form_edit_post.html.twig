@@ -1,50 +1,187 @@
-{{ form_start(form,
-    {action: path('app_admin_post_edit',{'id':post.id})}
-) }}
+<style>
+    .form-container {
+        max-width: 700px;
+        margin: 30px auto;
+        padding: 20px;
+        background: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: Arial, sans-serif;
+    }
 
-<p>Tiêu đề:</p>
-{{ form_widget(form.title) }}
+    .form-container h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-<p>Sub tiêu đề:</p>
-{{ form_widget(form.subTitle) }}
+    .form-group {
+        margin-bottom: 15px;
+    }
 
-<p>Slug:</p>
-{{ form_widget(form.slug) }}
+    .form-group label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
 
-<p>URL:</p>
-{{ form_widget(form.url) }}
+    .form-group input,
+    .form-group textarea,
+    .form-group select {
+        width: 100%;
+        padding: 8px;
+        font-size: 14px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
 
-<p>Thumbnail (link hình ảnh):</p>
-{{ form_widget(form.thumbnail) }}
+    button[type="submit"] {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #007bff;
+        color: white;
+        font-size: 16px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
 
-<p>Thứ tự hiển thị (sortOrder):</p>
-{{ form_widget(form.sortOrder) }}
+    button[type="submit"]:hover {
+        background-color: #0056b3;
+    }
 
-<p>Mô tả ngắn:</p>
-{{ form_widget(form.description) }}
+    .menu_article{
+        justify-content: space-between;
+        text-align: center;
+        list-style: none;
+        margin-bottom: 20px;
+        height: 50px;
 
-<p>Nội dung chi tiết:</p>
-{{ form_widget(form.content) }}
+    }
+    .menu_article li{
+        display: inline-block;
+        margin:0 12px;
+        background: #0dcaf0;
+        line-height: 50px;
+        border-radius: 10px;
+    }
+    .active_article{
+        background: #007bff;
+        display: block;
+    }
+    .form-section{
+        display: none;
+    }
+</style>
 
-<p>Bài viết nổi bật (isHot):</p>
-{{ form_widget(form.isHot) }}
+<div class="form-container">
+    <h2>Chỉnh sửa bài viết</h2>
+    <ul class="menu_article">
+        <li data-target="general" class="active_article">Thông tin chung</li>
+        <li data-target="description">Mô tả</li>
+        <li data-target="content">Nội dung</li>
+        <li data-target="tag">Post Tag</li>
+        <li data-target="image">Hình ảnh</li>
 
-<p>Bài viết mới (isNew):</p>
-{{ form_widget(form.isNew) }}
+    </ul>
+    {{ form_start(form, { action: path('app_admin_post_edit', { id: post.id }) }) }}
+    <div id="general" class="form-section">
+    <div class="form-group">
+        <label>Tiêu đề:</label>
+        {{ form_widget(form.title) }}
+    </div>
 
-<p>Loại bài viết (postType):</p>
-{{ form_widget(form.postType) }}
+    <div class="form-group">
+        <label>Sub tiêu đề:</label>
+        {{ form_widget(form.subTitle) }}
+    </div>
 
-<p>Trạng thái xuất bản:</p>
-{{ form_widget(form.published) }}
+    <div class="form-group">
+        <label>Slug:</label>
+        {{ form_widget(form.slug) }}
+    </div>
 
-<p>Tag (ngăn cách bởi dấu phẩy):</p>
-{{ form_widget(form.tag) }}
+    <div class="form-group">
+        <label>URL:</label>
+        {{ form_widget(form.url) }}
+    </div>
+        <div class="form-group">
+            <label>Thứ tự hiển thị (sortOrder):</label>
+            {{ form_widget(form.sortOrder) }}
+        </div>
+        <div class="form-group">
+            <label>Bài viết nổi bật (isHot):</label>
+            {{ form_widget(form.isHot) }}
+        </div>
 
-<p>Cấu hình (config - JSON hoặc text):</p>
-{{ form_widget(form.config) }}
+        <div class="form-group">
+            <label>Bài viết mới (isNew):</label>
+            {{ form_widget(form.isNew) }}
+        </div>
 
-<br>
-<button type="submit">Lưu</button>
+        <div class="form-group">
+            <label>Loại bài viết (postType):</label>
+            {{ form_widget(form.postType) }}
+        </div>
 
-{{ form_end(form) }}
+        <div class="form-group">
+            <label>Trạng thái xuất bản:</label>
+            {{ form_widget(form.published) }}
+        </div>
+    </div>
+
+
+    <div id="image" class="form-section">
+        <div class="form-group" >
+            <label>Thumbnail (link hình ảnh):</label>
+            {{ form_widget(form.thumbnail) }}
+        </div>
+    </div>
+
+    <div class="form-section" id="description" >
+        <div class="form-group" >
+            <label>Mô tả ngắn:</label>
+            {{ form_widget(form.description) }}
+        </div>
+    </div>
+
+
+    <div id="content" class="form-section">
+        <div class="form-group" >
+            <label>Nội dung chi tiết:</label>
+            {{ form_widget(form.content) }}
+        </div>
+    </div>
+
+    <div id="tag" class="form-section">
+    <div class="form-group">
+        <label>Tag (ngăn cách bởi dấu phẩy):</label>
+        {{ form_widget(form.tag) }}
+    </div>
+    </div>
+
+    <button type="submit">Lưu</button>
+
+    {{ form_end(form) }}
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const menuItems = document.querySelectorAll('.menu_article li');
+        const formSections = document.querySelectorAll('.form-section');
+        document.getElementById('general').style.display = 'block';
+
+        menuItems.forEach(menuItem => {
+            menuItem.addEventListener('click', () => {
+                document.querySelector('.active_article')?.classList.remove('active_article');
+                menuItem.classList.add('active_article');
+                formSections.forEach(section => section.style.display = 'none');
+                const targetId = menuItem.getAttribute('data-target');
+                const section = document.getElementById(targetId);
+                if (section) {
+                    section.style.display = 'block';
+                }
+            });
+        });
+    });
+</script>
+
