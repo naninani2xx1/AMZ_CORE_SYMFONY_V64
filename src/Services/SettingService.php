@@ -117,11 +117,8 @@ class SettingService extends AbstractController
         if (!$setting) {
             $this->addFlash('success', 'Không tìm thấy ');
         }
-        if($setting->isArchived()==0){
             $setting->setArchived(1);
-        }else{
-            $setting->setArchived(0);
-        }
+        $this->em->flush();
         return new RedirectResponse($this->urlGenerator->generate('app_admin_setting_index'));
     }
 

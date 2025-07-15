@@ -87,10 +87,7 @@ class UserService extends AbstractController
             $this->addFlash('error', 'User not found');
             return $this->redirectToRoute('app_admin_user_index');
         }
-        if($user->isArchived()==0)
             $user->setArchived(1);
-        else
-            $user->setArchived(0);
         $this->em->flush();
         $this->addFlash('success', 'User deleted');
         return $this->redirectToRoute('app_admin_user_index');

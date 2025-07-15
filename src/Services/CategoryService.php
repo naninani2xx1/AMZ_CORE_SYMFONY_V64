@@ -84,10 +84,10 @@ class CategoryService extends AbstractController
 
     public function delete(Request $request,int $id):Response
     {
-        $category = $this->em->getRepository(Gallery::class)->find($id);
-        $category->isArchived()==0 ? $category->setArchived(1) : $category->setArchived(0);
+        $category = $this->em->getRepository(Category::class)->find($id);
+        $category->setArchived(1);
         $this->em->flush();
-        return $this->redirectToRoute('app_admin_gallery_index');
+        return $this->redirectToRoute('app_admin_category_index');
     }
 
 

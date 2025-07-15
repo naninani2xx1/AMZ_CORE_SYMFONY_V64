@@ -31,14 +31,14 @@ class PostType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title',TextType::class)
-            ->add('subTitle',TextType::class)
-            ->add('url',TextType::class)
-            ->add('thumbnail',FileType::class,[
+            ->add('title', TextType::class)
+            ->add('subTitle', TextType::class)
+            ->add('url', TextType::class)
+            ->add('thumbnail', FileType::class, [
                 'mapped' => false,
                 'required' => false,
             ])
-            ->add('slug',TextType::class)
+            ->add('slug', TextType::class)
             ->add('sortOrder', IntegerType::class)
             ->add('description', TextareaType::class)
             ->add('content', TextareaType::class)
@@ -59,13 +59,13 @@ class PostType extends AbstractType
                 'multiple' => false,
                 'expanded' => false,
             ])
-            ->add('published',ChoiceType::class, [
+            ->add('published', ChoiceType::class, [
                 'choices' => [
                     'Xuất bản'=>true,
                     'Bản nháp'=>false,
                 ]
             ])
-            ->add('config', )
+//            ->add('config', )
 //            ->add('article', EntityType::class, [
 //                'class' => Article::class,
 //                'choice_label' => 'id',
@@ -78,18 +78,7 @@ class PostType extends AbstractType
 //                'class' => Page::class,
 //                'choice_label' => 'id',
 //            ])
-            ->add('gallery', EntityType::class, [
-                'class' => Gallery::class,
-                'choice_label' => 'name',
-                'query_builder' => function (GalleryRepository $repo) {
-                    return $repo->createQueryBuilder('g')
-                        ->leftJoin('App\Core\Entity\Post', 'p', 'WITH', 'p.gallery = g')
-                        ->where('p.id IS NULL');
-                },
-                'placeholder' => 'Chọn gallery chưa có post',
-                'required' => false,
-            ]);
-        ;
+          ;
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
                 /* @Var Post $post */
             $post = $event->getData();
@@ -113,7 +102,6 @@ class PostType extends AbstractType
                 'data' => $convertTag,
                 'mapped' => false,
             ]);
-
         });
 
     }

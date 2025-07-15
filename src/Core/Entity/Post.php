@@ -150,7 +150,7 @@ class Post extends LifecycleEntity
     }
 
 
-    public function getTitle()
+    public function getTitle(): ?string
     {
         return $this->title;
     }

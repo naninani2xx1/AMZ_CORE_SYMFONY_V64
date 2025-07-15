@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Core\Entity\Article;
 use App\Core\Entity\Post;
+use App\Form\Admin\Article\AddArticleForm;
 use App\Form\Admin\Post\PostType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,19 +20,14 @@ class PostService extends AbstractController
 
     public function add(Request $request):Response
     {
-     $post = new Post();
-        $article = new Article();
-        $article->setAuthor($this->getUser());
-        $article->setPost($post);
-        $post->setArticle($article);
-        $form = $this->createForm(PostType::class, $post);
-         $form->handleRequest($request);
-      if($form->isSubmitted() && $form->isValid()){
-
+        $post=new Post();
+        $form = $this->createForm(AddArticleForm::class,$post);
+        $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
          $this->em->persist($post);
          $this->em->flush();
-         return $this->redirectToRoute('app_admin_post_index');
-     }
+         return $this->redirectToRoute('app_admin_post_edit',['id'=>$post->getId()]);
+        }
 
      return $this->render('Admin/views/post/form/form_add_post.html.twig',[
          'form'=>$form,
@@ -44,7 +40,7 @@ class PostService extends AbstractController
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $this->em->flush();
-            return $this->redirectToRoute('app_admin_post_index');
+            return $this->redirectToRoute('app_admin_article_index');
         }
         return $this->render('Admin/views/post/form/form_edit_post.html.twig',[
             'form'=>$form,

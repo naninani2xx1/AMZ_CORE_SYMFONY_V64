@@ -52,8 +52,8 @@ class BlockFormType extends AbstractType
         $builder
             ->add('type', ChoiceType::class, [
                 'choices' => [
-                    'Block động' => BlockType::BLOCK_KIND_DYNAMIC,
-                    'Block tĩnh' => BlockType::BLOCK_KIND_STATIC,
+                    'Block tĩnh' => BlockType::BLOCK_KIND_DYNAMIC,
+                    'Block động' => BlockType::BLOCK_KIND_STATIC,
                 ],
                 'required' => true,
             ])
@@ -89,7 +89,7 @@ class BlockFormType extends AbstractType
         });
     }
 
-    private function addImageField(FormBuilderInterface $builder, string $fieldName): void
+    private function addImageField(FormBuilderInterface $builder, $fieldName): void
     {
         $builder->add($fieldName, FileType::class, [
             'required' => false,

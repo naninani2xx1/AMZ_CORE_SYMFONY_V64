@@ -51,7 +51,7 @@ class GalleryService extends AbstractController
     public function delete(Request $request,int $id):Response
     {
         $gallery = $this->em->getRepository(Gallery::class)->find($id);
-        $gallery->isArchived()==0 ? $gallery->setArchived(1) : $gallery->setArchived(0);
+        $gallery->setArchived(1);
         $this->em->flush();
         return $this->redirectToRoute('app_admin_gallery_index');
     }
