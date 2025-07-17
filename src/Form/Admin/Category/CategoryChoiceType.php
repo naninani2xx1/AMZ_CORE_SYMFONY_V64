@@ -30,9 +30,9 @@ class CategoryChoiceType extends AbstractType
             'class' => Category::class,
             'label' => "Category Parent",
             'row_attr' => ['class' => 'mb-5'],
-            'choices' => $this->categoryRepository->findAllCategories(),
+            'choices' => $this->categoryRepository->findAll(),
             'choice_label' => function (Category $category) {
-                return $category->getCategoryNameWithLevel();
+                return $category->getLevelNumber();
             },
             'choice_value' => 'id',
             'placeholder' => "---Select Category parent---",

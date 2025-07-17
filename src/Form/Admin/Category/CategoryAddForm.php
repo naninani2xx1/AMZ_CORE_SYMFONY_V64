@@ -21,12 +21,6 @@ use App\Form\Admin\Category\CategoryChoiceType;
 class CategoryAddForm extends AbstractType
 {
 
-    public function __construct(
-        private readonly CategoryRepository $categoryRepository
-    )
-    {
-    }
-
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder->add('title', TextType::class, [
@@ -34,8 +28,14 @@ class CategoryAddForm extends AbstractType
             'row_attr' => ['class' => 'mb-5']
         ])
             ->add('slug', TextType::class)
-            ->add('icon', FileType::class, [])
-            ->add('thumbnail', FileType::class, [])
+            ->add('icon', FileType::class, [
+                'required' => false,
+                'data_class' => null,
+            ])
+            ->add('thumbnail', FileType::class, [
+                'required' => false,
+                'data_class' => null,
+            ])
             ->add('description', TextareaType::class)
             ->add('customPath', TextareaType::class)
         ;

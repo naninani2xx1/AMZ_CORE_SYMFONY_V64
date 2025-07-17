@@ -24,7 +24,7 @@ final class TableCategoryLiveComponent extends BaseTableLiveComponent
         // TODO: common
         $qb->where(
             $expr->eq(CategoryRepository::ALIAS.'.isArchived', $expr->literal(ArchivedDataType::UN_ARCHIVED)),
-        )->orderBy(CategoryRepository::ALIAS .'.level', 'ASC');
+        )->orderBy(CategoryRepository::ALIAS .'.levelNumber', 'ASC');
 
         // TODO: filter
         if(!empty($this->filter)){

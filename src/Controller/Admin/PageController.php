@@ -6,7 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
 use App\Core\Entity\Category;
-use App\Core\Repository\PageRepository;
+use App\Core\Repository\MenuRepository;
 use App\Services\CategoryService;
 use App\Services\PageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

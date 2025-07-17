@@ -1,0 +1,58 @@
+<div{{ attributes }}>
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    <div class="d-flex flex-wrap flex-stack mb-6">
+        <!--begin::Title-->
+        {{ macros.table_get_input_search() }}
+        <!--end::Title-->
+        <!--begin::Controls-->
+        <div class="d-flex my-2">
+
+        </div>
+        <!--end::Controls-->
+    </div>
+
+    {% embed 'Admin/partials/table.html.twig' %}
+        {% import 'Admin/partials/macros.html.twig' as macros %}
+        {% block columns %}
+            {{ macros.table_column_default("Title") }}
+            {{ macros.table_column_default("Parent Name") }}
+            {{ macros.table_column_default("Position") }}
+            {{ macros.table_column_default("Icon") }}
+            {{ macros.table_column_default("Sort Order") }}
+            {{ macros.table_column_default("URL") }}
+            {{ macros.table_column_default("Created At") }}
+            {{ macros.table_column_default("Updated At") }}
+            {{ macros.table_column_default("Is Archived") }}
+        {% endblock %}
+
+
+        {% block rows %}
+            {% for menu in computed.data %}
+                <tr class="align-middle border-bottom border-gray-300 fs-7 text-center">
+                    <td>
+                        <a href="{{ path('app_admin_menu_edit',{'id':menu.id}) }}" class="btn btn-icon btn-active-light-primary me-1">
+                            {{ macros.icon_edit() }}
+                        </a>
+                        <a href="{{ path('app_admin_menu_delete', {'id': menu.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                            {{ macros.icon_delete() }}
+                        </a>
+                    </td>
+                    <td>{{ menu.title }}</td>
+                    <td>{{ menu.parent.title ?? '---' }}</td>
+                    <td>{{ menu.position }}</td>
+                    <td><img src="{{ asset(menu.icon)??null }}" alt="image" style="max-height: 40px"></td>
+                    <td>{{ menu.sortOrder }}</td>
+                    <td>{{ menu.url }}</td>
+                    <td>{{ menu.createdAt|date('Y-m-d H:i') }}</td>
+                    <td>{{ menu.updatedAt|date('Y-m-d H:i') }}</td>
+                    <td>{{ menu.isArchived == 0 ? 'Lưu trữ' : 'Đã xóa' }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="100%">Không có dữ liệu cài đặt.</td></tr>
+            {% endfor %}
+        {% endblock %}
+
+    {% endembed %}
+
+
+</div>

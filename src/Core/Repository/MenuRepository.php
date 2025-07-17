@@ -3,46 +3,42 @@
 namespace App\Core\Repository;
 
 use App\Core\DataType\ArchivedDataType;
-use App\Core\Entity\Page;
+use App\Core\Entity\Menu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
- * @extends ServiceEntityRepository<Page>
+ * @extends ServiceEntityRepository<Menu>
  */
-class PageRepository extends ServiceEntityRepository
+class MenuRepository extends ServiceEntityRepository
 {
-    const ALIAS = 'page';
+    const ALIAS = 'menu';
 
     private $paginator;
 
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
-        parent::__construct($registry, Page::class);
+        parent::__construct($registry, Menu::class);
         $this->paginator = $paginator;
     }
 
 
     /**
-     * @param $page
-     * @param $limit
+     * @param int $page
+     * @param int $limit
      * @return PaginationInterface
      */
-    public function findAllPaginated($page = 1, $limit = 10): PaginationInterface
+    public function findAllPaginated(int $page = 1,int $limit = 10): PaginationInterface
     {
         $queryBuilder = $this->createQueryBuilder(self::ALIAS);
         $expr = $queryBuilder->expr();
         $queryBuilder->where(
             $expr->eq(self::ALIAS.'.isArchived', $expr->literal(ArchivedDataType::UN_ARCHIVED)),
         )
-        ->orderBy(self::ALIAS.'.createdAt', 'DESC');
+            ->orderBy(self::ALIAS.'.createdAt', 'DESC');
 
-        return $this->paginator->paginate(
-            $queryBuilder,
-            $page,
-            $limit
-        );
+        return $this->paginator->paginate($queryBuilder, $page, $limit);
     }
 }

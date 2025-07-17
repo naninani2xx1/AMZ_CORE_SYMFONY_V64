@@ -3,7 +3,7 @@
 namespace App\Controller\Ajax;
 
 use App\Core\DTO\RequestDataTableDTO;
-use App\Core\Repository\PageRepository;
+use App\Core\Repository\MenuRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,7 +16,7 @@ class PageAjaxController extends AbstractController
 {
     private $pageRepository;
 
-    public function __construct(PageRepository $pageRepository)
+    public function __construct(MenuRepository $pageRepository)
     {
         $this->pageRepository = $pageRepository;
     }

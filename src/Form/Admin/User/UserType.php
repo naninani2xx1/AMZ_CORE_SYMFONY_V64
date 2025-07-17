@@ -3,6 +3,7 @@
 namespace App\Form\Admin\User;
 
 use App\Core\Entity\User;
+use App\Utils\ConvertValue;
 use App\Utils\UserUtil;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -36,8 +37,8 @@ class UserType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             /* @var User $user */
             $user = $event->getData();
-            $replace_username = UserUtil::standardization($user->getUsername()) ;
-            $replace_password = UserUtil::standardization($user->getPassword()) ;
+            $replace_username = ConvertValue::standardizationSpace($user->getUsername()) ;
+            $replace_password = ConvertValue::standardizationSpace($user->getPassword()) ;
             $user->setUsername($replace_username);
             $user->setPassword($replace_password);
         });

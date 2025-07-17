@@ -1,0 +1,74 @@
+<style>
+    form {
+        max-width: 400px;
+        margin: 20px auto;
+        padding: 15px;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        background: #f9f9f9;
+        font-family: sans-serif;
+    }
+
+    form > div {
+        margin-bottom: 12px;
+    }
+
+    input, select, textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 14px;
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #3498db;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        font-size: 15px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #2980b9;
+    }
+</style>
+
+{{ form_start(form, {'action': path('app_admin_menu_edit', {'id': menu.id})}) }}
+<div>
+    {{ form_label(form.title) }}
+    {{ form_widget(form.title) }}
+</div>
+<div>
+    {{ form_label(form.position) }}
+    {{ form_widget(form.position) }}
+</div>
+<div>
+    {{ form_label(form.url) }}
+    {{ form_widget(form.url) }}
+</div>
+<div>
+    {{ form_label(form.icon) }}
+    {{ form_widget(form.icon) }}
+</div>
+<div>
+    {{ form_label(form.sortOrder) }}
+    {{ form_widget(form.sortOrder) }}
+</div>
+<div>
+    {{ form_label(form.language) }}
+    {{ form_widget(form.language) }}
+</div>
+<div>
+    {{ form_label(form.parent) }}
+    {{ form_widget(form.parent) }}
+</div>
+
+<div>
+    <button type="submit">Lưu</button>
+</div>
+{{ form_end(form) }}

@@ -8,7 +8,7 @@ use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\SettingRepository")
+ * @ORM\Entity(repositoryClass="App\Core\Repository\SettingRepository")
  * @ORM\Table(name="core_setting")
  * @ORM\HasLifecycleCallbacks
  */

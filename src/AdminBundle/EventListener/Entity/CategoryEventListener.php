@@ -20,7 +20,7 @@ class CategoryEventListener
     public function prePersist(Category $category): void
     {
         $levelNumber = $this->calculateLevelNumber($category);
-        $category->setLevel($levelNumber);
+        $category->setLevelNumber($levelNumber);
     }
     private function getCategories(){
         return $this->categoryRepository->findAll();
@@ -35,7 +35,7 @@ class CategoryEventListener
             return (string) ((int) $maxLevel + 1);
         }
 
-        $parentLevel = $category->getParent()->getLevel();
+        $parentLevel = $category->getParent()->getLevelNumber();
 
         if (!$parentLevel)
             throw new \RuntimeException('Parent category has no levelNumber.');

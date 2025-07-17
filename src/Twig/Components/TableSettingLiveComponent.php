@@ -5,7 +5,7 @@ namespace App\Twig\Components;
 use App\Core\DataType\ArchivedDataType;
 use App\Core\DataType\LanguageDataType;
 use App\Core\Entity\Setting;
-use App\Core\Repository\PageRepository;
+use App\Core\Repository\MenuRepository;
 use App\Core\Repository\PostRepository;
 use App\Core\Repository\SettingRepository;
 use Doctrine\ORM\QueryBuilder;

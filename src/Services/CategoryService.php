@@ -5,11 +5,13 @@ namespace App\Services;
 use App\Core\Entity\Category;
 use App\Core\Exception\ValidationFailed;
 use App\Core\Repository\CategoryRepository;
+use App\Form\Admin\Category\CategoryAddForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use http\Exception\RuntimeException;
+
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Messenger\Exception\ValidationFailedException;
@@ -19,25 +21,85 @@ class CategoryService extends AbstractController
     private  CategoryRepository $categoryRepository;
     public function __construct(
         CategoryRepository $categoryRepository
+        ,EntityManagerInterface $em
     )
     {
         $this->categoryRepository = $categoryRepository;
+        $this->em = $em;
     }
 
     public function add(Request $request): Response
     {
-        return new Response("Added Category Successfully");
+        $category = new Category();
+        $form = $this->createForm(CategoryAddForm::class, $category);
+
+        if ($this->handleCategoryForm($category, $request, $form)) {
+            return $this->redirectToRoute('app_admin_category_index');
+        }
+
+        return $this->render('Admin/views/category/form/form_add_category.html.twig', [
+            'form' => $form->createView()
+        ]);
     }
 
     public function edit(Request $request, int $id): Response
     {
-        return new Response("Edited Category Successfully");
+        $category = $this->findById($id);
+
+        $oldIcon = $category->getIcon();
+        $oldThumbnail = $category->getThumbnail();
+
+        $form = $this->createForm(CategoryAddForm::class, $category);
+        if ($this->handleCategoryForm($category, $request, $form)) {
+            if ($form->get('icon')->getData()===null) {
+                $category->setIcon($oldIcon);
+            }
+
+            if ($form->get('thumbnail')->getData()===null) {
+                $category->setThumbnail($oldThumbnail);
+            }
+            return $this->redirectToRoute('app_admin_category_index');
+        }
+
+        return $this->render('Admin/views/category/form/form_edit_category.html.twig', [
+            'form' => $form->createView(),
+            'category' => $category
+        ]);
     }
 
     public function delete(Request $request, int $id): Response
     {
         return new Response("Deleted Category Successfully");
     }
+
+
+
+    private function handleCategoryForm(Category $category, Request $request): bool
+    {
+        $form=$this->createForm(CategoryAddForm::class,$category);
+        $form->handleRequest($request);
+
+        if (!$form->isSubmitted() || !$form->isValid()) {
+            return false;
+        }
+
+        $parentId = $request->request->get('parent_id');
+        if ($parentId) {
+            $parent = $this->findById((int) $parentId);
+            if ($parent) {
+                $category->setParent($parent);
+            }
+        }
+
+        $em = $this->getEntityManager();
+        $em->persist($category);
+        $this->autoUpdateLevelNumberByCategory($category);
+        $em->flush();
+
+        return true;
+    }
+
+
 
     public function findMaxRootLevelNumber(): ?string
     {
@@ -69,10 +131,6 @@ class CategoryService extends AbstractController
         $siblings = $this->categoryRepository->findSiblingsWithParent($category->getParent());
         /** @var Category $cateSibling */
         $indexStart = 1;
-        dd($category);
-        if($category->getId() == 5){
-            dd($siblings);
-        }
         foreach ($siblings as $cateSibling){
             $arrNumber = explode('.', $cateSibling->getLevelNumber());
             $lastNumber = end($arrNumber);

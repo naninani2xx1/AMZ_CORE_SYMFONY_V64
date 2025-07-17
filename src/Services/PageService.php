@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Core\DataType\ArchivedDataType;
 use App\Core\Entity\Page;
+use App\Core\Repository\MenuRepository;
 use App\Core\Repository\PageRepository;
 use App\Form\Admin\Article\AddArticleForm;
 use App\Form\Admin\Page\AddPageForm;

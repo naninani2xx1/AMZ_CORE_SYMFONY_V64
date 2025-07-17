@@ -41,7 +41,6 @@ class UserService extends AbstractController
 
             $plainPassword = $form->get('password')->getData();
             $user->setPassword($this->userPasswordHasher->hashPassword($user, $plainPassword ));
-
             $this->em->persist($user);
             $this->em->flush();
 

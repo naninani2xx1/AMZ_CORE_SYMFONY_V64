@@ -38,12 +38,11 @@ services:
                 lazy: true
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
-    page.service:
-        class: App\Services\PageService
+    App\Services\PageService:
         arguments:
             $pageRepository: '@App\Core\Repository\PageRepository'
-            $fileUploadService: 'uploadFile.service'
-    uploadFile.service:
-        class: App\Services\FileUploadService
+            $fileUploadService: '@App\Services\FileUploadService'
+    App\Services\FileUploadService:
+
         arguments:
             $targetDirectory: '%kernel.project_dir%/public/pictures'
