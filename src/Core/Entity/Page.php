@@ -2,6 +2,7 @@
 
 namespace App\Core\Entity;
 
+use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,12 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Page extends LifecycleEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private  $id;
+    use DoctrineIdentifierTrait;
 
     /**
      * @ORM\Column(type="string", name="name", nullable=true)
@@ -71,11 +67,6 @@ class Page extends LifecycleEntity
         $this->children = new ArrayCollection();
     }
 
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getName(): ?string
     {

@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
+use App\Core\Entity\Category;
 use App\Core\Repository\PageRepository;
+use App\Services\CategoryService;
 use App\Services\PageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,12 +20,10 @@ use Symfony\Component\Routing\Attribute\Route;
 class PageController extends AbstractController implements CRUDActionInterface
 {
     private $pageService;
-    private $pageRepository;
 
-    public function __construct(PageService $pageService, PageRepository $pageRepository)
+    public function __construct(PageService $pageService)
     {
         $this->pageService = $pageService;
-        $this->pageRepository = $pageRepository;
     }
 
     /**
@@ -33,7 +33,7 @@ class PageController extends AbstractController implements CRUDActionInterface
      */
     public function index(Request $request): Response
     {
-        $pagination = $this->pageRepository->findAllPaginated();
+        $pagination = $this->pageService->findAllPaginated();
         return $this->render('Admin/views/page/index.html.twig', compact('pagination'));
     }
 

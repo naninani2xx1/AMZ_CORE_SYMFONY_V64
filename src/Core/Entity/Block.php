@@ -4,8 +4,13 @@
 namespace App\Core\Entity;
 
 use App\Core\DataType\BlockType;
+use App\Core\Trait\ArchivedTrait;
+use App\Core\Trait\DoctrineContentTrait;
+use App\Core\Trait\DoctrineDescriptionTrait;
+use App\Core\Trait\DoctrineIdentifierTrait;
+use App\Core\Trait\DoctrineThumbnailTrait;
+use App\Core\Trait\DoctrineTitleSubtitleTrait;
 use App\Core\ValueObject\LifecycleEntity;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -17,12 +22,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Block extends LifecycleEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    use DoctrineTitleSubtitleTrait, DoctrineDescriptionTrait, DoctrineContentTrait, DoctrineThumbnailTrait, DoctrineIdentifierTrait;
+
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -30,29 +31,10 @@ class Block extends LifecycleEntity
     private $sortOrder;
 
     /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $title;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $subTitle;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $description;
-
-    /**
      * @ORM\Column(type="text", nullable=true)
      */
     private $config;
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $content;
 
      /**
       * @ORM\Column(type="text", nullable=true)
@@ -85,7 +67,7 @@ class Block extends LifecycleEntity
     /**
      * @ORM\Column(type="text", nullable=true)
      */
-    private  $image;
+    private $image;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -132,56 +114,6 @@ class Block extends LifecycleEntity
      */
     private $kind = BlockType::BLOCK_KIND_DYNAMIC;
 
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function setId($id): self
-    {
-         $this->id = $id;
-
-         return $this;
-    }
-
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getSubTitle(): ?string
-    {
-        return $this->subTitle;
-    }
-
-    public function setSubTitle(?string $subTitle): self
-    {
-        $this->subTitle = $subTitle;
-
-        return $this;
-    }
-
-    public function getDescription(): ?string
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
     public function getSortOrder(): ?int
     {
         return $this->sortOrder;
@@ -202,18 +134,6 @@ class Block extends LifecycleEntity
     public function setConfig(?string $config): static
     {
         $this->config = $config;
-
-        return $this;
-    }
-
-    public function getContent(): ?string
-    {
-        return $this->content;
-    }
-
-    public function setContent(?string $content): static
-    {
-        $this->content = $content;
 
         return $this;
     }

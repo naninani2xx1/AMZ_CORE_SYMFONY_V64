@@ -2,6 +2,9 @@
 
 namespace App\Core\Entity;
 
+use App\Core\Trait\DoctrineIdentifierTrait;
+use App\Core\Trait\DoctrineTitleSubtitleTrait;
+use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -12,14 +15,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  * @ORM\HasLifecycleCallbacks
  *
  */
-class Picture
+class Picture extends LifecycleEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    use DoctrineTitleSubtitleTrait, DoctrineIdentifierTrait;
 
     /**
      * @ORM\Column(type="text")
@@ -30,18 +28,6 @@ class Picture
      * @ORM\Column(type="text",name="image_mobile", nullable=true)
      */
     private $imageMobile;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Translatable
-     */
-    private $title;
-
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     * @Gedmo\Translatable
-     */
-    private $subTitle;
 
     /**
      * @ORM\Column(type="text", nullable=true)
@@ -59,12 +45,6 @@ class Picture
      */
     private $gallery;
 
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getImage(): ?string
     {
         return $this->image;
@@ -73,31 +53,6 @@ class Picture
     public function setImage(string $image): self
     {
         $this->image = $image;
-
-        return $this;
-    }
-
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getSubTitle(): ?string
-    {
-        return $this->subTitle;
-    }
-
-    public function setSubTitle(?string $subTitle): self
-    {
-        $this->subTitle = $subTitle;
 
         return $this;
     }

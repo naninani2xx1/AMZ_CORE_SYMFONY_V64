@@ -2,6 +2,7 @@
 
 namespace App\Core\Entity;
 
+use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,13 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Gallery extends LifecycleEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
+    use DoctrineIdentifierTrait;
     /**
      * @ORM\Column(type="string", nullable=true)
      */
@@ -45,12 +40,6 @@ class Gallery extends LifecycleEntity
     public function __construct()
     {
         $this->picturies = new ArrayCollection();
-    }
-
-
-    public function getId(): ?int
-    {
-        return $this->id;
     }
 
     public function getName(): ?string

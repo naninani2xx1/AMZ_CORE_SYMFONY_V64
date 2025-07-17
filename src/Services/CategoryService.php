@@ -3,92 +3,106 @@
 namespace App\Services;
 
 use App\Core\Entity\Category;
-use App\Core\Entity\Gallery;
+use App\Core\Exception\ValidationFailed;
 use App\Core\Repository\CategoryRepository;
-use App\Form\Admin\Category\CategoryAddForm;
-use App\Form\Admin\Category\CategoryChoiceType;
-use App\Form\Admin\Category\CategoryType;
-use App\Form\Admin\Gallery\GalleryType;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
+use http\Exception\RuntimeException;
+use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Messenger\Exception\ValidationFailedException;
 
 class CategoryService extends AbstractController
 {
-    public function __construct(EntityManagerInterface $em,CategoryRepository $categoryRepository)
+    private  CategoryRepository $categoryRepository;
+    public function __construct(
+        CategoryRepository $categoryRepository
+    )
     {
-        $this->em = $em;
         $this->categoryRepository = $categoryRepository;
     }
 
     public function add(Request $request): Response
     {
-        $category = new Category();
-        $form = $this->createForm(CategoryAddForm::class, $category);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->persist($category);
-            $this->em->flush();
-            return $this->redirectToRoute('app_admin_category_index');
-        }
-
-        return $this->render('Admin/views/category/form/form_add_category.html.twig', [
-            'form' => $form->createView(),
-        ]);
+        return new Response("Added Category Successfully");
     }
-
 
     public function edit(Request $request, int $id): Response
     {
-        $category = $this->em->getRepository(Category::class)->find($id);
-
-        if (!$category) {
-            throw $this->createNotFoundException('Không tìm thấy danh mục.');
-        }
-
-        if ($category->getIcon()) {
-            $iconPath = $this->getParameter('kernel.project_dir') . '/public/uploads/category/icon/' . $category->getIcon();
-            if (file_exists($iconPath)) {
-                $category->setIcon(new File($iconPath));
-            } else {
-                $category->setIcon(null);
-            }
-        }
-        if ($category->getThumbnail()) {
-            $thumbnailPath = $this->getParameter('kernel.project_dir') . '/public/uploads/category/thumbnail/' . $category->getThumbnail();
-            if (file_exists($thumbnailPath)) {
-                $category->setThumbnail(new File($thumbnailPath));
-            } else {
-                $category->setThumbnail(null);
-            }
-        }
-
-        $form = $this->createForm(CategoryAddForm::class, $category);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->em->flush();
-
-            return $this->redirectToRoute('app_admin_category_index');
-        }
-
-        return $this->render('Admin/views/category/form/form_edit_category.html.twig', [
-            'form' => $form->createView(),
-            'category' => $category,
-        ]);
+        return new Response("Edited Category Successfully");
     }
 
-
-    public function delete(Request $request,int $id):Response
+    public function delete(Request $request, int $id): Response
     {
-        $category = $this->em->getRepository(Category::class)->find($id);
-        $category->setArchived(1);
-        $this->em->flush();
-        return $this->redirectToRoute('app_admin_category_index');
+        return new Response("Deleted Category Successfully");
     }
 
+    public function findMaxRootLevelNumber(): ?string
+    {
+         try{
+            return $this->categoryRepository->findMaxRootLevelNumber();
+         }catch (NonUniqueResultException $exception){
+             return '';
+         }
+    }
 
+    public function getEntityManager(): EntityManagerInterface
+    {
+        return $this->categoryRepository->getEntityManager();
+    }
+
+    public function findById(int $id): ?Category
+    {
+        return $this->categoryRepository->find($id);
+    }
+
+    public function findAllPaginated(): PaginationInterface
+    {
+        return $this->categoryRepository->findAllPaginated();
+    }
+
+    public function autoUpdateLevelNumberByCategory(Category $category): void
+    {
+        if(empty($category->getParent())) return;
+        $siblings = $this->categoryRepository->findSiblingsWithParent($category->getParent());
+        /** @var Category $cateSibling */
+        $indexStart = 1;
+        dd($category);
+        if($category->getId() == 5){
+            dd($siblings);
+        }
+        foreach ($siblings as $cateSibling){
+            $arrNumber = explode('.', $cateSibling->getLevelNumber());
+            $lastNumber = end($arrNumber);
+
+            $index = array_search($lastNumber, $arrNumber);
+            // remove last index and push start index
+            unset($arrNumber[$index]);
+            $arrNumber[] = $indexStart;
+
+
+            $levelNumber = implode('.', $arrNumber);
+            $cateSibling->setLevelNumber($levelNumber);
+            $indexStart++;
+
+            if(!$cateSibling->getChildren()->isEmpty())
+                $this->autoUpdateLevelNumberByCategory($cateSibling->getChildren()->first());
+        }
+    }
+
+    public function deleteThisAndChildren(Category $category, array $children): void
+    {
+        $category->setArchived(true);
+        $category->setLevelNumber(null);
+
+        if(empty($children)) return;
+        /** @var Category $child */
+//        foreach ($children as $child){
+//            $this->deleteThisAndChildren($child, $child->getChildren()->toArray());
+//        }
+
+        $this->getEntityManager()->flush();
+    }
 }

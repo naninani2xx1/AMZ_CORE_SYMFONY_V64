@@ -19,6 +19,31 @@ services:
             - '../src/DependencyInjection/'
             - '../src/Entity/'
             - '../src/Kernel.php'
-
+    # Register core the event listener
+    # =========== Category ============
+    category.changedNotifier:
+        class:  App\Core\EventListener\CategoryChangedNotifier
+        tags:
+            - # these are the options required to define the entity listener
+                name: 'doctrine.orm.entity_listener'
+                event: prePersist
+                method: 'prePersist'
+                entity: 'App\Core\Entity\Category'
+                lazy: true
+            - # these are the options required to define the entity listener
+                name: 'doctrine.orm.entity_listener'
+                event: preFlush
+                method: 'preFlush'
+                entity: 'App\Core\Entity\Category'
+                lazy: true
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    page.service:
+        class: App\Services\PageService
+        arguments:
+            $pageRepository: '@App\Core\Repository\PageRepository'
+            $fileUploadService: 'uploadFile.service'
+    uploadFile.service:
+        class: App\Services\FileUploadService
+        arguments:
+            $targetDirectory: '%kernel.project_dir%/public/pictures'

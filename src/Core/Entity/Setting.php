@@ -2,23 +2,19 @@
 
 namespace App\Core\Entity;
 
+use App\Core\Trait\DoctrineDescriptionTrait;
+use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\ValueObject\LifecycleEntity;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Core\Repository\SettingRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\SettingRepository")
  * @ORM\Table(name="core_setting")
  * @ORM\HasLifecycleCallbacks
  */
 class Setting extends LifecycleEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private  $id;
+    use DoctrineDescriptionTrait, DoctrineIdentifierTrait;
 
     /**
      * @ORM\Column (type="string", unique=true, nullable = true)
@@ -34,12 +30,6 @@ class Setting extends LifecycleEntity
      * @ORM\Column (type="text", nullable = true)
      */
     private $settingType;
-
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     public function getSettingKey(): ?string
     {

@@ -2,80 +2,59 @@
 
 namespace App\Core\Repository;
 
+use App\Core\DataType\ArchivedDataType;
 use App\Core\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\AbstractQuery;
+use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
+use Knp\Component\Pager\Pagination\PaginationInterface;
+use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Category>
  */
 class CategoryRepository extends ServiceEntityRepository
 {
-    private readonly QueryBuilder $builder;
-
-    const ALIAS = "category";
-
-    public function __construct(ManagerRegistry $registry)
+    const ALIAS = 'category';
+    private PaginatorInterface $paginator;
+    private EntityManagerInterface $entityManager;
+    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator, EntityManagerInterface $entityManager)
     {
+        $this->paginator = $paginator;
+        $this->entityManager = $entityManager;
         parent::__construct($registry, Category::class);
-        $this->builder = $this->createQueryBuilder(self::ALIAS);
     }
 
     /**
-     * Get all categories in a hierarchical order with level numbers.
-     *
-     * @return array
+     * @return EntityManagerInterface
      */
-    public function findAllHierarchical(): array
+    public function getEntityManager(): EntityManagerInterface
     {
-        $categories = $this->createQueryBuilder('c')
-            ->where('c.parent IS NULL')
-            ->getQuery()
-            ->getResult();
-
-        $result = [];
-        $this->buildHierarchy($categories, $result, []);
-        return $result;
+        return $this->entityManager;
     }
 
     /**
-     * Build hierarchical structure with level numbers.
-     *
-     * @param array $categories
-     * @param array &$result
-     * @param array $level
+     * Lấy tất cả category với phân trang
+     * @param $page
+     * @param $limit
+     * @return PaginationInterface
      */
-    private function buildHierarchy(array $categories, array &$result, array $level): void
+    public function findAllPaginated($page = 1, $limit = 10): PaginationInterface
     {
-        /**
-         * @var  Category $category
-         */
-        foreach ($categories as $index => $category) {
-            $newLevel = array_merge($level, [$index + 1]);
-            $category->setLevel((string) implode('.', $newLevel));
-            $result[] = $category;
+        $queryBuilder = $this->createQueryBuilder('category');
+        $expr = $queryBuilder->expr();
+        $queryBuilder->where(
+            $expr->eq(self::ALIAS.'.isArchived', $expr->literal(ArchivedDataType::UN_ARCHIVED)),
+        )
+            ->orderBy(self::ALIAS.'.createdAt', 'DESC');
 
-            $children = $this->createQueryBuilder('c')
-                ->where('c.parent = :parent')
-                ->setParameter('parent', $category)
-                ->getQuery()
-                ->getResult();
-
-            if (!empty($children))
-                $this->buildHierarchy($children, $result, $newLevel);
-        }
-    }
-
-
-
-    public function findAllCategories()
-    {
-
-        return $this->builder->getQuery()->getResult();
+        return $this->paginator->paginate(
+            $queryBuilder,
+            $page,
+            $limit
+        );
     }
 
     /**
@@ -83,17 +62,31 @@ class CategoryRepository extends ServiceEntityRepository
      * @return string|null
      * @throws NonUniqueResultException
      */
-
     public function findMaxRootLevelNumber(): ?string
     {
-        $result = $this->builder
-            ->select("category.level")
-            ->orderBy("category.level", 'DESC')
+        $result = $this->createQueryBuilder('category')
+            ->select("category.levelNumber")
+            ->where(
+                'category.parent is null'
+            )
+            ->orderBy("category.levelNumber", 'DESC')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult();
 
-        return $result['level'] ?? null;
+        return $result['levelNumber'] ?? null;
     }
+
+    public function findSiblingsWithParent(Category $category): ?array
+    {
+        $qb = $this->createQueryBuilder('category');
+        $qb->leftJoin('category.parent', 'parent');
+        $qb->where(
+            $qb->expr()->eq('parent.id', $qb->expr()->literal($category->getId())),
+            $qb->expr()->eq('category.isArchived', $qb->expr()->literal(ArchivedDataType::UN_ARCHIVED)),
+        );
+        return $qb->getQuery()->getResult();
+    }
+
 
 }
