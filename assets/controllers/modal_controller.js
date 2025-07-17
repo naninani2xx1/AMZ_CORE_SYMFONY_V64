@@ -1,14 +1,10 @@
 import { Controller } from '@hotwired/stimulus';
 import {axiosPost} from "@ApiHelper";
-/**
- * Allows you to dispatch a "modal:close" JavaScript event to close it.
- *
- * This is useful inside a LiveComponent, where you can emit a browser event
- * to open or close the modal.
- *
- * See templates/components/BootstrapModal.html.twig to see how this is
- * attached to Bootstrap modal.
- */
+/*
+* The following line makes this controller "lazy": it won't be downloaded until needed
+* See https://symfony.com/bundles/StimulusBundle/current/index.html#lazy-stimulus-controllers
+*/
+
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static values = {

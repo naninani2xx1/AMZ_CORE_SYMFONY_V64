@@ -3,6 +3,7 @@
 namespace App\Core\Entity;
 
 
+use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,12 +21,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User extends LifecycleEntity implements UserInterface, LegacyPasswordAuthenticatedUserInterface
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private ?int $id = null;
+    use DoctrineIdentifierTrait;
 
     /**
      * @ORM\Column(type="string", length=100, unique=true, nullable="true")

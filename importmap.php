@@ -17,10 +17,6 @@ return [
         'entrypoint' => true,
     ],
     #register controller CMS
-    'select2_controller' => [
-        'path' => './assets/controllers/select2_controller.js',
-        'entrypoint' => true,
-    ],
     '@ApiHelper' => [
         'path' => './assets/api_helper.js',
     ],

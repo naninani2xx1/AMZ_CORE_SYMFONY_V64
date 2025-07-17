@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Core\Entity;
+use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -11,12 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Article extends LifecycleEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private ?int $id = null;
+    use DoctrineIdentifierTrait;
 
 
     /**
@@ -28,14 +24,6 @@ class Article extends LifecycleEntity
      * @ORM\OneToOne(targetEntity="App\Core\Entity\Post", inversedBy="article")
      */
     private $post;
-
-    /**
-     * @return int|null
-     */
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
 
     /**
      * @param User|null $author

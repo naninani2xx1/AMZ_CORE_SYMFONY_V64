@@ -4,6 +4,11 @@ namespace App\Core\Entity;
 
 
 use App\Core\DataType\PostStatusType;
+use App\Core\Trait\DoctrineContentTrait;
+use App\Core\Trait\DoctrineDescriptionTrait;
+use App\Core\Trait\DoctrineIdentifierTrait;
+use App\Core\Trait\DoctrineThumbnailTrait;
+use App\Core\Trait\DoctrineTitleSubtitleTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,17 +22,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Post extends LifecycleEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private ?int $id;
-
-    /**
-     * @ORM\Column(type="string", name="title", nullable=true)
-     */
-    private ?string $title;
+    use DoctrineTitleSubtitleTrait, DoctrineThumbnailTrait, DoctrineDescriptionTrait, DoctrineContentTrait,  DoctrineIdentifierTrait;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Core\Entity\Article", mappedBy="post")
@@ -45,26 +40,15 @@ class Post extends LifecycleEntity
     private $page;
 
     /**
-     * @ORM\ManyToOne (targetEntity="App\Core\Entity\Category", inversedBy="post" )
+     * @ORM\ManyToOne (targetEntity="App\Core\Entity\Category", inversedBy="posts" )
      * @ORM\JoinColumn(name="category_id", referencedColumnName="id",nullable=true)
      */
     private $category;
 
     /**
-     * @ORM\Column(type="string", name="sub_title", nullable=true)
-     */
-    private $subTitle;
-
-    /**
      * @ORM\Column(type="string", nullable=true)
      */
     private $url;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $thumbnail;
-
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -78,16 +62,6 @@ class Post extends LifecycleEntity
      * @ORM\Column(type="integer", nullable=true)
      */
     private $sortOrder = 1;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $description;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $content;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -118,7 +92,7 @@ class Post extends LifecycleEntity
     /**
      * @ORM\Column(type="simple_array", nullable=true)
      */
-    private $tag;
+    private $tags;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Core\Entity\Block", mappedBy="post")
@@ -136,44 +110,6 @@ class Post extends LifecycleEntity
         $this->blocks = new ArrayCollection();
     }
 
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
-    public function setId($id):self
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-
-    public function getTitle()
-    {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
-    }
-
-    public function getSubTitle()
-    {
-        return $this->subTitle;
-    }
-
-    public function setSubTitle(?string $subTitle): self
-    {
-        $this->subTitle = $subTitle;
-
-        return $this;
-    }
-
     public function getUrl()
     {
         return $this->url;
@@ -182,30 +118,6 @@ class Post extends LifecycleEntity
     public function setUrl(?string $url): self
     {
         $this->url = $url;
-
-        return $this;
-    }
-
-    public function getThumbnail()
-    {
-        return $this->thumbnail;
-    }
-
-    public function setThumbnail(?string $thumbnail): self
-    {
-        $this->thumbnail = $thumbnail;
-
-        return $this;
-    }
-
-    public function getImage()
-    {
-        return $this->image;
-    }
-
-    public function setImage(?string $image): self
-    {
-        $this->image = $image;
 
         return $this;
     }
@@ -222,18 +134,6 @@ class Post extends LifecycleEntity
         return $this;
     }
 
-    public function getIcon()
-    {
-        return $this->icon;
-    }
-
-    public function setIcon(?string $icon): self
-    {
-        $this->icon = $icon;
-
-        return $this;
-    }
-
     public function getSortOrder(): ?int
     {
         return $this->sortOrder;
@@ -245,55 +145,6 @@ class Post extends LifecycleEntity
 
         return $this;
     }
-
-    public function getDisplay()
-    {
-        return $this->display;
-    }
-
-    public function setDisplay(?string $display): self
-    {
-        $this->display = $display;
-
-        return $this;
-    }
-
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    public function setDescription(?string $description): self
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    public function getContent()
-    {
-        return $this->content;
-    }
-
-    public function setContent(?string $content): self
-    {
-        $this->content = $content;
-
-        return $this;
-    }
-
-    public function getReferenceUrl()
-    {
-        return $this->referenceUrl;
-    }
-
-    public function setReferenceUrl(?string $referenceUrl): self
-    {
-        $this->referenceUrl = $referenceUrl;
-
-        return $this;
-    }
-
     public function getIsHot()
     {
         return $this->isHot;
@@ -342,28 +193,33 @@ class Post extends LifecycleEntity
         return $this;
     }
 
-    public function getDeleted()
+    /**
+     * @return mixed
+     */
+    public function getTags()
     {
-        return $this->deleted;
+        return $this->tags;
     }
 
-    public function setDeleted(?string $deleted): self
+    /**
+     * @param mixed $tags
+     */
+    public function setTags($tags): void
     {
-        $this->deleted = $deleted;
-
-        return $this;
+        $this->tags = $tags;
     }
 
-    public function getTag(): ?array
+    public function getArrTags(): array
     {
-        return $this->tag;
+        return is_null($this->tags) ? [] : json_decode($this->tags, true);
     }
 
-    public function setTag(?array $tag): static
+    /**
+     * @param mixed $tags
+     */
+    public function setArrTags(array $tags): void
     {
-        $this->tag = $tag;
-
-        return $this;
+        $this->tags = json_encode($tags);
     }
 
     public function getConfig(): ?string

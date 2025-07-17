@@ -15,15 +15,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route(path="/cms/page")
+ * @Route(path="/cms/category")
  */
-class PageController extends AbstractController implements CRUDActionInterface
+class CategoryController extends AbstractController implements CRUDActionInterface
 {
-    private $pageService;
+    private $categoryService;
 
-    public function __construct(PageService $pageService)
+    public function __construct(CategoryService $categoryService)
     {
-        $this->pageService = $pageService;
+        $this->categoryService = $categoryService;
     }
 
     /**
@@ -33,7 +33,7 @@ class PageController extends AbstractController implements CRUDActionInterface
      */
     public function index(Request $request): Response
     {
-        $pagination = $this->pageService->findAllPaginated();
+        $pagination = $this->categoryService->findAllPaginated();
         return $this->render('Admin/views/page/index.html.twig', compact('pagination'));
     }
 
@@ -44,7 +44,7 @@ class PageController extends AbstractController implements CRUDActionInterface
      */
     public function add(Request $request): Response
     {
-       return $this->pageService->add($request);
+       return $this->categoryService->add($request);
     }
     /**
      * @Route(path="/edit/{id}", name="app_admin_page_edit")
@@ -54,7 +54,7 @@ class PageController extends AbstractController implements CRUDActionInterface
      */
     public function edit(Request $request, int $id): Response
     {
-        return $this->pageService->edit($request, $id);
+        return $this->categoryService->edit($request, $id);
     }
     /**
      * @Route(path="/delete/{id}", name="app_admin_page_delete")
@@ -64,6 +64,6 @@ class PageController extends AbstractController implements CRUDActionInterface
      */
     public function delete(Request $request, int $id): Response
     {
-        return $this->pageService->delete($request, $id);
+        return $this->categoryService->delete($request, $id);
     }
 }

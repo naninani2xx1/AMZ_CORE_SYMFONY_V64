@@ -2,7 +2,9 @@
 
 namespace App\Core\Entity;
 
-use Doctrine\DBAL\Types\Types;
+use App\Core\Trait\DoctrineDescriptionTrait;
+use App\Core\Trait\DoctrineIdentifierTrait;
+use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,14 +12,9 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="core_setting")
  * @ORM\HasLifecycleCallbacks
  */
-class Setting
+class Setting extends LifecycleEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private  $id;
+    use DoctrineDescriptionTrait, DoctrineIdentifierTrait;
 
     /**
      * @ORM\Column (type="string", unique=true, nullable = true)
@@ -34,40 +31,6 @@ class Setting
      */
     private $settingType;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $createdAt;
-
-    /**
-     * @ORM\Column(type="datetime")
-     */
-    private $updatedAt;
-
-    /**
-     * @ORM\PrePersist
-     */
-    public function prePersist()
-    {
-        $now = new \DateTime('now');
-        $this->setUpdatedAt($now);
-        $this->setCreatedAt($now);
-    }
-
-    /**
-     * @ORM\PreUpdate
-     */
-    public function preUpdate()
-    {
-        $now = new \DateTime('now');
-        $this->setUpdatedAt($now);
-    }
-
-    public function getId(): ?int
-    {
-        return $this->id;
-    }
-
     public function getSettingKey(): ?string
     {
         return $this->settingKey;
@@ -80,29 +43,6 @@ class Setting
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
-    }
-
-    public function getUpdatedAt(): ?\DateTimeInterface
-    {
-        return $this->updatedAt;
-    }
-
-    public function setUpdatedAt(\DateTimeInterface $updatedAt): self
-    {
-        $this->updatedAt = $updatedAt;
-
-        return $this;
-    }
 
     public function getSettingValue()
     {

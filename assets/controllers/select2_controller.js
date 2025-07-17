@@ -1,19 +1,24 @@
 import { Controller } from '@hotwired/stimulus';
 import axios from 'axios';
 /*
- * This is an example Stimulus controller!
- *
- * Any element with a data-controller="hello" attribute will cause
- * this controller to be executed. The name "hello" comes from the filename:
- *
- * Delete this file or adapt it for your use!
- */
+* The following line makes this controller "lazy": it won't be downloaded until needed
+* See https://symfony.com/bundles/StimulusBundle/current/index.html#lazy-stimulus-controllers
+*/
+
+/* stimulusFetch: 'lazy' */
 export default class extends Controller {
     static targets = [];
     static values = {
         placeholder: {
             default: "--Select option--",
             type: String
+        },
+        dropdownParent: {
+            type: String
+        },
+        hiddenSearch: {
+            type: Boolean,
+            default: false
         },
         url: {
             default: null,
@@ -25,9 +30,13 @@ export default class extends Controller {
         },
     }
     connect() {
-         $(this.element).select2({
-            placeholder: this.placeholderValue
+         this.select2 = $(this.element).select2({
+            placeholder: this.placeholderValue,
+            allowClear: true,
+            minimumResultsForSearch:  this.hiddenSearchValue ? -1 : 0
         });
+         if(this.hasDropdownParentValue)
+             this.select2.dropdownParent = $(this.dropdownParentValue)
         $(this.element).on('select2:select', this.onChange.bind(this));
     }
 
@@ -42,8 +51,17 @@ export default class extends Controller {
     }
 
     async onChange(e){
-        const selectedVal = $(e).val();
-        if(this.urlValue === null) return;
+        const selectedVal = $(e.currentTarget).val();
+        const customEvent = new CustomEvent("select2:change", {
+            detail: {
+                selectedValue: selectedVal,
+            },
+            bubbles: true,
+        });
+
+        this.element.dispatchEvent(customEvent);
+
+        if(this.urlValue === null) return
 
         const response = await axios.post(this.urlValue)
     }

@@ -3,6 +3,7 @@
 namespace App\Core\Entity;
 
 
+use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,12 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class SocialSharing extends LifecycleEntity
 {
-    /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+    use DoctrineIdentifierTrait;
 
     /**
      * @ORM\Column(type="string", nullable=true)
