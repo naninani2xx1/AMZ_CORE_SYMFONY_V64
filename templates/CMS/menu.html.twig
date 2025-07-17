@@ -1,0 +1,77 @@
+<div class="container my-4">
+    <h2 class="text-xl font-semibold mb-4">Quản lý Menu</h2>
+
+    <div class="mb-4">
+        <button class="btn btn-primary" onclick="showMenuForm()">➕ Thêm menu</button>
+    </div>
+
+    <!-- Danh sách menu theo cây -->
+    <ul id="menuTree" class="list-group">
+        <!-- Menu cha/con sẽ được load ở đây bằng JS hoặc server render -->
+    </ul>
+
+    <!-- Modal thêm/sửa menu -->
+    <div id="menuModal" class="modal fade" tabindex="-1">
+        <div class="modal-dialog">
+            <form class="modal-content" id="menuForm">
+                <div class="modal-header">
+                    <h5 class="modal-title">Thêm / Chỉnh sửa Menu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="id" id="menuId" />
+
+                    <div class="mb-3">
+                        <label>Tiêu đề</label>
+                        <input type="text" name="title" id="menuTitle" class="form-control" required />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>URL</label>
+                        <input type="text" name="url" id="menuUrl" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Vị trí</label>
+                        <select name="position" id="menuPosition" class="form-select">
+                            <option value="top">Top</option>
+                            <option value="bottom">Bottom</option>
+                            <option value="sidebar">Sidebar</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Biểu tượng</label>
+                        <input type="text" name="icon" id="menuIcon" class="form-control" placeholder="vd: fa fa-home" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Sắp xếp</label>
+                        <input type="number" name="sortOrder" id="menuSortOrder" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Ngôn ngữ</label>
+                        <select name="language" id="menuLanguage" class="form-select">
+                            <option value="vi">Tiếng Việt</option>
+                            <option value="en">English</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label>Menu cha (nếu có)</label>
+                        <select name="parent" id="menuParent" class="form-select">
+                            <option value="">-- Không có --</option>
+                            <!-- Options menu cha sẽ được load từ backend -->
+                        </select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Lưu</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
