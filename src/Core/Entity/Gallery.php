@@ -37,9 +37,15 @@ class Gallery extends LifecycleEntity
      */
     private $type;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Core\Entity\GalleryPictures", mappedBy="gallery")
+     */
+    private $galleryPictures;
+
     public function __construct()
     {
         $this->picturies = new ArrayCollection();
+        $this->galleryPictures = new ArrayCollection();
     }
 
     public function getName(): ?string
@@ -116,5 +122,40 @@ class Gallery extends LifecycleEntity
         $this->post = $post;
 
         return $this;
+    }
+
+    /**
+     * @return Collection<int, GalleryPictures>
+     */
+    public function getGalleryPictures(): Collection
+    {
+        return $this->galleryPictures;
+    }
+
+    public function addGalleryPicture(GalleryPictures $galleryPicture): static
+    {
+        if (!$this->galleryPictures->contains($galleryPicture)) {
+            $this->galleryPictures->add($galleryPicture);
+            $galleryPicture->setGallery($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGalleryPicture(GalleryPictures $galleryPicture): static
+    {
+        if ($this->galleryPictures->removeElement($galleryPicture)) {
+            // set the owning side to null (unless already changed)
+            if ($galleryPicture->getGallery() === $this) {
+                $galleryPicture->setGallery(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function countPictures(): int
+    {
+        return $this->picturies->count();
     }
 }

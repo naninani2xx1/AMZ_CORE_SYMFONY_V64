@@ -2,6 +2,7 @@
 
 namespace App\Core\Repository;
 
+use App\Core\Entity\Gallery;
 use App\Core\Entity\Picture;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -14,6 +15,13 @@ class PictureRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Picture::class);
+    }
+
+    public function findByGallery(Gallery $gallery)
+    {
+        return $this->createQueryBuilder('p')
+            ->where('p.gallery = :gallery and p.isArchived = false')
+            ->setParameter('gallery', $gallery)->getQuery()->getResult();
     }
 
     //    /**

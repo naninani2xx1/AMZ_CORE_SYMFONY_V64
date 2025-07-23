@@ -3,27 +3,20 @@
 namespace App\Core\Repository;
 
 use App\Core\DataType\GalleryDataType;
-use App\Core\Entity\Gallery;
+use App\Core\Entity\GalleryPictures;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Gallery>
+ * @extends ServiceEntityRepository<GalleryPictures>
  */
-class GalleryRepository extends ServiceEntityRepository
+class GalleryPicturesRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Gallery::class);
+        parent::__construct($registry, GalleryPictures::class);
     }
 
-    public function findAllFolderGalleries()
-    {
-        return $this->createQueryBuilder('g')
-            ->select(['g.id', 'g.name'])
-            ->where("g.type = :type and g.isArchived = false")
-            ->setParameter('type', GalleryDataType::TYPE_FOLDER)->getQuery()->getResult();
-    }
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

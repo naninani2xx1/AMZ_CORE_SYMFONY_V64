@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Services;
+namespace App\Core\Services;
 
 use App\Core\DataType\ArchivedDataType;
 use App\Core\Entity\Page;
 use App\Core\Repository\PageRepository;
-use App\Form\Admin\Article\AddArticleForm;
 use App\Form\Admin\Page\AddPageForm;
 use App\Security\Voter\PageVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -53,22 +53,21 @@ class PageService extends AbstractController
         $form = $this->createForm(AddPageForm::class, $page);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $thumbnail = $form->get('post')->get('thumbnail')->getData();
-            if($thumbnail instanceof UploadedFile)
-                $this->fileUploadService->upload($thumbnail);
             //logic here
-            $this->entityManager->persist($form->getData());
+            $this->entityManager->persist($page);
+            $this->entityManager->persist($page->getPost());
             $this->entityManager->flush();
 
+            return new JsonResponse([
+                'message' => 'Page added successfully',
+                'redirect' => $this->generateUrl('app_admin_page_edit', ['id' => $page->getId()])
+            ]);
         }
         return $this->render('Admin/views/page/add.html.twig', compact('form', 'page'));
     }
 
     public function edit(Request $request, int $id): Response
     {
-        $csrfToken = $request->request->get('_csrf_token');
-        if (!$this->isCsrfTokenValid($csrfToken, 'page-edit-'.$id))
-            throw new AccessDeniedHttpException();
         $page = $this->pageRepository->find($id);
         if(!$page instanceof Page) throw new NotFoundHttpException();
 
@@ -81,7 +80,7 @@ class PageService extends AbstractController
             return new Response("Edited Page Successfully");
         }
 
-        return new Response("Edited Page Successfully");
+        return $this->render('Admin/views/page/add.html.twig', compact('form', 'page'));
     }
 
     /**

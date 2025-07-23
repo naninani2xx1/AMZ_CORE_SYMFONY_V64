@@ -12,6 +12,7 @@ use App\Core\Trait\DoctrineTitleSubtitleTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -56,7 +57,6 @@ class Post extends LifecycleEntity
      */
 
     private $slug;
-
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -181,7 +181,7 @@ class Post extends LifecycleEntity
         return $this;
     }
 
-    public function getPublished()
+    public function getPublished(): int
     {
         return $this->published;
     }
@@ -209,17 +209,18 @@ class Post extends LifecycleEntity
         $this->tags = $tags;
     }
 
-    public function getArrTags(): array
+    public function getArrTags(): string
     {
-        return is_null($this->tags) ? [] : json_decode($this->tags, true);
+        return is_null($this->tags) ? '' : implode(',', $this->tags);
     }
 
     /**
      * @param mixed $tags
      */
-    public function setArrTags(array $tags): void
+    public function setArrTags(string $tags): void
     {
-        $this->tags = json_encode($tags);
+        $arr = json_decode($tags, true);
+        $this->tags = json_encode(array_column($arr, 'value'));
     }
 
     public function getConfig(): ?string

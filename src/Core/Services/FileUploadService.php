@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Services;
+namespace App\Core\Services;
 
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\Uid\Uuid;
 
 class FileUploadService

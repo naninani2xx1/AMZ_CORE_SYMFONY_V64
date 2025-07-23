@@ -3,11 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
+use App\Core\Entity\Setting;
+use App\Core\Services\SettingService;
 use App\Form\SettingCommonType;
 use App\Form\SettingImgType;
 use App\Form\SettingType;
-use App\Core\Entity\Setting;
-use App\Services\SettingService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

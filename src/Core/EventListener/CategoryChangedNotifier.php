@@ -3,7 +3,7 @@
 namespace App\Core\EventListener;
 
 use App\Core\Entity\Category;
-use App\Services\CategoryService;
+use App\Core\Services\CategoryService;
 use Doctrine\ORM\Event\PreFlushEventArgs;
 use Doctrine\ORM\Event\PrePersistEventArgs;
 

@@ -47,11 +47,11 @@
     <th class="sticky-top fw-semibold bg-light-primary {{ align }}">{{ label }}</th>
 {% endmacro %}
 
-{% macro table_get_input_search() %}
+{% macro table_get_input_search(widthInput = "w-200px") %}
     <div class="position-relative my-1">
         <i class="ki-outline ki-magnifier fs-2 position-absolute top-50 translate-middle-y ms-4"></i>
         <input type="search" data-model="debounce(500)|keyword"
-               class="form-control  w-200px ps-13" placeholder="Search...">
+               class="form-control {{ widthInput }} ps-13" placeholder="Search...">
     </div>
 {% endmacro %}
 {# Area: End Table #}

@@ -1,18 +1,15 @@
 <?php
 
-namespace App\Services;
+namespace App\Core\Services;
 
 use App\Core\Entity\Category;
-use App\Core\Exception\ValidationFailed;
 use App\Core\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-use http\Exception\RuntimeException;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\Exception\ValidationFailedException;
 
 class CategoryService extends AbstractController
 {
@@ -69,7 +66,6 @@ class CategoryService extends AbstractController
         $siblings = $this->categoryRepository->findSiblingsWithParent($category->getParent());
         /** @var Category $cateSibling */
         $indexStart = 1;
-        dd($category);
         if($category->getId() == 5){
             dd($siblings);
         }

@@ -18,8 +18,8 @@ class AddPageForm extends AbstractType
     {
         $builder->add('name', TextType::class);
         $builder->add('post', AddPostType::class);
-        $builder->add('css', TextareaType::class);
-        $builder->add('customCss', TextareaType::class);
+        $builder->add('css', TextareaType::class, ['required' => false]);
+        $builder->add('customCss', TextareaType::class, ['required' => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

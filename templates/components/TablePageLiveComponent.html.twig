@@ -22,24 +22,21 @@
             {% for item in computed.data %}
                 <tr class="py-3 align-middle  border-bottom border-gray-300 fs-7">
                     <td class="action-column">
-                        <a href="#" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
-                        <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
-                            {{ macros.icon_edit() }}
-                        </span>
+                        <a href="{{ path('app_admin_page_edit', {'id': item.id}) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
+                                {{ macros.icon_edit() }}
+                            </span>
                         </a>
 
                         <a href="#" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
-                        <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
-                            {{ macros.icon_delete() }}
-                        </span>
-                        </a>
-                        <a href="#" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
-                        <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Copy" data-bs-original-title="Copy">
-                            {{ macros.icon_copy() }}
-                        </span>
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
+                                {{ macros.icon_delete() }}
+                            </span>
                         </a>
                     </td>
-                    <td>{{ item.name }}</td>
+                    <td>{{ item.name }}<br>
+                        <a href="{{ absolute_url('/trang-chu.html') }}">{{ absolute_url('/trang-chu.html') }}</a>
+                    </td>
                     <td>Vietnamese</td>
                     <td>{{ item.createdAt | date('d/m/Y H:i:a') }}</td>
                     <td>{{ item.updatedAt | date('d/m/Y H:i:a') }}</td>

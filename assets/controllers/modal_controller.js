@@ -25,7 +25,7 @@ export default class extends Controller {
     }
 
     toggleModal(){
-        this.element.innerHTML = ``;
+        this.element.remove();
     }
 
     _getController(selector){

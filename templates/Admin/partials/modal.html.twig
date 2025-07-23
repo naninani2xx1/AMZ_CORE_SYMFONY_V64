@@ -1,0 +1,38 @@
+<div id="app-modal" data-controller="modal" class="modal fade" data-bs-keyboard="false">
+    <div class="modal-dialog {% block modalClass %}modal-fullscreen p-10 p-lg-20{% endblock %}">
+        <!--begin::Modal content-->
+        <div class="modal-content modal-rounded">
+            <!--begin::Modal header-->
+            <div class="modal-header py-7 d-flex justify-content-between">
+                <!--begin::Modal title-->
+                <h2>{% block title %} {% endblock %}</h2>
+                <!--end::Modal title-->
+                <div>
+                    <!--begin::Close-->
+                    <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
+                        <i class="ki-duotone ki-cross fs-1">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
+                    </div>
+                    <!--end::Close-->
+                </div>
+            </div>
+            <!--begin::Modal header-->
+            <!--begin::Modal body-->
+            <div class="modal-body h-auto">
+                {% block body %}
+
+                {% endblock %}
+            </div>
+            <!--begin::Modal body-->
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                {% block modalFooter %}
+
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+</div>
