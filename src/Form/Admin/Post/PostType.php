@@ -46,6 +46,10 @@ class PostType extends AbstractType
                 ],
                 'required' => false,
             ])
+            ->add('description', TextType::class, [
+
+                'required' => false,
+            ])
             ->add('url', TextType::class, [
                 'constraints' => [
                     new Assert\Length(['max' => 255]),
@@ -53,10 +57,7 @@ class PostType extends AbstractType
                 ],
                 'required' => false,
             ])
-            ->add('icon', FileType::class, [
-                'mapped' => false,
-                'required' => false,
-            ])
+
             ->add('thumbnail', FileType::class, [
                 'mapped' => false,
                 'required' => false,

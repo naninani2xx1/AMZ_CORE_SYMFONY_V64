@@ -26,7 +26,7 @@
         {% for setting in computed.data %}
             <tr class="align-middle border-bottom border-gray-300 fs-7 text-center">
                 <td>
-                    <a class="btn btn-icon btn-active-light-primary me-1" href="{{ path('app_admin_gallery_edit',{'id':setting.edit}) }}">
+                    <a class="btn btn-icon btn-active-light-primary me-1" href="{{ path('app_admin_setting_edit',{'id':setting.id}) }}">
                         {{ macros.icon_edit() }}
                     </a>
                     <a href="{{ path('app_admin_setting_destroy', {'id': setting.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">

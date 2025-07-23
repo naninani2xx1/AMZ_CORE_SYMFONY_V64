@@ -20,8 +20,9 @@
     {% endembed %}
 {% endblock %}
 
-{% block body %}
 
+{% block body %}
+    {{ component('TableGalleryLiveComponent', {'id': "TableGalleryLive"}) }}
 {% endblock %}
 
 {% block javascripts %}

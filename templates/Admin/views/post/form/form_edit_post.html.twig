@@ -162,7 +162,11 @@
                     {{ form_widget(form.url, {attr: {class: "form-control mb-2"}}) }}
                     {{ form_errors(form.url) }}
                 </div>
-
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Description</label>
+                    {{ form_widget(form.description, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.description) }}
+                </div>
             </div>
         </div>
         <!--end::General-->
