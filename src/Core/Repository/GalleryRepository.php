@@ -2,7 +2,7 @@
 
 namespace App\Core\Repository;
 
-
+use App\Core\DataType\GalleryDataType;
 use App\Core\Entity\Gallery;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
@@ -42,7 +42,13 @@ class GalleryRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
-
+    public function findAllFolderGalleries()
+    {
+        return $this->createQueryBuilder('g')
+            ->select(['g.id', 'g.name'])
+            ->where("g.type = :type and g.isArchived = false")
+            ->setParameter('type', GalleryDataType::TYPE_FOLDER)->getQuery()->getResult();
+    }
 
     //    /**
     //     * @return User[] Returns an array of User objects

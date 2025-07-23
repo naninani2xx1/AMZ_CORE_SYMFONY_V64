@@ -9,16 +9,16 @@ trait DoctrineTitleSubtitleTrait
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private string $title;
+    private ?string $title;
 
     /**
      * @ORM\Column(type="string", nullable=true)
      */
     private ?string $subTitle = null;
 
-    public function getTitle(): string
+    public function getTitle(): ?string
     {
-        return $this->title;
+        return $this->title ?? null;
     }
 
     public function setTitle(string $title): self

@@ -26,6 +26,7 @@ class PageRepository extends ServiceEntityRepository
 
 
     /**
+     * Lấy tất cả bài post với phân trang
      * @param $page
      * @param $limit
      * @return PaginationInterface

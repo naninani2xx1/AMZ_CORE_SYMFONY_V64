@@ -1,4 +1,6 @@
 import { Controller } from '@hotwired/stimulus';
+import { axiosPost} from '@ApiHelper';
+import  { alertError, alertSuccess, alertProcessing } from '@Common'
 
 /*
 * The following line makes this controller "lazy": it won't be downloaded until needed
@@ -57,6 +59,24 @@ export default class extends Controller {
     }
 
     add(e){
-
+        const $this = e.currentTarget;
+        const formData = new FormData($this);
+        alertProcessing();
+        axiosPost({
+            url: $this.action,
+            data: formData
+        }, {
+            success: res => {
+                const callback = () => {
+                    location.href = res.redirect;
+                }
+                alertSuccess({html: res.message, timer: 3000, callback})
+            },
+            failed: res => {
+                alertError()
+            },
+            final: _ => {
+            }
+        });
     }
 }

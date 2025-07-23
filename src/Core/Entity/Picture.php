@@ -3,9 +3,11 @@
 namespace App\Core\Entity;
 
 use App\Core\Trait\DoctrineIdentifierTrait;
+use App\Core\Trait\DoctrinePropPictureTrait;
 use App\Core\Trait\DoctrineTitleSubtitleTrait;
 use App\Core\ValueObject\LifecycleEntity;
-use Doctrine\DBAL\Types\Types;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -17,27 +19,7 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Picture extends LifecycleEntity
 {
-    use DoctrineTitleSubtitleTrait, DoctrineIdentifierTrait;
-
-    /**
-     * @ORM\Column(type="text")
-     */
-    private $image;
-
-    /**
-     * @ORM\Column(type="text",name="image_mobile", nullable=true)
-     */
-    private $imageMobile;
-
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $link;
-
-    /**
-     * @ORM\Column(type="integer", nullable=true)
-     */
-    private $sortOrder;
+    use DoctrineTitleSubtitleTrait, DoctrineIdentifierTrait, DoctrinePropPictureTrait;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Core\Entity\Gallery", inversedBy="picturies")
@@ -45,28 +27,14 @@ class Picture extends LifecycleEntity
      */
     private $gallery;
 
-    public function getImage(): ?string
+    /**
+     * @ORM\OneToMany(targetEntity="App\Core\Entity\GalleryPictures", mappedBy="picture")
+     */
+    private $galleryPictures;
+
+    public function __construct()
     {
-        return $this->image;
-    }
-
-    public function setImage(string $image): self
-    {
-        $this->image = $image;
-
-        return $this;
-    }
-
-    public function getLink(): ?string
-    {
-        return $this->link;
-    }
-
-    public function setLink(?string $link): self
-    {
-        $this->link = $link;
-
-        return $this;
+        $this->galleryPictures = new ArrayCollection();
     }
 
     public function getSortOrder(): ?int
@@ -105,5 +73,34 @@ class Picture extends LifecycleEntity
         return $this;
     }
 
+    /**
+     * @return Collection<int, GalleryPictures>
+     */
+    public function getGalleryPictures(): Collection
+    {
+        return $this->galleryPictures;
+    }
+
+    public function addGalleryPicture(GalleryPictures $galleryPicture): static
+    {
+        if (!$this->galleryPictures->contains($galleryPicture)) {
+            $this->galleryPictures->add($galleryPicture);
+            $galleryPicture->setPicture($this);
+        }
+
+        return $this;
+    }
+
+    public function removeGalleryPicture(GalleryPictures $galleryPicture): static
+    {
+        if ($this->galleryPictures->removeElement($galleryPicture)) {
+            // set the owning side to null (unless already changed)
+            if ($galleryPicture->getPicture() === $this) {
+                $galleryPicture->setPicture(null);
+            }
+        }
+
+        return $this;
+    }
 
 }

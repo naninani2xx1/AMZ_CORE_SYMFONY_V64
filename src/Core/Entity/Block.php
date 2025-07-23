@@ -11,6 +11,7 @@ use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\Trait\DoctrineThumbnailTrait;
 use App\Core\Trait\DoctrineTitleSubtitleTrait;
 use App\Core\ValueObject\LifecycleEntity;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
@@ -36,10 +37,10 @@ class Block extends LifecycleEntity
     private $config;
 
 
-    /**
-     * @ORM\Column(type="text", nullable=true)
-     */
-    private $status;
+     /**
+      * @ORM\Column(type="text", nullable=true)
+      */
+     private $status;
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Core\Entity\Post", inversedBy="blocks")

@@ -7,12 +7,13 @@ use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 use Symfony\UX\LiveComponent\DefaultActionTrait;
 
-abstract class BaseTableLiveComponent
+abstract class BaseTableLiveComponent extends AbstractController
 {
     use DefaultActionTrait;
 
@@ -53,6 +54,7 @@ abstract class BaseTableLiveComponent
     }
     #[LiveProp(writable: true)]
     public array $filtersContact = [];
+
     /**
      * Get items for table
      * @return PaginationInterface
@@ -75,7 +77,7 @@ abstract class BaseTableLiveComponent
         return $this->paginator->paginate($qb->getQuery(), $this->page, $this->limit);
     }
 
-    abstract protected function getQueryBuilder(): QueryBuilder;
+    abstract protected function getQueryBuilder(): ?QueryBuilder;
 
     abstract protected function getSearchColumns(): array;
 }

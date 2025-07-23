@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
@@ -54,5 +56,11 @@ class GalleryController extends AbstractController implements CRUDActionInterfac
     {
         return $this->galleryService->delete($request, $id);
     }
-
+    /**
+     * @Route(path="/gallery/core/open-list", name="app_admin_gallery_core_open_list")
+     */
+    public function openList(): Response
+    {
+        return $this->render('Admin/partials/gallery/open_list_management_modal.html.twig');
+    }
 }

@@ -20,7 +20,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="core_user")
  * @ORM\HasLifecycleCallbacks
  */
-class User extends LifecycleEntity implements UserInterface , LegacyPasswordAuthenticatedUserInterface
+class User extends LifecycleEntity implements UserInterface, LegacyPasswordAuthenticatedUserInterface
 {
     use DoctrineIdentifierTrait;
 
@@ -77,7 +77,7 @@ class User extends LifecycleEntity implements UserInterface , LegacyPasswordAuth
         return $this->password;
     }
 
-    public function setPassword(string $password): self
+    public function setPassword(string $password): static
     {
         $this->password = $password;
 
@@ -89,11 +89,13 @@ class User extends LifecycleEntity implements UserInterface , LegacyPasswordAuth
         return $this->salt;
     }
 
-    public function setSalt(string $salt): self
+    public function setSalt(string $salt): static
     {
         $this->salt = $salt;
+
         return $this;
     }
+
     private function generateSalt(): string
     {
         return md5(time());

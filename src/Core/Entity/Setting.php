@@ -5,6 +5,7 @@ namespace App\Core\Entity;
 use App\Core\Trait\DoctrineDescriptionTrait;
 use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\ValueObject\LifecycleEntity;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
