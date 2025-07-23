@@ -1,0 +1,96 @@
+{% if entity is defined %}
+    {% set total = entity.getTotalItemCount %}
+    {% set limit = entity.getItemNumberPerPage %}
+{% endif %}
+<div class="row paginator-bundle">
+    <div class="col-md-6">
+        {% if current == 0 %}
+            Showing data: {{ current }} -> {{ total }} of {{ total }}
+        {% else %}
+            {% if first is defined and current == first %}
+                {% if limit > total %}
+                    Showing data: {{ current }} -> {{ total }} of {{ total }}
+                {% else %}
+                    Showing data: {{ current }} -> {{ limit }} of {{ total }}
+                {% endif %}
+            {% endif %}
+
+            {% if current != first and current != last %}
+                Showing data: {{ (current * limit) - (limit - 1) }} -> {{ (current * limit) }} of {{ total }}
+            {% endif %}
+
+            {% if current == last and current != first %}
+                Showing data: {{ (current * limit) - (limit - 1) }}  -> {{ total }} of {{ total }}
+            {% endif %}
+        {% endif %}
+    </div>
+    <div class="col-md-6 paginator-bundle__footer">
+        {% if pageCount >= 1 %}
+            <div class="d-flex justify-content-end">
+                <ul class="pagination">
+                    <li class="page-item first m-1">
+                        {% if first is defined and current != first %}
+                            <a href="#" class="page-link px-0"
+                               data-action="live#action:prevent"
+                               data-live-action-param="{{ eventName }}"
+                               data-live-page-param="{{ first }}"
+                            >
+                                <i class="ki-duotone ki-double-left fs-2"><span class="path1"></span><span
+                                            class="path2"></span></i>
+                            </a>
+                        {% endif %}
+                    </li>
+
+                    <li class="page-item previous m-1">
+                        {% if previous is defined %}
+                            <a href="#" class="page-link px-0"
+                               data-action="live#action:prevent"
+                               data-live-action-param="{{ eventName }}"
+                               data-live-page-param="{{ previous }}"
+                            >
+                                <i class="ki-duotone ki-left fs-2"></i>
+                            </a>
+                        {% endif %}
+                    </li>
+
+                    {% for page in pagesInRange %}
+                        {% if page != current %}
+                            <li class="page-item m-1">
+                                <a href="#" class="page-link"
+                                   data-action="live#action:prevent"
+                                   data-live-action-param="{{ eventName }}"
+                                   data-live-page-param="{{ page }}"
+                                >{{ page }}</a></li>
+                        {% else %}
+                            <li class="page-item m-1 active"><a href="#" class="page-link">{{ page }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+
+                    <li class="page-item next m-1">
+                        {% if next is defined %}
+                            <a href="#"
+                               data-action="live#action:prevent"
+                               data-live-action-param="{{ eventName }}"
+                               data-live-page-param="{{ next }}"
+                               class="page-link px-0">
+                                <i class="ki-duotone ki-right fs-2"></i>
+                            </a>
+                        {% endif %}
+                    </li>
+                    <li class="page-item last m-1">
+                        {% if last is defined and current != last %}
+                            <a href="#" class="page-link px-0"
+                               data-action="live#action:prevent"
+                               data-live-action-param="{{ eventName }}"
+                               data-live-page-param="{{ last }}"
+                            >
+                                <i class="ki-duotone ki-double-right fs-2"><span class="path1"></span><span
+                                            class="path2"></span></i>
+                            </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </div>
+        {% endif %}
+    </div>
+</div>

@@ -1,0 +1,221 @@
+{% extends 'Admin/base.html.twig' %}
+{% block title %}CMS - Add article{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}Add Page{% endblock toolbar_title %}
+
+        {% block toolbar_breadcrumbs %}
+            <!--begin::Item-->
+            <li class="breadcrumb-item text-muted">
+                <a href="{{ path('app_admin_article_index') }}" class="text-muted text-hover-primary">Page</a>
+            </li>
+            <!--end::Item-->
+            <!--begin::Item-->
+            <li class="breadcrumb-item">
+                <span class="bullet bg-gray-500 w-5px h-2px"></span>
+            </li>
+            <!--end::Item-->
+            <!--begin::Item-->
+            <li class="breadcrumb-item text-muted">Add</li>
+            <!--end::Item-->
+        {% endblock toolbar_breadcrumbs %}
+
+        {% block toolbar_button_actions %}
+        {% endblock toolbar_button_actions %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    {{ form_start(form, {
+        action: path('app_admin_post_edit', {'id': post.id}),
+        attr: { class: "form d-flex flex-column flex-lg-row" }
+    }) }}
+
+    <!--begin::Aside column-->
+    <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
+
+        <!--begin::Thumbnail settings-->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>Thumbnail</h2>
+                </div>
+            </div>
+            <div class="card-body text-center pt-0">
+                <style>.image-input-placeholder { background-image: url('{{ asset('themes/media/svg/files/blank-image.svg') }}'); } [data-bs-theme="dark"] .image-input-placeholder { background-image: url('{{ asset('themes/media/svg/files/blank-image-dark.svg') }}'); }</style>
+                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
+                    <div class="image-input-wrapper w-150px h-150px"></div>
+                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change">
+                        <i class="ki-duotone ki-pencil fs-7"></i>
+                        {{ form_widget(form.thumbnail, {attr: {accept: ".png, .jpg, .jpeg, .webp"}}) }}
+                        {{ form_errors(form.thumbnail) }}
+                        <input type="hidden" name="avatar_remove" />
+                    </label>
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel">
+                    <i class="ki-duotone ki-cross fs-2"></i>
+                </span>
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove">
+                    <i class="ki-duotone ki-cross fs-2"></i>
+                </span>
+                </div>
+                <div class="text-muted fs-7">Only *.png, *.jpg, *.jpeg and *.webp files are accepted</div>
+            </div>
+        </div>
+        <!--end::Thumbnail settings-->
+
+        <!--begin::Status-->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>Status</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                {{ form_widget(form.published) }}
+                {{ form_errors(form.published) }}
+                <div class="text-muted fs-7">Set the post status.</div>
+            </div>
+        </div>
+        <!--end::Status-->
+
+        <!--begin::Tags-->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>Tags</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                {{ form_widget(form.tag) }}
+                {{ form_errors(form.tag)  }}
+                <div class="text-muted fs-7">Add tags separated by commas.</div>
+            </div>
+        </div>
+        <!--end::Tags-->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>Sort Order</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                {{ form_widget(form.sortOrder) }}
+                {{ form_errors(form.sortOrder) }}
+                <div class="text-muted fs-7">Add tags separated by commas.</div>
+            </div>
+        </div>
+        <!--begin::Options-->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>Options</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                {{ form_widget(form.isHot) }}
+                {{ form_errors(form.isHot) }}
+                <div class="mb-2"></div>
+                {{ form_widget(form.isNew) }}
+                {{ form_errors(form.isNew) }}
+                <div class="mb-2"></div>
+                {{ form_widget(form.postType) }}
+                {{ form_errors(form.postType) }}
+            </div>
+        </div>
+        <!--end::Options-->
+
+    </div>
+    <!--end::Aside column-->
+
+
+    <!--begin::Main column-->
+    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+
+        <!--begin::General-->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>General</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Title</label>
+                    {{ form_widget(form.title, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.title) }}
+                </div>
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Sub Title</label>
+                    {{ form_widget(form.subTitle, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.subTitle) }}
+                </div>
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Slug</label>
+                    {{ form_widget(form.slug, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.slug) }}
+                </div>
+                <div class="mb-10 fv-row">
+                    <label class="form-label">URL</label>
+                    {{ form_widget(form.url, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.url) }}
+                </div>
+
+            </div>
+        </div>
+        <!--end::General-->
+
+        <!--begin::Content-->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>Content</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+                {{ form_widget(form.content, {attr: {class: "ckeditor", rows: 10}}) }}
+                {{ form_errors(form.content) }}
+            </div>
+        </div>
+        <!--end::Content-->
+
+        <!--begin::Config-->
+        {#        <div class="card card-flush py-4">#}
+        {#            <div class="card-header">#}
+        {#                <div class="card-title">#}
+        {#                    <h2>Post Config</h2>#}
+        {#                </div>#}
+        {#            </div>#}
+        {#            <div class="card-body pt-0">#}
+        {#                {{ form_widget(form.config, {attr: {class: "form-control mb-2", rows: 5}}) }}#}
+        {#            </div>#}
+        {#        </div>#}
+        <!--end::Config-->
+
+        <!--begin::Submit button-->
+        <div class="d-flex justify-content-end">
+            <a href="{{ path('app_admin_article_index') }}" class="btn btn-light me-5">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <span class="indicator-label">Save Changes</span>
+                <span class="indicator-progress">Please wait...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+            </button>
+        </div>
+        <!--end::Submit button-->
+
+    </div>
+    <!--end::Main column-->
+
+    {{ form_end(form) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.ckeditor.com/4.22.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replaceAll('ckeditor');
+    </script>
+{% endblock %}

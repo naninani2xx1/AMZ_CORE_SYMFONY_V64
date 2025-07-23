@@ -1,0 +1,38 @@
+<div class="collapse mt-4" id="filterSection">
+    <div class="card card-body shadow-sm border">
+        <form method="GET" class="row g-3 align-items-end">
+            <div class="col-md-3">
+                <label class="form-label">Từ ngày</label>
+                <input type="date" name="from_date" class="form-control" value="{{ app.request.get('from_date') }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Đến ngày</label>
+                <input type="date" name="to_date" class="form-control" value="{{ app.request.get('to_date') }}">
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Chủ đề</label>
+                <select name="topic" class="form-select">
+                    <option value="">-- Tất cả --</option>
+                    {% for key, topic in topics %}
+                        <option value="{{ key }}" {{ app.request.get('topic') == key ? 'selected' : '' }}>
+                            {{ topic }}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label class="form-label">Trạng thái</label>
+                <select name="status" class="form-select">
+                    <option value="" {{ app.request.get('status') is not defined or app.request.get('status') == '' ? 'selected' }}>-- Tất cả --</option>
+                    <option value="0" {{ app.request.get('status') == '0' ? 'selected':''}}>Đã xử lý</option>
+                    <option value="1" {{ app.request.get('status') == '1' ? 'selected':''}}>Chưa xử lý</option>
+                </select>
+            </div>
+            <div class="col-12 text-end">
+                <button type="submit" class="btn btn-primary">
+                    <i class="ki-outline ki-search fs-5 me-1"></i> Áp dụng lọc
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

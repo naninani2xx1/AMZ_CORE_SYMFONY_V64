@@ -1,0 +1,46 @@
+{% extends 'Admin/base.html.twig' %}
+
+{% block title %}CMS - Add Topic{% endblock %}
+
+{% block body %}
+    {{ form_start(form, { attr: { class: "form d-flex flex-column flex-lg-row" }, action: path('app_admin_setting_add',{'type':'topic'}) }) }}
+
+    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+
+        <!-- Card: Add New Topic -->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>Add New Topic</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Setting Key</label>
+                    {{ form_widget(form.settingKey, { attr: { class: "form-control" } }) }}
+                    {{ form_errors(form.settingKey) }}
+                </div>
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Setting Value</label>
+                    {{ form_widget(form.settingValue, { attr: { class: "form-control" } }) }}
+                    {{ form_errors(form.settingValue) }}
+                </div>
+            </div>
+        </div>
+
+        <!-- Submit button -->
+        <div class="d-flex justify-content-end">
+            <a href="{{ path('app_admin_gallery_index') }}" class="btn btn-light me-5">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <span class="indicator-label">Save Topic</span>
+                <span class="indicator-progress">Please wait...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+
+    </div>
+
+    {{ form_end(form)   }}
+{% endblock %}

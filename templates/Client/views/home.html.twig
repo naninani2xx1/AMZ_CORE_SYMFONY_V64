@@ -1,0 +1,351 @@
+{% extends 'Client/base.html.twig' %}
+{% block title %}Hiệp hội mận khô California {% endblock %}
+{% block content %}
+<main>
+    <section class="block hero-banner">
+        <div class="slick-1-banner slider">
+
+
+            <!--<a class="item" href="#" data-youtube="https://www.youtube.com/embed/1DztElTpv5M" data-bs-toggle="modal" data-bs-target="#openModal-video">
+                    <img class="img-fluid d-none d-md-block lazy" data-src="assets/img/home/banner-01.webp" alt=""/>
+                    <img class="img-fluid d-block d-md-none lazy" data-src="assets/img/home/banner-01.webp" alt=""/>
+                </a>-->
+
+            <div class="item">
+                <img class="img-fluid d-none d-md-block lazy" data-src="{{ asset('/frontend/img/home/banner-01.webp') }}" alt=""/>
+                <img class="img-fluid d-block d-md-none lazy" data-src="{{ asset('/frontend/img/home/banner-01.webp') }}" alt=""/>
+
+                <div class="banner-content">
+                    <div class="tool-editor">
+                        <p style="font-weight: bold;">Mận khô California được trồng bền vững, <br /> đạt chuẩn chất lượng toàn cầu.</p>
+                    </div>
+                    <a class="btn" href="sustainability.html">KHÁM PHÁ</a>
+                </div>
+            </div>
+
+
+
+        </div>
+    </section>
+
+
+    <section class="block home-wonder-popup">
+        <div class="container">
+            <div class="heading">
+                <h2 class="subtitle">NHỮNG ĐIỀU KỲ DIỆU CỦA</h2>
+                <h2 class="title">MẬN KHÔ CALIFORNIA</h2>
+                <div class="text tool-editor">
+                    <p style="color: black;">Mận khô California giàu dinh dưỡng tự nhiên và đa dụng trong các món ăn</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="block home-wonder-list">
+        <div class="container">
+
+            <div class="slider slick-1">
+
+                <div class="item">
+                    <div class="card-large right">
+                        <img src="{{ asset('frontend/img/home/wonder-01.jpg') }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Giàu Dinh Dưỡng, Tốt Cho Sức Khỏe</h5>
+                            <div class="card-text tool-editor">
+                                <p>Mận khô California có vị ngọt tự nhiên, giàu chất xơ, vitamin và chất chống oxy hóa. Tốt cho tiêu hóa, xương và hỗ trợ kiểm soát cân nặng. Được trồng bền vững tại California với quy trình nghiêm ngặt, mận khô còn rất đa dụng – dùng trực tiếp hoặc chế biến trong nhiều món ăn như salad, bánh nướng, ngũ cốc hay nước ép.</p>
+                            </div>
+                            <a href="different.html" class="btn btn-primary">KHÁM PHÁ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card-large right">
+                        <img src="assets/img/home/wonder-02.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Bàn Tay Tận Tâm, Tạo Nên Chất Lượng</h5>
+                            <div class="card-text tool-editor">
+                                <p>Người trồng mận khô California luôn tận tâm và có trách nhiệm trong từng khâu canh tác, mang đến sản phẩm chất lượng, an toàn và bền vững. Khám phá thêm về quy trình thu hoạch mận khô California tại đây!</p>
+                            </div>
+                            <a href="growing-harvesting.html" class="btn btn-primary">KHÁM PHÁ</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="item">
+                    <div class="card-large right">
+                        <img src="assets/img/home/wonder-03.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">Nông Nghiệp Xanh, Canh Tác Bền Vững</h5>
+                            <div class="card-text tool-editor">
+                                <p>Tập hợp các nhà trồng mận khô California cam kết phát triển bền vững thông qua các phương pháp canh tác thân thiện với môi trường như sử dụng năng lượng tái tạo, hệ thống tưới tiêu tiết kiệm nước và quản lý dịch hại tổng hợp. Hãy khám phá thêm về hành trình bền vững của chúng tôi!</p>
+                            </div>
+                            <a href="sustainability.html" class="btn btn-primary">KHÁM PHÁ</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="block home-recipes">
+        <div class="container">
+            <div class="heading">
+                <h2 class="title">VÀO BẾP CÙNG MẬN KHÔ</h2>
+            </div>
+
+            <div class="list-block list-4 list-noWarp home-recipes-list slider slick-0-sm-1">
+                <a class="card recipe-card feature" href="recipe-details.html">
+                    <img src="assets/img/recipes/recipe-01.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h6 class="card-type">ĐỒ UỐNG</h6>
+                        <h5 class="card-title">Cà phê sữa yến mạch mận khô California</h5>
+                        <div class="desc">
+                            <div class="card-text">
+                                <p>Món uống giàu năng lượng với vị ngọt tự nhiên từ mận khô và yến mạch.</p>
+                            </div>
+                            <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                        </div>
+                    </div>
+                </a>
+                <a class="card recipe-card feature" href="recipe-details.html">
+                    <img src="assets/img/recipes/recipe-02.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h6 class="card-type">TRÁNG MIỆNG</h6>
+                        <h5 class="card-title">Chè thốt nốt mận khô California</h5>
+                        <div class="desc">
+                            <div class="card-text">
+                                <p>Món tráng miệng mát lành, kết hợp thốt nốt thơm béo và mận khô dẻo ngọt.</p>
+                            </div>
+                            <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                        </div>
+                    </div>
+                </a>
+                <a class="card recipe-card feature" href="recipe-details.html">
+                    <img src="assets/img/recipes/recipe-03.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h6 class="card-type">KHAI VỊ</h6>
+                        <h5 class="card-title">Sườn nướng mật ong ướp mận khô California</h5>
+                        <div class="desc">
+                            <div class="card-text">
+                                <p>Sườn mềm đậm vị, hòa quyện giữa vị ngọt mận khô và mật ong thơm lừng.</p>
+                            </div>
+                            <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                        </div>
+                    </div>
+                </a>
+                <a class="card recipe-card feature" href="recipe-details.html">
+                    <img src="assets/img/recipes/recipe-04.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h6 class="card-type">KHAI VỊ</h6>
+                        <h5 class="card-title">Gỏi hải sản rau thơm mận khô California</h5>
+                        <div class="desc">
+                            <div class="card-text">
+                                <p>Món khai vị thanh mát, mận khô tạo điểm nhấn ngọt nhẹ, đầy thú vị.</p>
+                            </div>
+                            <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="text-center"><a href="recipes.html" class="btn no-outline">XEM THÊM <i class="zmdi zmdi-long-arrow-right"></i></a></div>
+        </div>
+    </section>
+
+    <section class="block home-benefit" style="background-image: {{ asset('frontend/img/home/home-benefit-bg.jpg') }};">
+        <div class="container-fluid">
+            <div class="heading">
+                <h2 class="title">DINH DƯỠNG</h2>
+                <h2 class="subtitle underline">TỪ THIÊN NHIÊN</h2>
+            </div>
+
+            <div class="list-block list-benefit slider slick-0-sm-1">
+
+                <div class="item">
+                    <div class="desc">
+                        <h5 class="title">ĂN NHẸ TIỆN LỢI</h5>
+                        <div class="tool-editor">
+                            <p>Mận California có giá trị dinh dưỡng tự nhiên và có nhiều công dụng đáng ngạc nhiên.</p>
+                        </div>
+                    </div>
+                    <img class="img-fluid" src="assets/img/icons/benefit-01.png" alt="" />
+                </div>
+                <div class="item">
+                    <div class="desc">
+                        <h5 class="title">tốt cho tiêu hoá</h5>
+                        <div class="tool-editor">
+                            <p>Chất xơ hòa tan và không hòa tan giúp duy trì sức khỏe tiêu hóa tốt</p>
+                        </div>
+                    </div>
+                    <img class="img-fluid" src="assets/img/icons/benefit-02.png" alt="" />
+                </div>
+                <div class="item">
+                    <div class="desc">
+                        <h5 class="title">bổ sung POLYPHENOL</h5>
+                        <div class="tool-editor">
+                            <p>Chất chống oxy hoá giúp trung hòa với gốc tự do và có tác dụng tăng cường sức khỏe cơ thể</p>
+                        </div>
+                    </div>
+                    <img class="img-fluid" src="assets/img/icons/benefit-03.png" alt="" />
+                </div>
+                <div class="item">
+                    <div class="desc">
+                        <h5 class="title">Chỉ số đường huyết thấp</h5>
+                        <div class="tool-editor">
+                            <p>Không thêm đường = chất tạo ngọt tự nhiên tuyệt vời</p>
+                        </div>
+                    </div>
+                    <img class="img-fluid" src="assets/img/icons/benefit-04.png" alt="" />
+                </div>
+                <div class="item">
+                    <div class="desc">
+                        <h5 class="title">chắc xương</h5>
+                        <div class="tool-editor">
+                            <p>Boron, kali và vitamin K giúp hỗ trợ sức khỏe xương</p>
+                        </div>
+                    </div>
+                    <img class="img-fluid" src="assets/img/icons/benefit-05.png" alt="" />
+                </div>
+                <div class="item">
+                    <div class="desc">
+                        <h5 class="title">thu hoạch quanh năm</h5>
+                        <div class="tool-editor">
+                            <p>Thực phẩm chủ yếu quanh năm</p>
+                        </div>
+                    </div>
+                    <img class="img-fluid" src="assets/img/icons/benefit-06.png" alt="" />
+                </div>
+
+            </div>
+
+            <div class="text-center"><a href="benefits.html" class="btn no-outline">XEM THÊM <i class="zmdi zmdi-long-arrow-right"></i></a></div>
+
+            <img class="benefit-img" src="assets/img/home/prune-popout.png" alt="" />
+        </div>
+    </section>
+
+    <section class="block home-news">
+        <div class="container maxW-1180">
+            <div class="heading">
+                <h2 class="subtitle">Ngon Khỏe Mỗi Ngày Với</h2>
+
+                <h2 class="title underline">Mận Khô California</h2>
+
+                <div class="text tool-editor">
+                    <p style="color: black;">Mận khô California – lựa chọn tự nhiên cho lối sống lành mạnh. Giàu chất xơ, chống oxy hóa, hỗ trợ tiêu hóa và sức khỏe xương – mận khô không chỉ ngon mà còn tốt cho bạn mỗi ngày.</p>
+                </div>
+            </div>
+            <div class="block-list list-news slider slick-0-sm-1">
+
+                <div class="card card-article">
+                    <img src="assets/img/article/thumbs/article-01.jpg" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">BÍ QUYẾT DINH DƯỠNG, HƯƠNG VỊ VÀ SỰ TIỆN LỢI — TẤT CẢ HỘI TỤ TRONG MẬN KHÔ CALIFORNIA.</h5>
+
+                        <div class="card-text">Là một lựa chọn cao cấp cho các bữa ăn nhẹ lành mạnh, mận khô California ngày càng trở thành sự lựa chọn yêu thích của nhiều gia đình.</div>
+
+                        <a href="article-details.html" class="btn btn-primary stretched-link">chi tiết</a>
+
+                    </div>
+                </div>
+
+                <div class="card card-article">
+                    <img src="assets/img/article/thumbs/article-02.jpg" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">HỘI THẢO THƯƠNG MẠI TẠI TP. HỒ CHÍ MINH, VIỆT NAM</h5>
+
+                        <div class="card-text">Khai mở tiềm năng thị trường: Hội thảo thương mại mận khô California quy tụ các nhân tố chủ chốt trong ngành trái cây sấy khô tại Việt Nam</div>
+
+                        <a href="article-details.html" class="btn btn-primary stretched-link">chi tiết</a>
+
+                    </div>
+                </div>
+
+                <div class="card card-article">
+                    <img src="assets/img/article/thumbs/article-03.jpg" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+
+                        <h5 class="card-title">Mận khô California ghi dấu ấn hương vị tại Hội chợ FHH Hà Nội 2025</h5>
+
+                        <div class="card-text">Từ ngày 18 đến 21 tháng 3 năm 2025, thủ đô Hà Nội sôi động đã đăng cai tổ chức Hội chợ Thực phẩm & Khách sạn Hà Nội (FHH) — một trong những nền tảng hàng đầu tại Việt Nam dành cho đổi mới ẩm thực và kết nối ẩm thực toàn cầu.</div>
+
+                        <a href="article-details.html" class="btn btn-primary stretched-link">chi tiết</a>
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="text-center"><a href="article.html" class="btn btn-primary">XEM THÊM</a></div>
+        </div>
+    </section>
+
+    <section class="block home-grow">
+        <div class="container maxW-1180">
+            <div class="heading">
+                <h2 class="title">Người Trồng Mận</h2>
+                <h2 class="subtitle underline">Gìn Giữ Giá Trị Bền Vững</h2>
+                <div class="text tool-editor">
+                    <p style="color: black;">Mận khô California – chất lượng từ nông trại đến bàn ăn, sản xuất bền vững cùng đối tác toàn cầu uy tín.</p>
+                </div>
+            </div>
+
+            <div class="list-block list-grow">￼
+                <div class="card">
+                    <img src="assets/img/home/home-grow.jpg" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Quy trình canh tác bền vững, tiêu chuẩn quốc tế</h5>
+                        <div class="card-text">Mận khô California giàu chất xơ, chất chống oxy hóa, vitamin K và các khoáng chất thiết yếu – hỗ trợ tiêu hóa, sức khỏe xương và kiểm soát cân nặng.</div>
+                        <a href="growing-harvesting.html" class="btn btn-primary stretched-link">Chi tiết</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="assets/img/home/banner-01.webp" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Chất lượng dinh dưỡng vượt trội</h5>
+                        <div class="card-text">Được trồng tại California với công nghệ nông nghiệp hiện đại, thân thiện môi trường, đảm bảo chất lượng từ nông trại đến tay người tiêu dùng.</div>
+                        <a href="benefits.html" class="btn btn-primary stretched-link">Chi tiết</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="block home-partner">
+
+        <img src="assets/img/home/partner.jpeg" class="partner-img" alt="...">
+        <div class="partner-body">
+            <div class="heading">
+                <h2 class="title underline">NHÀ XUẤT KHẨU</h2>
+                <div class="text tool-editor">
+                    <p style="color: black;">Các đơn vị chế biến tại California có thể cung cấp mận khô phục vụ nhiều mục đích sử dụng khác nhau</p>
+                </div>
+            </div>
+
+            <div class="text-center"><a href="list-handlers.html" class="btn btn-primary">XEM THÊM</a></div>
+        </div>
+        </div>
+    </section>
+
+    <section class="block home-contact">
+        <div class="container maxW-600">
+            <div class="heading">
+                <h2 class="title">HỢP TÁC BỀN VỮNG VỚI</h2>
+                <h2 class="subtitle underline">mận khô CALIFORNIA</h2>
+                <div class="text tool-editor">
+                    <p style="color: black;">California Prunes luôn tìm kiếm sự hợp tác với những cá nhân và công ty tài năng có mong muốn thúc đẩy sứ mệnh của Hiệp hội Mận khô California.</p>
+                </div>
+            </div>
+            <div class="text-center"><a href="contact.html" class="btn btn-primary">LIÊN HỆ NGAY</a></div>
+        </div>
+        <img class="contact-prune" src="assets/img/home/contact-prune.webp" alt="" />
+        <img class="contact-img" src="assets/img/home/home-contact.jpg" alt="" />
+    </section>
+
+</main>
+{% endblock %}

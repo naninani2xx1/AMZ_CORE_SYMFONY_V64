@@ -1,0 +1,96 @@
+{% extends 'Admin/base.html.twig' %}
+{% block title %}CMS - View Page{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}View Page{% endblock toolbar_title %}
+        {% block toolbar_breadcrumbs %}
+            <li class="breadcrumb-item text-muted">
+                <a href="{{ path('app_admin_article_index') }}" class="text-muted text-hover-primary">Page</a>
+            </li>
+            <li class="breadcrumb-item">
+                <span class="bullet bg-gray-500 w-5px h-2px"></span>
+            </li>
+            <li class="breadcrumb-item text-muted">View</li>
+        {% endblock toolbar_breadcrumbs %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+    <!--begin::Aside column-->
+    <div class="d-flex flex-column flex-lg-row gap-7">
+
+        <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
+
+            <div class="card card-flush py-4">
+                <div class="card-header">
+                    <div class="card-title"><h2>Thumbnail</h2></div>
+                </div>
+                <div class="card-body text-center pt-0">
+                    {% if article.getPost.getThumbnail %}
+                        <img src="{{ asset(article.getPost.getThumbnail) }}" class="w-150px h-150px object-fit-cover rounded mb-3" alt="">
+                    {% else %}
+                        <div class="text-muted">No Thumbnail</div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card card-flush py-4">
+                <div class="card-header"><div class="card-title"><h2>Status</h2></div></div>
+                <div class="card-body pt-0">
+                    <div>{{ article.getPost.published ? 'Published' : 'Draft' }}</div>
+                </div>
+            </div>
+
+            <div class="card card-flush py-4">
+                <div class="card-header"><div class="card-title"><h2>Tags</h2></div></div>
+                <div class="card-body pt-0">
+                    <div>{{ article.getPost.tag|default('None') }}</div>
+                </div>
+            </div>
+
+            <div class="card card-flush py-4">
+                <div class="card-header"><div class="card-title"><h2>Options</h2></div></div>
+                <div class="card-body pt-0">
+                    <div>Hot: {{ article.getPost.isHot ? 'Yes' : 'No' }}</div>
+                    <div>New: {{ article.getPost.isNew ? 'Yes' : 'No' }}</div>
+                    <div>Post Type: {{ article.getPost.postType|default('---') }}</div>
+                </div>
+            </div>
+
+        </div>
+        <!--end::Aside column-->
+
+        <!--begin::Main column-->
+        <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+
+            <div class="card card-flush py-4">
+                <div class="card-header"><div class="card-title"><h2>General Information</h2></div></div>
+                <div class="card-body pt-0">
+                    <div class="mb-5"><strong>Title:</strong> {{ article.getPost.title }}</div>
+                    <div class="mb-5"><strong>Sub Title:</strong> {{ article.getPost.subTitle }}</div>
+                    <div class="mb-5"><strong>Slug:</strong> {{ article.getPost.slug }}</div>
+                    <div class="mb-5"><strong>URL:</strong> {{ article.getPost.url }}</div>
+                    <div class="mb-5"><strong>Sort Order:</strong> {{ article.getPost.sortOrder }}</div>
+                    <div><strong>Description:</strong><br> {{ article.getPost.description|nl2br }}</div>
+                </div>
+            </div>
+
+            <div class="card card-flush py-4">
+                <div class="card-header"><div class="card-title"><h2>Content</h2></div></div>
+                <div class="card-body pt-0">
+                    {{ article.getPost.content|raw }}
+                </div>
+            </div>
+
+            <div class="d-flex justify-content-end">
+                <a href="{{ path('app_admin_post_edit',{'id':article.id}) }}" class="btn btn-primary">Edit</a>
+                <a href="{{ path('app_admin_article_index') }}" class="btn btn-light">Back to List</a>
+
+            </div>
+
+        </div>
+        <!--end::Main column-->
+
+    </div>
+{% endblock %}

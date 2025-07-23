@@ -1,0 +1,47 @@
+{% extends 'Admin/base.html.twig' %}
+{% block title %}Setting Management{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('/styles/setting.css') }}">
+{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}Setting Management{% endblock toolbar_title %}
+
+        {% block toolbar_breadcrumbs %}
+            <!--begin::Item-->
+            <li class="breadcrumb-item text-muted">
+                <a href="#" class="text-muted text-hover-primary">Setting</a>
+            </li>
+            <!--end::Item-->
+        {% endblock toolbar_breadcrumbs %}
+
+        {% block toolbar_button_actions %}
+            <div class="dropdown">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                    + Thêm cài đặt
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                    <li><a class="dropdown-item" href="{{ path('app_admin_setting_add', {'type': 'size'}) }}">Thêm Size</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_admin_setting_add', {'type': 'common'}) }}">Add Common</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_admin_setting_add', {'type': 'image'}) }}">Add Image</a></li>
+                    <li><a class="dropdown-item" href="{{ path('app_admin_setting_add', {'type': 'topic'}) }}">Add Topic</a></li>
+                </ul>
+            </div>
+
+        {% endblock toolbar_button_actions %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+
+    {{ component('TableSettingLiveComponent', {'id': "TableSettingLive"}) }}
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+{% endblock %}

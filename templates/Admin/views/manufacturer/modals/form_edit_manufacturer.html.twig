@@ -1,0 +1,94 @@
+{% extends 'Admin/base.html.twig' %}
+
+{% block title %}CMS - Add Manufacturer{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}Add Manufacturer{% endblock toolbar_title %}
+        {% block toolbar_breadcrumbs %}
+            <li class="breadcrumb-item text-muted">
+                <a href="{{ path('app_admin_manufacturer_index') }}" class="text-muted text-hover-primary">Manufacturers</a>
+            </li>
+            <li class="breadcrumb-item">
+                <span class="bullet bg-gray-500 w-5px h-2px"></span>
+            </li>
+            <li class="breadcrumb-item text-muted">Add</li>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {
+        attr: { class: "form d-flex flex-column flex-lg-row" },
+        action: path('app_admin_manufacturer_edit',{'id': manufacturer.id})
+    }) }}
+
+    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>General Information</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Name</label>
+                    {{ form_widget(form.name, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.name) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Phone</label>
+                    {{ form_widget(form.phone, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.phone) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Email</label>
+                    {{ form_widget(form.email, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.email) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Address</label>
+                    {{ form_widget(form.address, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.address) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Website URL</label>
+                    {{ form_widget(form.urlWeb, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.urlWeb) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Products</label>
+                    {{ form_widget(form.products, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.products) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Sort Order</label>
+                    {{ form_widget(form.sortOrder, {attr: {class: "form-control mb-2"}}) }}
+                    {{ form_errors(form.sortOrder) }}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <a href="{{ path('app_admin_manufacturer_index') }}" class="btn btn-light me-5">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <span class="indicator-label">Save Manufacturer</span>
+                <span class="indicator-progress">Please wait...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

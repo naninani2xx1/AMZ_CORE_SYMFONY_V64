@@ -1,0 +1,75 @@
+{% extends 'Admin/base.html.twig' %}
+
+{% block title %}CMS - Add Menu{% endblock %}
+
+{% block body %}
+    {{ form_start(form, { attr: { class: "form d-flex flex-column flex-lg-row" }, action: path('app_admin_menu_add') }) }}
+
+    <!--begin::Main column-->
+    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+
+        <!--begin::General-->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>Add New Menu</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Title</label>
+                    {{ form_widget(form.title, {attr: {class: "form-control"}}) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Position</label>
+                    {{ form_widget(form.position, {attr: {class: "form-control"}}) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="form-label">URL</label>
+                    {{ form_widget(form.url, {attr: {class: "form-control"}}) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Icon</label>
+                    {{ form_widget(form.icon, {attr: {class: "form-control"}}) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Sort Order</label>
+                    {{ form_widget(form.sortOrder, {attr: {class: "form-control"}}) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Language</label>
+                    {{ form_widget(form.language, {attr: {class: "form-control"}}) }}
+                </div>
+
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Parent Menu</label>
+                    {{ form_widget(form.parent, {attr: {class: "form-select"}}) }}
+                </div>
+
+            </div>
+        </div>
+        <!--end::General-->
+
+        <!--begin::Submit button-->
+        <div class="d-flex justify-content-end">
+            <a href="{{ path('app_admin_menu_index') }}" class="btn btn-light me-5">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <span class="indicator-label">Save Menu</span>
+                <span class="indicator-progress">Please wait...
+                <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+            </span>
+            </button>
+        </div>
+        <!--end::Submit button-->
+
+    </div>
+    <!--end::Main column-->
+
+    {{ form_end(form) }}
+{% endblock %}

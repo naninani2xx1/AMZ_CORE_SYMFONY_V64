@@ -1,0 +1,39 @@
+{% extends 'Admin/base.html.twig' %}
+{% block title %}Category Management{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('/styles/setting.css') }}">
+{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}Category Management{% endblock toolbar_title %}
+
+        {% block toolbar_breadcrumbs %}
+            <!--begin::Item-->
+            <li class="breadcrumb-item text-muted">
+                <a href="#" class="text-muted text-hover-primary">Category</a>
+            </li>
+            <!--end::Item-->
+        {% endblock toolbar_breadcrumbs %}
+
+        {% block toolbar_button_actions %}
+            <div>
+                <a href="{{ path('app_admin_category_add') }}" class="btn btn-primary"  >+ Thêm danh mục  </a>
+
+            </div>
+        {% endblock toolbar_button_actions %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+
+    {{ component('TableCategoryLiveComponent', {'id': "TableCategoryLive"}) }}
+
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

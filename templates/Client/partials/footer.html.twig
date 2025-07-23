@@ -1,0 +1,172 @@
+
+<footer class="footer">
+    <div class="container">
+        <div class="list-footer">
+
+            <div class="sub-menu">
+                <div class="col-item">
+                    <a class="logo-brand" href="index.html"><img src="{{ asset('frontend/img/logo.svg') }}" class="logo-image img-fluid" alt="logo"></a>
+                </div>
+
+                <div class="col-item">
+                    <h6>Văn phòng đại diện tại Việt Nam</h6>
+
+                    <div class="info addr"><i class="zmdi zmdi-home"></i> <span id="footerAddr">Toà nhà Landmark 81, Lầu 72, 720A đường Điện Biên Phủ, Phường 22, Quận Bình Thạnh, Hồ Chí Minh</span></div>
+
+                    <div class="info phone"><i class="zmdi zmdi-phone"></i><a class="phone" href="tel:+2862847002"><span id="footerPhone">+28 6284 7002</span></a></div>
+
+                    <div class="info email"><i class="zmdi zmdi-email"></i><a class="email" href="mailto:smhvn@smh-intl.com"><span id="footerEmail">smhvn@smh-intl.com</span></a></div>
+                </div>
+
+                <div class="col-item">
+                    <div class="col-item-wrapper">
+                        <a href="article.html">Tin tức</a>
+
+                        <a href="board.html">Về Hiệp hội Mận khô California</a>
+
+                        <a href="trade.html">Đối tác</a>
+
+                        <a href="faqs.html">Câu hỏi thường gặp</a>
+                    </div>
+                </div>
+
+                <div class="col-item">
+                    <h6>Kết nối</h6>
+
+                    <div class="social">
+                        <a class="icon icon-facebook-ic" href="https://www.facebook.com/californiaprunesvietnam/" target="_blank"></a>
+                        <a class="icon icon-linked-ic" href="https://www.linkedin.com/company/californiaprunesvn" target="_blank"></a>
+                        <!--<a class="icon icon-yt-ic" href="https://www.youtube.com/@iSMARTOnline01" target="_blank"></a>-->
+                    </div>
+                    <a class="bct" href="#" target="_blank">USDA Foreign Agricultural Service</a>
+                </div>
+
+            </div>
+
+            <div class="sub-footer">
+                <div class="copyright">© <span class="currentyear">2023</span> <span id="footerBrandname">Hiệp hội Mận khô California</span></div>
+                <div class="privacy"><i class="zmdi zmdi-shield-check"></i> <a href="policy.html" target="_blank">Chính Sách Bảo Mật Quyền Riêng Tư </a></div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Submit Contact Form Modal -->
+<div class="modal fade success" id="success" tabindex="-1" aria-labelledby="success" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+
+    <div class="modal-dialog modal-dialog-centered modal-md">
+
+        <div class="modal-content">
+
+            <div class="modal-body">
+
+
+                <p class="text-center">Xin chúc mừng bạn đã đăng ký thành công! <strong>iSMART</strong> sẽ nhanh chóng liên hệ trong vòng 24h tới và gửi đến bạn những ưu đãi hấp dẫn. Xin cảm ơn!</p>
+
+
+            </div>
+
+            <div class="modal-footer">
+
+                <a class="btn" data-bs-dismiss="modal" >Đóng</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Comment Form Modal -->
+<div class="modal fade search" id="openSearch" tabindex="-1" aria-labelledby="search" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+
+        <div class="modal-content">
+            <a class="btn close" data-bs-dismiss="modal" aria-label="Close"><i class="zmdi zmdi-close-circle"></i></a>
+
+
+            <div class="modal-body">
+
+                <form method="GET" class="form searchForm" action="search.html" id="searchForm" data-parsley-validate>
+
+                    <div class="m-form">
+
+                        <input name="Name" class="form-control" type="text" value="" aria-label=" input example" placeholder="Từ khoá" required="" data-parsley-required-message="Vui lòng nhập nội dung tìm kiếm">
+                    </div>
+                    <div class="m-form">
+                        <button type="submit" class="btn"><i class="icon icon-search-ic"></i></button>
+                    </div>
+                </form>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Video Modal -->
+
+<div class="modal fade modal-video" id="openModal-video" tabindex="-1" aria-labelledby="exampleModalLabel"
+
+     aria-hidden="true">
+
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+
+        <div class="modal-content">
+
+            <a class="btn close" data-bs-dismiss="modal" aria-label="Close"><i class="zmdi zmdi-close-circle"></i></a>
+
+            <div class="ratio ratio-16x9">
+
+                <iframe class="video" src="" title="" allowfullscreen></iframe>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<section class="block floating-menu">
+
+
+    <a class="back2top"><i class="zmdi zmdi-long-arrow-up"></i></a>
+    <a class="messenger" target="_blank" href="#"><img src="{{ asset('frontend/img/icons/floating-messenger-ic.svg') }}" alt="" /></a>
+
+
+</section>
+
+<div class="toast align-items-center" role="alert" aria-live="assertive" aria-atomic="true">
+
+    <div class="d-flex">
+
+        <div class="toast-body">
+
+            Message
+
+        </div>
+
+        <!--<button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"><i class="las la-times"></i></button>-->
+
+    </div>
+
+</div>
+
+<div class="overlay hide">
+    <div class="spinner-border text-warning" role="status">
+
+        <span class="visually-hidden">Loading...</span>
+
+    </div>
+</div>
+
+
+<script src="{{ asset('frontend/js/main.js') }}"></script>
+
+

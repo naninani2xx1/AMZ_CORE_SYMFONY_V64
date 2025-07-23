@@ -1,0 +1,85 @@
+{% extends 'Admin/base.html.twig' %}
+
+{% block title %}CMS - Add Page{% endblock %}
+
+{% block body %}
+    {{ form_start(form, { attr: { class: "form d-flex flex-column flex-lg-row" }, action: path('app_admin_page_add') }) }}
+
+    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+
+        <!-- Card: Add New Page -->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>Add New Page</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+
+                <!-- Name -->
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Title</label>
+                    {{ form_widget(form.name, { attr: { class: "form-control" } }) }}
+                    {{ form_errors(form.name) }}
+                </div>
+
+                <!-- Type -->
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Type</label>
+                    {{ form_widget(form.type, { attr: { class: "form-control" } }) }}
+                    {{ form_errors(form.type) }}
+                </div>
+
+                <!-- SEO URL -->
+                <div class="mb-10 fv-row">
+                    <label class="form-label">SEO URL</label>
+                    {{ form_widget(form.seoUrl, { attr: { class: "form-control" } }) }}
+                    {{ form_errors(form.seoUrl) }}
+                </div>
+
+                <!-- CSS -->
+                <div class="mb-10 fv-row">
+                    <label class="form-label">CSS</label>
+                    {{ form_widget(form.css, { attr: { class: "form-control" } }) }}
+                    {{ form_errors(form.css) }}
+                </div>
+
+                <!-- Custom CSS -->
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Custom CSS</label>
+                    {{ form_widget(form.customCss, { attr: { class: "form-control" } }) }}
+                    {{ form_errors(form.customCss) }}
+                </div>
+
+                <!-- Post -->
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Post</label>
+                    {{ form_widget(form.post, { attr: { class: "form-select" } }) }}
+                    {{ form_errors(form.post) }}
+                </div>
+
+                <!-- Parent Page -->
+                <div class="mb-10 fv-row">
+                    <label class="form-label">Parent Page</label>
+                    {{ form_widget(form.parent, { attr: { class: "form-select" } }) }}
+                    {{ form_errors(form.parent) }}
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-flex justify-content-end">
+            <a href="{{ path('app_admin_page_index') }}" class="btn btn-light me-5">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <span class="indicator-label">Save Page</span>
+                <span class="indicator-progress">Please wait...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

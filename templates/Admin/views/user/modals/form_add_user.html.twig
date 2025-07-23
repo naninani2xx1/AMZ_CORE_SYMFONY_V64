@@ -1,0 +1,73 @@
+{% extends 'Admin/base.html.twig' %}
+
+{% block title %}CMS - Add User{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}Add User{% endblock toolbar_title %}
+        {% block toolbar_breadcrumbs %}
+            <li class="breadcrumb-item text-muted">
+                <a href="{{ path('app_admin_user_index') }}" class="text-muted text-hover-primary">Users</a>
+            </li>
+            <li class="breadcrumb-item">
+                <span class="bullet bg-gray-500 w-5px h-2px"></span>
+            </li>
+            <li class="breadcrumb-item text-muted">Add</li>
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+    {{ form_start(form, {
+        attr: { class: "form d-flex flex-column flex-lg-row" },
+        action: path('app_admin_user_add')
+    }) }}
+
+    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>User Information</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+
+                <!-- Username -->
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Username</label>
+                    {{ form_widget(form.username, { attr: { class: "form-control", required: true } }) }}
+                    {{ form_errors(form.username) }}
+                </div>
+
+                <!-- Password -->
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Password</label>
+                    {{ form_widget(form.password, { attr: { class: "form-control", required: true } }) }}
+                    {{ form_errors(form.password) }}
+                </div>
+
+                <!-- Roles -->
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Roles</label>
+                    {{ form_widget(form.roles, { attr: { class: "form-select", required: true } }) }}
+                    {{ form_errors(form.roles) }}
+                </div>
+
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-end">
+            <a href="{{ path('app_admin_user_index') }}" class="btn btn-light me-5">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <span class="indicator-label">Save User</span>
+                <span class="indicator-progress">Please wait...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+
+    </div>
+
+    {{ form_end(form) }}
+{% endblock %}

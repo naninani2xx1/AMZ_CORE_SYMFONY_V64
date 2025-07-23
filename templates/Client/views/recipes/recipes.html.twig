@@ -1,0 +1,377 @@
+{% extends '../../index.html.twig' %}
+{% block title %}California Prunes Vietnam{% endblock %}
+{% block content %}
+<article>
+    <section class="block prune-titlepage-recipe" style="background-image: url('assets/img/bg/page-recipe.jpg');">
+
+        <div class="container">
+            <div class="left">
+                <div class="heading">
+                    <h1 class="title">vào bếp cùng mận khô</h1>
+                    <div class="text tool-editor">
+                        <p style="color: black; text-align: left;">Hương vị thơm ngon và dễ ăn khiến mận khô California trở thành món ăn nhẹ tuyệt vời cho trẻ nhỏ. Giàu chất dinh dưỡng, mận giúp hỗ trợ xương chắc khỏe và tốt cho hệ tiêu hóa của trẻ.</p>
+                    </div>
+                </div>
+
+                <form method="POST" class="form recipe-search" id="recipetForm01" data-parsley-validate>
+                    <div class="m-form">
+                        <select name="type" class="form-select" required="" data-parsley-required-message="Vui lòng chọn loại món">
+                            <option value="" selected disabled>LOẠI</option>
+                            <option value="khai-vi">KHAI VỊ</option>
+                            <option value="mon-chinh">MÓN CHÍNH</option>
+                            <option value="trang-mieng">TRÁNG MIỆNG</option>
+                            <option value="do-uong">ĐỒ UỐNG</option>
+                        </select>
+                    </div>
+                    <div class="m-form">
+                        <input name="keyword" class="form-control" type="text" value="" aria-label=" input example" autocomplete="on" placeholder="Từ khoá" required="" data-parsley-required-message="Vui lòng nhập từ khoá tìm kiếm">
+                    </div>
+                    <div class="m-form text-center">
+                        <button type="submit" class="btn">TÌM KIẾM</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="featured">
+                <h3 class="title">CÔNG THỨC MỚI</h3>
+                <div class="featured-list slider slick-1">
+                    <a class="card recipe-card feature" href="recipe-details.html">
+                        <img src="assets/img/recipes/recipe-01.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6 class="card-type">ĐỒ UỐNG</h6>
+                            <h5 class="card-title">Cà phê sữa yến mạch mận khô California</h5>
+                            <div class="desc">
+                                <div class="card-text">
+                                    <p>Món uống giàu năng lượng với vị ngọt tự nhiên từ mận khô và yến mạch.</p>
+                                </div>
+                                <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="card recipe-card feature" href="recipe-details.html">
+                        <img src="assets/img/recipes/recipe-02.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6 class="card-type">TRÁNG MIỆNG</h6>
+                            <h5 class="card-title">Chè thốt nốt mận khô California</h5>
+                            <div class="desc">
+                                <div class="card-text">
+                                    <p>Món tráng miệng mát lành, kết hợp thốt nốt thơm béo và mận khô dẻo ngọt.</p>
+                                </div>
+                                <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="card recipe-card feature" href="recipe-details.html">
+                        <img src="assets/img/recipes/recipe-03.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6 class="card-type">KHAI VỊ</h6>
+                            <h5 class="card-title">Sườn nướng mật ong ướp mận khô California</h5>
+                            <div class="desc">
+                                <div class="card-text">
+                                    <p>Sườn mềm đậm vị, hòa quyện giữa vị ngọt mận khô và mật ong thơm lừng.</p>
+                                </div>
+                                <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="card recipe-card feature" href="recipe-details.html">
+                        <img src="assets/img/recipes/recipe-04.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6 class="card-type">KHAI VỊ</h6>
+                            <h5 class="card-title">Gỏi hải sản rau thơm mận khô California</h5>
+                            <div class="desc">
+                                <div class="card-text">
+                                    <p>Món khai vị thanh mát, mận khô tạo điểm nhấn ngọt nhẹ, đầy thú vị.</p>
+                                </div>
+                                <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+    <section class="block article list recipe-list">
+        <div class="container maxW-1180">
+
+            <div class="block-recipe-mobile">
+                <div class="heading">
+                    <h1 class="title d-none">vào bếp cùng mận khô</h1>
+                    <div class="text tool-editor">
+                        <p style="color: black; text-align: left;">Hương vị thơm ngon và dễ ăn khiến mận khô California trở thành món ăn nhẹ tuyệt vời cho trẻ nhỏ. Giàu chất dinh dưỡng, mận giúp hỗ trợ xương chắc khỏe và tốt cho hệ tiêu hóa của trẻ.</p>
+                    </div>
+                </div>
+
+                <form method="POST" class="form recipe-search" id="recipetForm02" data-parsley-validate>
+                    <div class="m-form">
+                        <select name="type" class="form-select" required="" data-parsley-required-message="Vui lòng chọn loại món">
+                            <option value="" selected disabled>LOẠI</option>
+                            <option value="khai-vi">KHAI VỊ</option>
+                            <option value="mon-chinh">MÓN CHÍNH</option>
+                            <option value="trang-mieng">TRÁNG MIỆNG</option>
+                            <option value="do-uong">ĐỒ UỐNG</option>
+                        </select>
+                    </div>
+                    <div class="m-form">
+                        <input name="keyword" class="form-control" type="text" value="" aria-label=" input example" autocomplete="on" placeholder="Từ khoá" required="" data-parsley-required-message="Vui lòng nhập từ khoá tìm kiếm">
+                    </div>
+                    <div class="m-form text-center">
+                        <button type="submit" class="btn">TÌM KIẾM</button>
+                    </div>
+                </form>
+
+                <div class="featured">
+                    <h3 class="title">CÔNG THỨC MỚI</h3>
+                    <div class="featured-list slider slick-1">
+                        <a class="card recipe-card feature" href="recipe-details.html">
+                            <img src="assets/img/recipes/recipe-01.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h6 class="card-type">ĐỒ UỐNG</h6>
+                                <h5 class="card-title">Cà phê sữa yến mạch mận khô California</h5>
+                                <div class="desc">
+                                    <div class="card-text">
+                                        <p>Món uống giàu năng lượng với vị ngọt tự nhiên từ mận khô và yến mạch.</p>
+                                    </div>
+                                    <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="card recipe-card feature" href="recipe-details.html">
+                            <img src="assets/img/recipes/recipe-02.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h6 class="card-type">TRÁNG MIỆNG</h6>
+                                <h5 class="card-title">Chè thốt nốt mận khô California</h5>
+                                <div class="desc">
+                                    <div class="card-text">
+                                        <p>Món tráng miệng mát lành, kết hợp thốt nốt thơm béo và mận khô dẻo ngọt.</p>
+                                    </div>
+                                    <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="card recipe-card feature" href="recipe-details.html">
+                            <img src="assets/img/recipes/recipe-03.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h6 class="card-type">KHAI VỊ</h6>
+                                <h5 class="card-title">Sườn nướng mật ong ướp mận khô California</h5>
+                                <div class="desc">
+                                    <div class="card-text">
+                                        <p>Sườn mềm đậm vị, hòa quyện giữa vị ngọt mận khô và mật ong thơm lừng.</p>
+                                    </div>
+                                    <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                                </div>
+                            </div>
+                        </a>
+                        <a class="card recipe-card feature" href="recipe-details.html">
+                            <img src="assets/img/recipes/recipe-04.jpg" class="card-img-top" alt="...">
+                            <div class="card-body">
+                                <h6 class="card-type">KHAI VỊ</h6>
+                                <h5 class="card-title">Gỏi hải sản rau thơm mận khô California</h5>
+                                <div class="desc">
+                                    <div class="card-text">
+                                        <p>Món khai vị thanh mát, mận khô tạo điểm nhấn ngọt nhẹ, đầy thú vị.</p>
+                                    </div>
+                                    <div href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <ul class="nav nav-tabs topic">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">KHAI VỊ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">MÓN CHÍNH</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">TRÁNG MIỆNG</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">ĐỒ UỐNG</a>
+                </li>
+            </ul>
+
+            <div class="list-block list-3">
+
+                <div class="card recipe-card">
+                    <img src="assets/img/recipes/recipe-01.jpg" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+                        <h6 class="card-type">ĐỒ UỐNG</h6>
+
+                        <h5 class="card-title">Cà phê sữa yến mạch mận khô California</h5>
+                        <div class="desc">
+
+                            <div class="card-text">
+                                <p>Món uống giàu năng lượng với vị ngọt tự nhiên từ mận khô và yến mạch.</p>
+                            </div>
+                            <a href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card recipe-card">
+                    <img src="assets/img/recipes/recipe-02.jpg" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+                        <h6 class="card-type">TRÁNG MIỆNG</h6>
+
+                        <h5 class="card-title">Chè thốt nốt mận khô California</h5>
+                        <div class="desc">
+
+                            <div class="card-text">
+                                <p>Món tráng miệng mát lành, kết hợp thốt nốt thơm béo và mận khô dẻo ngọt.</p>
+                            </div>
+                            <a href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</a>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="card recipe-card">
+                    <img src="assets/img/recipes/recipe-03.jpg" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+                        <h6 class="card-type">KHAI VỊ</h6>
+
+                        <h5 class="card-title">Sườn nướng mật ong ướp mận khô California</h5>
+                        <div class="desc">
+
+                            <div class="card-text">
+                                <p>Sườn mềm đậm vị, hòa quyện giữa vị ngọt mận khô và mật ong thơm lừng.</p>
+                            </div>
+                            <a href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="card recipe-card">
+                    <img src="assets/img/recipes/recipe-04.jpg" class="card-img-top" alt="...">
+
+                    <div class="card-body">
+                        <h6 class="card-type">ĐỒ UỐNG</h6>
+
+                        <h5 class="card-title">Cà phê sữa yến mạch mận khô California</h5>
+                        <div class="desc">
+
+                            <div class="card-text">
+                                <p>Món uống giàu năng lượng với vị ngọt tự nhiên từ mận khô và yến mạch.</p>
+                            </div>
+                            <a href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</a>
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <!--<div class="card recipe-card">
+                    <img src="assets/img/recipes/recipe-05.jpg" class="card-img-top" alt="...">
+
+                                    <div class="card-body">
+                        <h6 class="card-type">TRÁNG MIỆNG</h6>
+
+                                        <h5 class="card-title">Chè thốt nốt mận khô California</h5>
+                        <div class="desc">
+
+                                            <div class="card-text">
+                                <p>Món tráng miệng mát lành, kết hợp thốt nốt thơm béo và mận khô dẻo ngọt.</p>
+                            </div>
+                            <a href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</a>
+                        </div>
+
+                                    </div>
+                </div>
+                <div class="card recipe-card">
+                    <img src="assets/img/recipes/recipe-06.jpg" class="card-img-top" alt="...">
+
+                                    <div class="card-body">
+                        <h6 class="card-type">KHAI VỊ</h6>
+
+                                        <h5 class="card-title">Sườn nướng mật ong ướp mận khô California</h5>
+                        <div class="desc">
+
+                                            <div class="card-text">
+                                <p>Sườn mềm đậm vị, hòa quyện giữa vị ngọt mận khô và mật ong thơm lừng.</p>
+                            </div>
+                            <a href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</a>
+                        </div>
+
+                                    </div>
+                </div>
+
+                <div class="card recipe-card">
+                    <img src="assets/img/recipes/recipe-07.jpg" class="card-img-top" alt="...">
+
+                                    <div class="card-body">
+                        <h6 class="card-type">ĐỒ UỐNG</h6>
+
+                                        <h5 class="card-title">Cà phê sữa yến mạch mận khô California</h5>
+                        <div class="desc">
+
+                                            <div class="card-text">
+                                <p>Món uống giàu năng lượng với vị ngọt tự nhiên từ mận khô và yến mạch.</p>
+                            </div>
+                            <a href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</a>
+                        </div>
+
+                                    </div>
+                </div>
+                <div class="card recipe-card">
+                    <img src="assets/img/recipes/recipe-08.jpg" class="card-img-top" alt="...">
+
+                                    <div class="card-body">
+                        <h6 class="card-type">TRÁNG MIỆNG</h6>
+
+                                        <h5 class="card-title">Chè thốt nốt mận khô California</h5>
+                        <div class="desc">
+
+                                            <div class="card-text">
+                                <p>Món tráng miệng mát lành, kết hợp thốt nốt thơm béo và mận khô dẻo ngọt.</p>
+                            </div>
+                            <a href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</a>
+                        </div>
+
+                                    </div>
+                </div>
+                <div class="card recipe-card">
+                    <img src="assets/img/recipes/recipe-09.jpg" class="card-img-top" alt="...">
+
+                                    <div class="card-body">
+                        <h6 class="card-type">KHAI VỊ</h6>
+
+                                        <h5 class="card-title">Sườn nướng mật ong ướp mận khô California</h5>
+                        <div class="desc">
+
+                                            <div class="card-text">
+                                <p>Sườn mềm đậm vị, hòa quyện giữa vị ngọt mận khô và mật ong thơm lừng.</p>
+                            </div>
+                            <a href="recipe-details.html" class="btn btn-primary stretched-link">Chi tiết</a>
+                        </div>
+
+                                    </div>
+                </div>-->
+
+            </div>
+
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center mt-5">
+                    <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"><i class="zmdi zmdi-arrow-left"></i></a></li>
+
+                    <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+                    <li class="page-item"><a class="page-link" href="#" aria-label="Next"><i class="zmdi zmdi-arrow-right"></i></a></li>
+                </ul>
+            </nav>
+        </div>
+
+    </section>
+
+</article>
+{% endblock %}

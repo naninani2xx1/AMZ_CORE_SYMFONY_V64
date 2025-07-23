@@ -1,0 +1,82 @@
+{% extends 'Client/base.html.twig' %}
+{% block title %}California Prunes Vietnam{% endblock %}
+{% block content %}
+    <article>
+        <section class="block prune-titlepage" style="background-image: url({{ asset('frontend/img/bg/page-article.jpg') }});">
+            <div class="container">
+                <h1 class="title">thông tin tin tức</h1>
+            </div>
+        </section>
+
+        <section class="block article list">
+            <div class="container maxW-1180">
+
+                <div class="list-block list-3">
+
+                    {% for article in articles %}
+                        <div class="card card-article">
+                            <img src="{{ asset(article.post.thumbnail ?: 'frontend/img/article/thumbs/default.jpg') }}" class="card-img-top" alt="{{ article.post.title|default('...') }}">
+
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    {{ article.post.title|default('Không có tiêu đề') }}
+                                </h5>
+
+                                <div class="card-text">
+                                    {{ article.post.content|default('')|raw }}
+                                </div>
+
+                                <a href="{{ path('app_client_article_detail', {'id': article.id}) }}" class="btn btn-primary stretched-link">
+                                    chi tiết
+                                </a>
+                            </div>
+                        </div>
+                    {% else %}
+                        <p>Chưa có bài viết nào.</p>
+                    {% endfor %}
+
+                </div>
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination justify-content-center mt-5">
+                        {% if articles.previousPageNumber is defined %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': articles.previousPageNumber})) }}" aria-label="Previous">
+                                    <i class="zmdi zmdi-arrow-left"></i>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" aria-label="Previous">
+                                    <i class="zmdi zmdi-arrow-left"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+                        {% for page in 1..articles.pageCount %}
+                            {% set safePage = page > 0 ? page : 1 %}
+                            <li class="page-item {% if page == articles.currentPageNumber %}active{% endif %}">
+                                <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': safePage})) }}">
+                                    {{ page }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                        {% if articles.nextPageNumber is defined %}
+                            <li class="page-item">
+                                <a class="page-link" href="{{ path(app.request.attributes.get('_route'), app.request.query.all | merge({'page': articles.nextPageNumber})) }}" aria-label="Next">
+                                    <i class="zmdi zmdi-arrow-right"></i>
+                                </a>
+                            </li>
+                        {% else %}
+                            <li class="page-item disabled">
+                                <a class="page-link" href="#" aria-label="Next">
+                                    <i class="zmdi zmdi-arrow-right"></i>
+                                </a>
+                            </li>
+                        {% endif %}
+
+                    </ul>
+                </nav>
+
+            </div>
+        </section>
+    </article>
+{% endblock %}

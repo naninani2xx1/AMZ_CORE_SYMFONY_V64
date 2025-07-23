@@ -1,0 +1,49 @@
+<div{{ attributes }}>
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    <div class="d-flex flex-wrap flex-stack mb-6">
+        <!--begin::Title-->
+        {{ macros.table_get_input_search() }}
+        <!--end::Title-->
+        <!--begin::Controls-->
+        <div class="d-flex my-2">
+
+        </div>
+        <!--end::Controls-->
+    </div>
+
+    {% embed 'Admin/partials/table.html.twig' %}
+        {% import 'Admin/partials/macros.html.twig' as macros %}
+        {% block columns %}
+            {{ macros.table_column_default("ID") }}
+            {{ macros.table_column_default("Username") }}
+            {{ macros.table_column_default("Roles") }}
+            {{ macros.table_column_default("Created_at") }}
+            {{ macros.table_column_default("Archived") }}
+        {% endblock %}
+
+        {% block rows %}
+            {% for user in computed.data %}
+                <tr class="align-middle border-bottom border-gray-300 fs-7">
+                    <td>
+                        <a href="{{ path('app_admin_user_edit',{ 'id': user.id } ) }}" class="btn btn-icon btn-active-light-primary me-1">
+                            {{ macros.icon_edit() }}
+                        </a>
+                        <a href="{{ path('app_admin_user_delete', {'id':  user.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                            {{ macros.icon_delete() }}
+                        </a>
+                    </td>
+                    <td>{{  user.id }}</td>
+                    <td>{{  user.username }}</td>
+                    <td>{{  user.roles|join(', ') }}</td>
+                    <td>{{  user.createdAt|date('Y-m-d H:i') }}</td>
+                    <td>{{ user.isArchived == 0 ? 'Lưu Trữ' : 'Đã xóa' }}</td>
+
+                </tr>
+            {% else %}
+                <tr><td colspan="6">Không có dữ liệu cài đặt.</td></tr>
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+
+
+</div>

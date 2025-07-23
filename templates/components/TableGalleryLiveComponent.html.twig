@@ -1,0 +1,50 @@
+<div{{ attributes }}>
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    <div class="d-flex flex-wrap flex-stack mb-6">
+        <!--begin::Title-->
+        {{ macros.table_get_input_search() }}
+        <!--end::Title-->
+        <!--begin::Controls-->
+        <div class="d-flex my-2">
+
+        </div>
+        <!--end::Controls-->
+    </div>
+
+    {% embed 'Admin/partials/table.html.twig' %}
+        {% import 'Admin/partials/macros.html.twig' as macros %}
+        {% block columns %}
+            {{ macros.table_column_default("ID") }}
+            {{ macros.table_column_default("Name") }}
+            {{ macros.table_column_default("Type") }}
+            {{ macros.table_column_default("Created At") }}
+            {{ macros.table_column_default("Updated At") }}
+            {{ macros.table_column_default('Is Archived') }}
+        {% endblock %}
+
+        {% block rows %}
+            {% for gallery in computed.data %}
+                <tr class="align-middle border-bottom border-gray-300 fs-7 text-center">
+                    <td>
+                        <a href="{{ path('app_admin_gallery_edit', {'id': gallery.id}) }}" class="btn btn-icon btn-active-light-primary me-1">
+                            {{ macros.icon_edit() }}
+                        </a>
+                        <a href="{{ path('app_admin_gallery_delete', {'id': gallery.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                            {{ macros.icon_delete() }}
+                        </a>
+                    </td>
+                    <td>{{ gallery.id }}</td>
+                    <td>{{ gallery.name }}</td>
+                    <td>{{ gallery.type }}</td>
+                    <td>{{ gallery.createdAt|date('Y-m-d H:i') }}</td>
+                    <td>{{ gallery.updatedAt|date('Y-m-d H:i') }}</td>
+                    <td>{{ gallery.isArchived==0?'Lưu trữ':'Đã xóa' }}</td>
+                </tr>
+            {% else %}
+                <tr><td colspan="6">Không có dữ liệu cài đặt.</td></tr>
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+
+
+</div>

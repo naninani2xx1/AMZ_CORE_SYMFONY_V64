@@ -1,0 +1,42 @@
+{% extends 'Admin/base.html.twig' %}
+
+{% block title %}CMS - Add Gallery{% endblock %}
+
+{% block body %}
+    {{ form_start(form, { attr: { class: "form d-flex flex-column flex-lg-row" }, action: path('app_admin_gallery_add') }) }}
+
+    <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
+
+        <!-- Card: Add New Gallery -->
+        <div class="card card-flush py-4">
+            <div class="card-header">
+                <div class="card-title">
+                    <h2>Add New Gallery</h2>
+                </div>
+            </div>
+            <div class="card-body pt-0">
+
+                <div class="mb-10 fv-row">
+                    <label class="required form-label">Title</label>
+                    {{ form_widget(form.name, { attr: { class: "form-control" } }) }}
+                    {{ form_errors(form.name) }}
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Submit button -->
+        <div class="d-flex justify-content-end">
+            <a href="{{ path('app_admin_gallery_index') }}" class="btn btn-light me-5">Cancel</a>
+            <button type="submit" class="btn btn-primary">
+                <span class="indicator-label">Save Gallery</span>
+                <span class="indicator-progress">Please wait...
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+            </button>
+        </div>
+
+    </div>
+
+    {{ form_end(form)   }}
+{% endblock %}

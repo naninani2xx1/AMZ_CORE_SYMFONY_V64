@@ -1,0 +1,44 @@
+{% extends 'Admin/base.html.twig' %}
+
+{% block title %}CMS - Contact Management{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}
+            Contact Management
+        {% endblock %}
+
+        {% block toolbar_breadcrumbs %}
+            <li class="breadcrumb-item text-muted">
+                <a href="#" class="text-muted text-hover-primary">Contact</a>
+            </li>
+        {% endblock %}
+
+        {% block toolbar_button_actions %}
+            <button class="btn btn-sm fw-bold btn-secondary" type="button" data-bs-toggle="collapse" data-bs-target="#filterSection" aria-expanded="false" aria-controls="filterSection">
+                <i class="ki-outline ki-filter fs-5 me-1"></i> Bộ lọc
+                </button>
+                <a href="{{ path(app.request.attributes.get('_route')) }}" class="btn btn-light btn-active-light-danger ms-2">
+                    <i class="ki-outline ki-trash fs-5 me-1"></i> Xoá bộ lọc
+                </a>
+            {% endblock %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+    <div class="collapse mt-5" id="filterSection">
+        {% include 'Admin/views/contact/form/form_filters_contact.html.twig' %}
+    </div>
+    <div class="mt-5">
+        {{ component('TableContactLiveComponent', {id: 'TableContactLive',  filtersContact: filters})}}
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

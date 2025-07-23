@@ -1,0 +1,95 @@
+{% extends 'Client/base.html.twig' %}
+{% block title %}{{ article.post.title|default('Chi tiết bài viết') }}{% endblock %}
+{% block content %}
+    <article article-detail>
+
+        <section class="block prune-titlepage">
+            <div class="container maxW-800">
+                <nav aria-label="breadcrumb">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <ol class="breadcrumb">
+                                <li class="breadcrumb-item"><a class="breadcrumb-link" href="{{ path('app_client_home_index') }}">Trang chủ</a></li>
+                                <li class="breadcrumb-item"><a class="breadcrumb-link" href="{{ path('app_client_article_index') }}">Tin tức</a></li>
+                            </ol>
+                        </div>
+                    </div>
+                </nav>
+
+                <h1 class="title">{{ article.post.title|default('Không có tiêu đề') }}</h1>
+
+                <span class="date">
+                {{ article.createdAt|date('Y-m-d') }}
+            </span>
+            </div>
+        </section>
+
+        <section class="block article articleDetails">
+            <div class="container maxW-800">
+                <div class="article articleMain">
+                    <img class="article-thumbnail"
+                         src="{{ asset(article.post.thumbnail ?: 'frontend/img/article/thumbs/default.jpg') }}"
+                         alt="{{ article.post.title|default('Thumbnail') }}" />
+
+                    <div class="action social d-inline-flex d-md-none">
+                        <a class="share"><i class="zmdi zmdi-share"></i></a>
+                        <a class="share facebook"><i class="zmdi zmdi-facebook"></i></a>
+                    </div>
+
+                    <div class="mainContent tool-editor">
+                        {{ article.post.content|raw }}
+                    </div>
+                    <table cellpadding="10px" cellspacing="0" border="0">
+                        <tr>
+                            <td width="70%">
+                                <p>{{ article.getPost.conclusion|raw }}</p>
+                            </td>
+                            <td style="text-align: center;">
+                                <img src="{{ asset('frontend/img/article/thumbs/article-04b.jpg') }}" alt="" />
+                                <p style="font-size: 12px; margin: 0; padding: 0;">Chuyên gia dinh dưỡng<br />đã được cấp chứng nhận</p>
+                                <p style="margin: 0;"><strong>Jo Travers</strong></p>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+
+                <div class="action social d-none d-md-flex">
+                    <a class="share"><i class="zmdi zmdi-share"></i></a>
+                    <a class="share facebook"><i class="zmdi zmdi-facebook"></i></a>
+                </div>
+
+            </div>
+        </section>
+
+        <section class="block article related-box">
+            <div class="container">
+                <div class="heading">
+                    <h2 class="title underline">CÙNG CHUYÊN MỤC</h2>
+                </div>
+
+                <div class="list-block list-3 list-noWarp">
+                    {% for related in relatedArticles|default([]) %}
+                        <div class="card card-article">
+                            <img src="{{ asset(related.post.thumbnail ?: 'frontend/img/article/thumbs/default.jpg') }}" class="card-img-top" alt="{{ related.post.title }}">
+
+                            <div class="card-body">
+                                <h5 class="card-title">{{ related.post.title }}</h5>
+                                <div class="card-text">
+                                    {{ related.post.content is defined and related.post.content is not empty ? related.post.content|raw : '' }}
+                                </div>
+                                <a href="{{ path('app_client_article_detail', { id: related.id }) }}" class="btn btn-primary stretched-link">chi tiết</a>
+                            </div>
+                        </div>
+                    {% else %}
+
+                    {% endfor %}
+                </div>
+
+                <div class="text-center">
+                    <a class="btn btn-primary" href="{{ path('app_client_article_index') }}">XEM THÊM</a>
+                </div>
+            </div>
+        </section>
+
+    </article>
+{% endblock %}

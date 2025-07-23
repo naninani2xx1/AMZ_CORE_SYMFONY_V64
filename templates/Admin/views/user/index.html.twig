@@ -1,0 +1,58 @@
+{% extends 'Admin/base.html.twig' %}
+{% block title %}User Management{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('/styles/setting.css') }}">
+{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}User Management{% endblock toolbar_title %}
+
+        {% block toolbar_breadcrumbs %}
+            <!--begin::Item-->
+            <li class="breadcrumb-item text-muted">
+                <a href="#" class="text-muted text-hover-primary">User</a>
+            </li>
+            <!--end::Item-->
+        {% endblock toolbar_breadcrumbs %}
+
+        {% block toolbar_button_actions %}
+            <div>
+                <button class="btn btn-primary" onclick="openModal()" >+ Thêm người dùng </button>
+
+            </div>
+        {% endblock toolbar_button_actions %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+
+    {{ component('TableUserLiveComponent', {'id': "TableUserLive"}) }}
+    <div id="formModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="color_title">Thêm người mới </h2>
+                <button class="close" onclick="document.getElementById('formModal').style.display='none'">×</button>
+            </div>
+            <div class="modal-body" id="formContainer">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        function openModal() {
+            fetch(`/cms/user/add`)
+                .then(response => response.text())
+                .then(html => {
+                    document.getElementById('formContainer').innerHTML = html;
+                    document.getElementById('formModal').style.display = 'block';
+                });
+        }
+    </script>
+{% endblock %}

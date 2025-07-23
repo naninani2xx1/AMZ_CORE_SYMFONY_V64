@@ -1,0 +1,57 @@
+<div{{ attributes }}>
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    <div class="d-flex flex-wrap flex-stack mb-6">
+        <!--begin::Title-->
+        {{ macros.table_get_input_search() }}
+        <!--end::Title-->
+        <!--begin::Controls-->
+        <div class="d-flex my-2">
+
+        </div>
+        <!--end::Controls-->
+    </div>
+
+    {% embed 'Admin/partials/table.html.twig' %}
+        {% import 'Admin/partials/macros.html.twig' as macros %}
+        {% block columns %}
+            {{ macros.table_column_default("Parent") }}
+            {{ macros.table_column_default("Title") }}
+            {{ macros.table_column_default("Slug") }}
+            {{ macros.table_column_default("Icon") }}
+            {{ macros.table_column_default("Thumbnail") }}
+            {{ macros.table_column_default("Decription") }}
+            {{ macros.table_column_default("Custom path") }}
+            {{ macros.table_column_default("Created At") }}
+            {{ macros.table_column_default("Updated At") }}
+        {% endblock %}
+
+        {% block rows %}
+            {% for cate in computed.data %}
+                <tr class="align-middle border-bottom border-gray-300 fs-7">
+                    <td>
+                        <a href="{{ path('app_admin_category_edit', {'id': cate.id}) }}" class="btn btn-icon btn-active-light-primary me-1">
+                            {{ macros.icon_edit() }}
+                        </a>
+                        <a href="{{ path('app_admin_category_delete', {'id':cate.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                            {{ macros.icon_delete() }}
+                        </a>
+                    </td>
+                    <td>{{ cate.levelNumber }}</td>
+                    <td>{{ cate.title }}</td>
+                    <td>{{ cate.slug }}</td>
+                    <td><img width="40" height="40" src="{{ cate.icon }}" alt="{{ cate.title }}"></td>
+                    <td><img width="40" height="40" src="{{ cate.thumbnail }}" alt="{{ cate.title }}"></td>
+                    <td>{{ cate.description }}</td>
+                    <td>{{ cate.customPath }}</td>
+                    <td>{{ cate.createdAt|date('Y-m-d H:i') }}</td>
+                    <td>{{ cate.updatedAt|date('Y-m-d H:i') }}</td>
+
+                </tr>
+            {% else %}
+                <tr><td colspan="6">Không có dữ liệu cài đặt.</td></tr>
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+
+
+</div>

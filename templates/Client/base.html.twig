@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="icon" type="image/png" href="{{ absolute_url('frontend/img/favicon.png') }}">
+    <link rel="apple-touch-icon" href="{{ absolute_url('frontend/img/favicon.png') }}">
+
+    <!-- SEO Config -->
+    <meta http-equiv="content-language" content="" />
+    <title>{% block title %} {% endblock %}</title>
+    <meta name="title" content="">
+    <meta name="description" content="">
+    <link rel="canonical" href="">
+    <meta property="og:locale" content="">
+    <meta property="og:type" content="">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="">
+    <meta property="og:description" content="">
+    <meta property="og:image" content="">
+    <link href="{{ asset('frontend/css/main.css') }}" rel="stylesheet">
+
+</head>
+<body>
+{% include 'Client/partials/header.html.twig' %}
+
+<main>
+    {% block content  %}{% endblock %}
+    {% block importmap %}
+        {{ importmap('appFE') }}
+    {% endblock %}
+</main>
+{% include 'Client/partials/footer.html.twig' %}
+</body>
+</html>
+
+
+
+
