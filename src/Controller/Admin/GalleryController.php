@@ -80,4 +80,5 @@ class GalleryController extends AbstractController implements CRUDActionInterfac
         ]);
 
     }
+
 }

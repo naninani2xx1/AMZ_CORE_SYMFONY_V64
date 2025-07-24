@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {alertError, addModalIntoBodyTag} from "@Common";
-import {alertError} from "@Common";
 const axiosGet = (url, listCallBack) => {
     const { success, failed, final } = listCallBack;
     axios.get(url)

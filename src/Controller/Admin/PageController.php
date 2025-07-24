@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route(path="/cms/admin/page")
+ * @Route(path="/cms/page")
  */
 class PageController extends AbstractController implements CRUDActionInterface
 {
@@ -41,7 +41,7 @@ class PageController extends AbstractController implements CRUDActionInterface
      */
     public function add(Request $request): Response
     {
-       return $this->pageService->add($request);
+        return $this->pageService->add($request);
     }
     /**
      * @Route(path="/edit/{id}", name="app_admin_page_edit")
