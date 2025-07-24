@@ -3,9 +3,11 @@
 namespace App\Services;
 
 use App\Core\Entity\Gallery;
-use App\Form\Admin\Gallery\GalleryType;
+use App\Form\Admin\Gallery\AddGalleryFolderForm;
+use App\Form\Admin\Gallery\GalleryFolderType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -16,25 +18,26 @@ class GalleryService extends AbstractController
         $this->em = $em;
     }
 
-    public function add(Request $request):Response
+    public function add(Request $request): Response
     {
-     $gallery = new Gallery();
-     $form=$this->createForm(GalleryType::class,$gallery);
-     $form->handleRequest($request);
-     if($form->isSubmitted() && $form->isValid()){
-         $this->em->persist($gallery);
-         $this->em->flush();
-         return $this->redirectToRoute('app_admin_gallery_index');
-     }
+        $gallery = new Gallery();
+        $form = $this->createForm(AddGalleryFolderForm::class, $gallery);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->em->persist($gallery);
+            $this->em->flush();
 
-     return $this->render('Admin/views/gallery/modals/form_add_gallery.html.twig',[
-         'form'=>$form,
-     ]);
+            return $this->redirectToRoute('app_admin_gallery_index');
+        }
+
+        return $this->render('Admin/views/gallery/modals/form_add_gallery.html.twig', [
+            'form' => $form,
+        ]);
     }
     public function edit(Request $request,int $id):Response
     {
         $gallery = $this->em->getRepository(Gallery::class)->find($id);
-        $form=$this->createForm(GalleryType::class,$gallery);
+        $form=$this->createForm(GalleryFolderType::class,$gallery);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $this->em->flush();

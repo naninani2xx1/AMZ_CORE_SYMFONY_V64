@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Hình ảnh của {{ gallery.name }}</title>
+    <style>
+        body { font-family: Arial; margin: 20px; }
+        .grid { display: flex; flex-wrap: wrap; gap: 20px; }
+        .card { width: 200px; border: 1px solid #ddd; padding: 10px; border-radius: 6px; text-align: center; }
+        .card img { max-width: 100%; height: auto; border-radius: 4px; }
+    </style>
+</head>
+<body>
+
+<h2>Thư viện: {{ gallery.name }}</h2>
+<a href="{{ path('app_admin_gallery_index') }}">← Quay lại danh sách</a>
+
+{% if pictures is empty %}
+    <p>Không có hình ảnh nào trong gallery này.</p>
+{% else %}
+    <div class="grid">
+
+        {% for picture in pictures %}
+            <div class="card">
+                <img src="{{ asset(picture.image) }}" alt="{{ picture.title }}">
+                <p><strong>{{ picture.title }}</strong></p>
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
+</body>
+</html>

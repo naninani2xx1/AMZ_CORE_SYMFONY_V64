@@ -16,7 +16,6 @@
         {% block columns %}
             {{ macros.table_column_default("ID") }}
             {{ macros.table_column_default("Name") }}
-            {{ macros.table_column_default("Type") }}
             {{ macros.table_column_default("Created At") }}
             {{ macros.table_column_default("Updated At") }}
             {{ macros.table_column_default('Is Archived') }}
@@ -34,8 +33,7 @@
                         </a>
                     </td>
                     <td>{{ gallery.id }}</td>
-                    <td>{{ gallery.name }}</td>
-                    <td>{{ gallery.type }}</td>
+                   <td><a href="{{ path('app_admin_gallery_show',{'id':gallery.id}) }}">{{ gallery.name }}</a></td>
                     <td>{{ gallery.createdAt|date('Y-m-d H:i') }}</td>
                     <td>{{ gallery.updatedAt|date('Y-m-d H:i') }}</td>
                     <td>{{ gallery.isArchived==0?'Lưu trữ':'Đã xóa' }}</td>

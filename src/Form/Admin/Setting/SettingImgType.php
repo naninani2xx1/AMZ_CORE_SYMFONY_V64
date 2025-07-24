@@ -2,9 +2,11 @@
 
 namespace App\Form\Admin\Setting;
 
+use App\Core\Entity\Gallery;
 use App\Core\Entity\Setting;
 use App\Services\ImageService;
 use App\Utils\ConvertValue;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -30,7 +32,14 @@ class SettingImgType extends AbstractType
                 'required' => true,
                 'mapped' => false
             ])
-
+            ->add('gallery', EntityType::class, [
+                'class' => Gallery::class,
+                'choice_label' => 'name',
+                'label' => 'Chọn thư mục Gallery',
+                'mapped' => false,
+                'required' => true,
+                'placeholder' => '-- Chọn gallery --'
+            ])
         ;
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             /** @var Setting $setting */
@@ -39,13 +48,22 @@ class SettingImgType extends AbstractType
 
             /** @var UploadedFile|null $file */
             $file = $form->get('settingValue')->getData();
-            if ($file instanceof UploadedFile) {
+            /** @var Gallery|null $gallery */
+            $gallery = $form->get('gallery')->getData();
+
+            if ($file instanceof UploadedFile && $gallery instanceof Gallery) {
                 $imagePath = $this->imageService->uploadImage($file, 'uploads/settings');
-                $setting->setSettingValue($imagePath);
+
+                if ($imagePath) {
+                    $setting->setSettingValue($imagePath);
+                    $this->imageService->saveImageToGallery($imagePath, $setting->getSettingKey(), $gallery);
+                }
             }
+
             $setting->setSettingType('image');
             $setting->setSettingKey(ConvertValue::standardizationDash($setting->getSettingKey()));
         });
+
 
     }
 

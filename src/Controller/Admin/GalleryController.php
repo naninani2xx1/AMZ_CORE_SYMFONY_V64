@@ -56,11 +56,28 @@ class GalleryController extends AbstractController implements CRUDActionInterfac
     {
         return $this->galleryService->delete($request, $id);
     }
+
     /**
-     * @Route(path="/gallery/core/open-list", name="app_admin_gallery_core_open_list")
+     * @Route("/show_picture/{id}", name="app_admin_gallery_show")
      */
-    public function openList(): Response
+    public function showPicture(Request $request, int $id, GalleryRepository $gallery): Response
     {
-        return $this->render('Admin/partials/gallery/open_list_management_modal.html.twig');
+        $gallery = $gallery->find($id);
+        if (!$gallery) {
+            throw $this->createNotFoundException('Không tìm thấy gallery');
+        }
+        $galleryPictures = $gallery->getGalleryPictures();
+        $pictures = [];
+        foreach ($galleryPictures as $galleryPicture) {
+            $picture = $galleryPicture->getPicture();
+            if ($picture !== null) {
+                $pictures[] = $picture;
+            }
+        }
+        return $this->render('Admin/views/gallery/pictures.html.twig', [
+            'gallery' => $gallery,
+            'pictures' => $pictures,
+        ]);
+
     }
 }
