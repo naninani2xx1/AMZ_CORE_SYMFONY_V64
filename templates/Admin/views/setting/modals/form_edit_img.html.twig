@@ -21,15 +21,43 @@
                     {{ form_widget(form.settingKey, { attr: { class: "form-control" } }) }}
                     {{ form_errors(form.settingKey) }}
                 </div>
+                <div class="mb-10 fv-row" id="image-preview-wrapper" style="display: none;">
+                    <label class="form-label">Current Image</label><br>
+                    <img id="image-preview" src="" alt="Current Image" style="max-height: 200px; border: 1px solid #ccc; padding: 5px;">
+                </div>
+                <div data-controller="image-preview"
+                     data-image-preview-target="wrapper">
+                    <div class="mb-10 fv-row" data-image-preview-target="wrapper"
+                         {% if not setting.settingValue %}style="display: none;"{% endif %}>
+                        <label class="form-label">Current Image</label><br>
+                        <img data-image-preview-target="preview"
+                             src="{{ asset(setting.settingValue) }}"
+                             alt="Current Image"
+                             style="max-height: 200px; border: 1px solid #ccc; padding: 5px;">
+                    </div>
+
+                    <div class="mb-10 fv-row">
+                        <label class="required form-label">Upload Image</label>
+                        {{ form_widget(form.settingValue, {
+                            attr: {
+                                class: "form-control",
+                                'data-image-preview-target': "input",
+                                'data-action': "change->image-preview#preview"
+                            }
+                        }) }}
+                        {{ form_errors(form.settingValue) }}
+                    </div>
+                </div>
+
+
                 <div class="mb-10 fv-row">
                     <label class="required form-label">Setting Value</label>
-                    {{ form_widget(form.settingValue, { attr: { class: "form-control" } }) }}
-                    {{ form_errors(form.settingValue) }}
+                    {{ form_widget(form.gallery, { attr: { class: "form-control" } }) }}
+                    {{ form_errors(form.gallery) }}
                 </div>
             </div>
         </div>
 
-        <!-- Submit button -->
         <div class="d-flex justify-content-end">
             <a href="{{ path('app_admin_gallery_index') }}" class="btn btn-light me-5">Cancel</a>
             <button type="submit" class="btn btn-primary">
@@ -39,8 +67,8 @@
                 </span>
             </button>
         </div>
-
     </div>
 
     {{ form_end(form)   }}
+
 {% endblock %}

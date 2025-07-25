@@ -129,7 +129,7 @@ class PostType extends AbstractType
             ]);
         });
 
-        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($options) {
             /** @var Post $post */
             $post = $event->getData();
             $form = $event->getForm();
@@ -139,14 +139,17 @@ class PostType extends AbstractType
             if ($post_img instanceof UploadedFile) {
                 $imgPath = $this->imageService->uploadImage($post_img, 'uploads/posts');
                 $post->setThumbnail($imgPath);
+                if (!empty($options['gallery'])) {
+                    $this->imageService->saveImageToGallery($imgPath, $post->getTitle(), $options['gallery']);
+                }
             }
-
             $post->setSlug($this->convertValue->standardizationSlug($form->get('slug')->getData()));
             $post->setSubTitle(ConvertValue::standardizationDash($form->get('subTitle')->getData()));
             $tagString = $form->get('tag')->getData() ?? '';
             $convertTag = array_filter(array_map('trim', explode(',', $tagString)));
             $post->setTags($convertTag);
         });
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

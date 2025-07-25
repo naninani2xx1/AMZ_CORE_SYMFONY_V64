@@ -13,6 +13,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SettingType extends AbstractType
 {
+    public function __construct(ConvertValue $convertValue)
+    {
+        $this->convertValue = $convertValue;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
 
@@ -42,7 +46,7 @@ class SettingType extends AbstractType
             ];
             $data->setSettingType('size');
             $data->setSettingValue(json_encode($json));
-            $data->setSettingKey(ConvertValue::standardizationDash($data->getSettingKey()));
+            $data->setSettingKey($this->convertValue->standardizationSlug(($data->getSettingKey())));
         });
 
 

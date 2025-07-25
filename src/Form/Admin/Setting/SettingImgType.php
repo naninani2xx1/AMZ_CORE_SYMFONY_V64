@@ -20,9 +20,10 @@ class SettingImgType extends AbstractType
 {
     private ImageService $imageService;
 
-    public function __construct(ImageService $imageService)
+    public function __construct(ImageService $imageService,ConvertValue $convertValue)
     {
         $this->imageService = $imageService;
+        $this->convertValue = $convertValue;
     }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -30,15 +31,16 @@ class SettingImgType extends AbstractType
             ->add('settingKey', TextType::class)
             ->add('settingValue',FileType::class,[
                 'required' => true,
-                'mapped' => false
+                'mapped' => false,
+
             ])
             ->add('gallery', EntityType::class, [
                 'class' => Gallery::class,
                 'choice_label' => 'name',
                 'label' => 'Chọn thư mục Gallery',
-                'mapped' => false,
                 'required' => true,
                 'placeholder' => '-- Chọn gallery --'
+                ,'mapped'=>false
             ])
         ;
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
@@ -61,7 +63,7 @@ class SettingImgType extends AbstractType
             }
 
             $setting->setSettingType('image');
-            $setting->setSettingKey(ConvertValue::standardizationDash($setting->getSettingKey()));
+            $setting->setSettingKey($this->convertValue->standardizationSlug($setting->getSettingKey()));
         });
 
 

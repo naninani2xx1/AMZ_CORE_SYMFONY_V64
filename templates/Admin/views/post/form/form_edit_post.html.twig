@@ -29,8 +29,12 @@
 {% block body %}
     {% import 'Admin/partials/macros.html.twig' as macros %}
     {{ form_start(form, {
-        action: path('app_admin_post_edit', {'id': post.id}),
-        attr: { class: "form d-flex flex-column flex-lg-row" }
+        attr: {
+            class: "form d-flex flex-column flex-lg-row",
+            id: 'amz_post_add',
+            'data-controller': 'Admin--page-add',
+            'data-action': 'submit->Admin--page-add#add:prevent'
+        }
     }) }}
 
     <!--begin::Aside column-->
@@ -38,32 +42,67 @@
 
         <!--begin::Thumbnail settings-->
         <div class="card card-flush py-4">
+            <!--begin::Card header-->
             <div class="card-header">
+                <!--begin::Card title-->
                 <div class="card-title">
                     <h2>Thumbnail</h2>
                 </div>
-            </div>
-            <div class="card-body text-center pt-0">
-                <style>.image-input-placeholder { background-image: url('{{ asset('themes/media/svg/files/blank-image.svg') }}'); } [data-bs-theme="dark"] .image-input-placeholder { background-image: url('{{ asset('themes/media/svg/files/blank-image-dark.svg') }}'); }</style>
-                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
-                    <div class="image-input-wrapper w-150px h-150px"></div>
-                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change">
-                        <i class="ki-duotone ki-pencil fs-7"></i>
-                        {{ form_widget(form.thumbnail, {attr: {accept: ".png, .jpg, .jpeg, .webp"}}) }}
-                        {{ form_errors(form.thumbnail) }}
-                        <input type="hidden" name="avatar_remove" />
+                <!--end::Card title-->
+                <div class="card-toolbar">
+                    <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
+                           data-amz-input-pick-gallery="#{{ form.thumbnail.vars.id }}"
+                           data-amz-place-view-gallery=".image-input-placeholder"
+                           data-amz-btn-open-gallery="true" data-bs-toggle="tooltip" title="Open Gallery">
+                        <i class="ki-duotone ki-pencil fs-7">
+                            <span class="path1"></span>
+                            <span class="path2"></span>
+                        </i>
                     </label>
-                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel">
-                    <i class="ki-duotone ki-cross fs-2"></i>
-                </span>
-                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove">
-                    <i class="ki-duotone ki-cross fs-2"></i>
-                </span>
                 </div>
-                <div class="text-muted fs-7">Only *.png, *.jpg, *.jpeg and *.webp files are accepted</div>
             </div>
+            <!--end::Card header-->
+            <!--begin::Card body-->
+            <div class="card-body text-center pt-0">
+                <!--begin::Image input-->
+                <!--begin::Image input placeholder-->
+                <!--end::Image input placeholder-->
+                <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" style="background-image: url('{{ asset('themes/media/svg/files/blank-image.svg') }}');">
+                    <!--begin::Preview existing avatar-->
+                    <div class="image-input-wrapper w-150px h-150px"></div>
+                    <!--end::Preview existing avatar-->
+                    <!--begin::Label-->
+
+                    <!--begin::Inputs-->
+                    {{ form_widget(form.thumbnail, {attr: {hidden: true}}) }}
+                    <!--end::Inputs-->
+                    <!--end::Label-->
+                    <!--begin::Cancel-->
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel" data-bs-toggle="tooltip" title="Cancel">
+                            <i class="ki-duotone ki-cross fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                    <!--end::Cancel-->
+                    <!--begin::Remove-->
+                    <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove" data-bs-toggle="tooltip" title="Remove">
+                            <i class="ki-duotone ki-cross fs-2">
+                                <span class="path1"></span>
+                                <span class="path2"></span>
+                            </i>
+                        </span>
+                    <!--end::Remove-->
+                </div>
+                <!--end::Image input-->
+                <!--begin::Description-->
+                <div class="text-muted fs-7">Set the product thumbnail image. Only *.png, *.jpg and *.jpeg image files are accepted</div>
+                <!--end::Description-->
+            </div>
+            <!--end::Card body-->
         </div>
         <!--end::Thumbnail settings-->
+
 
         <!--begin::Status-->
         <div class="card card-flush py-4">

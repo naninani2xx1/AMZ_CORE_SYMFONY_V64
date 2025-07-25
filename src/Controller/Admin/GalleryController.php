@@ -80,5 +80,12 @@ class GalleryController extends AbstractController implements CRUDActionInterfac
         ]);
 
     }
+    /**
+     * @Route(path="/core/open-list", name="app_admin_gallery_core_open_list")
+     */
+    public function openList(): Response
+    {
+        return $this->render('Admin/partials/gallery/open_list_management_modal.html.twig');
+    }
 
 }

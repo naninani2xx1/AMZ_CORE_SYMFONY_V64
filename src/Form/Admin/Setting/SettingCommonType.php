@@ -13,6 +13,11 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class SettingCommonType extends AbstractType
 {
+    public function __construct(ConvertValue $convertValue)
+    {
+        $this->convertValue = $convertValue;
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -23,7 +28,7 @@ class SettingCommonType extends AbstractType
         $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) {
             $data = $event->getData();
             $data->setSettingType('common');
-            $data->setSettingKey(ConvertValue::standardizationDash($data->getSettingKey()));
+            $data->setSettingKey($this->convertValue->standardizationSlug($data->getSettingKey()));
         });
     }
 

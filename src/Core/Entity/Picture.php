@@ -20,6 +20,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Picture extends LifecycleEntity
 {
     use DoctrineTitleSubtitleTrait, DoctrineIdentifierTrait, DoctrinePropPictureTrait;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Core\Entity\Gallery", inversedBy="picturies")
+     * @ORM\JoinColumn(name="gallery_id", referencedColumnName="id", nullable=true)
+     */
+    private $gallery;
+
     /**
      * @ORM\OneToMany(targetEntity="App\Core\Entity\GalleryPictures", mappedBy="picture")
      */

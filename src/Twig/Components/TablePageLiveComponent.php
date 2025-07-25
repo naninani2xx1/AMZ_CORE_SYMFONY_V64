@@ -13,8 +13,7 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 
 #[AsLiveComponent(template: 'components/TablePageLiveComponent.html.twig')]
 final class TablePageLiveComponent extends BaseTableLiveComponent
-{
-    protected function getQueryBuilder(): QueryBuilder
+{    protected function getQueryBuilder(): QueryBuilder
     {
         return $this->findAllPaginated();
     }

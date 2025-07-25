@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route(path="/cms/page")
+ * @Route(path="/cms/admin/page")
  */
 class PageController extends AbstractController implements CRUDActionInterface
 {

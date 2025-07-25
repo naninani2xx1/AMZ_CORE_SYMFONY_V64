@@ -1,0 +1,92 @@
+<div class="contact-form">
+    <div class="heading">
+        <h2 class="subtitle">CẢM ƠN BẠN ĐÃ LIÊN HỆ</h2>
+        <div class="text tool-editor">
+            <p style="color: black;">Chúng tôi sẽ liên lạc với bạn theo thông tin dưới đây.</p>
+        </div>
+    </div>
+
+    {{ form_start(form, {
+        attr: {
+            class: 'form',
+            id: 'contactFormNewJs',
+            'data-parsley-validate': '',
+            'data-controller': 'contact',
+            'data-action': 'submit->contact#submit',
+            'data-turbo': 'false'
+        }
+    }) }}
+
+    <div class="m-form">
+        {{ form_row(form.name, {
+            attr: {
+                class: 'form-control',
+                placeholder: 'Họ và tên',
+                'data-parsley-required-message': 'Vui lòng cung cấp Họ tên Quý Khách',
+                required: true
+            }
+        }) }}
+    </div>
+
+    <div class="m-form">
+        {{ form_row(form.phone, {
+            attr: {
+                class: 'form-control',
+                placeholder: 'Điện thoại',
+                'data-parsley-type': 'integer',
+                minlength: 10,
+                'data-parsley-minlength': 10,
+                'data-parsley-type-message': 'Số điện thoại phải là số gồm 10 chữ số',
+                'data-parsley-required-message': 'Vui lòng cung cấp số điện thoại của Quý Khách',
+                'data-parsley-minlength-message': 'Vui lòng cung cấp chính xác số điện thoại',
+                required: true
+            }
+        }) }}
+    </div>
+
+    <div class="m-form">
+        {{ form_row(form.email, {
+            attr: {
+                class: 'form-control',
+                placeholder: 'Địa chỉ email',
+                'data-parsley-type': 'email',
+                'data-parsley-type-message': 'Địa chỉ email chưa đúng',
+                'data-parsley-required-message': 'Vui lòng cung cấp địa chỉ email của Quý Khách',
+                required: true
+            }
+        }) }}
+    </div>
+
+    <div class="m-form">
+        {{ form_row(form.topic, {
+            attr: {
+                class: 'form-select',
+                'data-parsley-required-message': 'Vui lòng chọn chủ đề',
+                required: true
+            }
+        }) }}
+    </div>
+
+    <div class="m-form">
+        {{ form_row(form.content, {
+            attr: {
+                class: 'form-control',
+                placeholder: 'Nội dung',
+                'data-parsley-required-message': 'Vui lòng cung cấp nội dung',
+                required: true
+            }
+        }) }}
+    </div>
+
+    <p class="notice">
+        Bằng cách gửi thông tin của bạn, bạn đồng ý cho phép chúng tôi liên hệ với bạn qua điện thoại,
+        tin nhắn và email để tham vấn và nghiên cứu thị trường.
+        Chúng tôi cam kết không chia sẻ thông tin của bạn với bất kỳ bên thứ ba nào.
+    </p>
+
+    <div class="m-form text-center">
+        <button type="submit" class="btn">Gửi</button>
+    </div>
+
+    {{ form_end(form) }}
+</div>

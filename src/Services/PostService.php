@@ -49,7 +49,9 @@ class PostService extends AbstractController
     public function edit(Request $request,int $id):Response
     {
         $post = $this->em->getRepository(Post::class)->find($id);
-        $form=$this->createForm(PostType::class,$post);
+        $form=$this->createForm(PostType::class,$post,[
+            'action'=> $this->generateUrl('app_admin_post_edit',['id'=>$post->getId()]),
+        ]);
         $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
             $this->em->flush();
