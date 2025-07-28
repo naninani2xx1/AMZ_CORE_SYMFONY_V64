@@ -72,7 +72,20 @@ class ManufacturerType extends AbstractType
             $convertProduct = array_filter(array_map('trim', explode(',', $productString)));
             $data->setProducts($convertProduct);
         });
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            $data = $event->getData();
+            $form = $event->getForm();
+            $productArray = $data->getProducts();
+            $productString = implode(', ', $productArray);
 
+            $form->add('products', TextType::class, [
+                'data' => $productString,
+                'constraints' => [
+                    new NotBlank(),
+                ],
+                'attr' => ['class' => 'form-control fs-7']
+            ]);
+        });
     }
 
     public function configureOptions(OptionsResolver $resolver): void

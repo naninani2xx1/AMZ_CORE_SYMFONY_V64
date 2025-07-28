@@ -28,13 +28,14 @@
             {% for manufacturer in computed.data %}
                 <tr class="align-middle border-bottom border-gray-300 fs-7 text-center">
                     <td>
-                        <a href="{{ path('app_admin_manufacturer_edit',{'id':manufacturer.id}) }}" class="btn btn-icon btn-active-light-primary me-1">
+                        <a href="{{ path('app_admin_manufacturer_edit',{'id':manufacturer.id}) }}" data-amz-btn-open-modal class="btn btn-icon btn-active-light-primary me-1">
                             {{ macros.icon_edit() }}
                         </a>
                         <a href="{{ path('app_admin_manufacturer_delete', {'id': manufacturer.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
                             {{ macros.icon_delete() }}
                         </a>
                     </td>
+
                     <td>{{ manufacturer.name }}</td>
                     <td>{{ manufacturer.phone }}</td>
                     <td>{{ manufacturer.address }}</td>
