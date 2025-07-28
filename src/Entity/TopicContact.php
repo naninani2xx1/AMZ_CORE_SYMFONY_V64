@@ -22,4 +22,20 @@ class TopicContact extends  LifecycleEntity
      */
     private $topic;
 
+    /**
+     * @return mixed
+     */
+    public function getTopic()
+    {
+        return $this->topic;
+    }
+
+    /**
+     * @param mixed $topic
+     */
+    public function setTopic($topic): void
+    {
+        $this->topic = $topic;
+    }
+
 }
