@@ -1,0 +1,19 @@
+{% extends 'themes/mancali/base.html.twig' %}
+{% block importmapp %}
+    {{ importmap('app') }}
+{% endblock %}
+{% block body %}
+    <section data-controller="Admin--block-review"
+             data-Admin--block-review-main-url-value="{{ path('app_admin_block_update', {'id': block.id}) | e('html_attr') }}"
+             class="block prune-titlepage"
+             style="position: relative;
+                     {% if block.background is not null %}background-image: url('{{ asset(block.background) }}');{% endif %}">
+        <div class="container">
+            <h1 class="title" data-action="blur->Admin--block-review#onChange"
+                data-Admin--block-review-prop-param="title"
+                contenteditable="true">{{ block.title }}</h1>
+
+        </div>
+
+    </section>
+{% endblock %}

@@ -1,10 +1,5 @@
 {% extends 'Admin/base.html.twig' %}
-{% block title %}Setting Management{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('/styles/setting.css') }}">
-{% endblock %}
+{% block title %}CMS-Setting Management{% endblock %}
 
 {% block toolbar %}
     {% embed 'Admin/partials/toolbar.html.twig' %}
@@ -19,29 +14,17 @@
         {% endblock toolbar_breadcrumbs %}
 
         {% block toolbar_button_actions %}
-            <div class="dropdown">
-                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                    + Thêm cài đặt
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="{{ path('app_admin_setting_add', {'type': 'size'}) }}">Thêm Size</a></li>
-                    <li><a class="dropdown-item" href="{{ path('app_admin_setting_add', {'type': 'common'}) }}">Add Common</a></li>
-                    <li><a class="dropdown-item" href="{{ path('app_admin_setting_add', {'type': 'image'}) }}">Add Image</a></li>
-                    <li><a class="dropdown-item" href="{{ path('app_admin_setting_add', {'type': 'topic'}) }}">Add Topic</a></li>
-                </ul>
-            </div>
-
+            <a href="{{ path('app_admin_setting_add') }}"
+               data-amz-btn-open-modal
+               class="btn btn-sm fw-bold btn-primary">Create</a>
         {% endblock toolbar_button_actions %}
     {% endembed %}
 {% endblock %}
 
 {% block body %}
-
     {{ component('TableSettingLiveComponent', {'id': "TableSettingLive"}) }}
-
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
-
 {% endblock %}

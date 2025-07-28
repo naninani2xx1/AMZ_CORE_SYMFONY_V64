@@ -3,9 +3,8 @@
 namespace App\Twig\Components;
 
 use App\Core\DataType\ArchivedDataType;
-use App\Core\DataType\LanguageDataType;
+use App\Core\DataType\MenuDataType;
 use App\Core\Entity\Menu;
-use App\Core\Repository\MenuRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 
@@ -17,20 +16,22 @@ final class TableMenuLiveComponent extends BaseTableLiveComponent
     {
         return $this->findAllPaginated();
     }
+
     private function findAllPaginated(): QueryBuilder
     {
-        $qb = $this->entityManager->getRepository(Menu::class)->createQueryBuilder(MenuRepository::ALIAS);
+        $qb = $this->entityManager->getRepository(Menu::class)->createQueryBuilder('menu');
+
         $expr = $qb->expr();
         // TODO: common
         $qb->where(
-            $expr->eq(MenuRepository::ALIAS.'.isArchived', $expr->literal(ArchivedDataType::UN_ARCHIVED)),
-        )->orderBy(MenuRepository::ALIAS .'.parent', 'ASC');
+            $expr->eq('menu.isArchived', $expr->literal(ArchivedDataType::UN_ARCHIVED)),
+            $expr->eq('menu.display', $expr->literal(MenuDataType::DISPLAY_SHOW)),
+            $expr->eq('menu.isRoot', $expr->literal(MenuDataType::ROOT_LEVEL)),
+        )->orderBy('menu.createdAt', 'ASC');
 
         // TODO: filter
         if(!empty($this->filter)){
-            $qb->andWhere(
-                $expr->like(MenuRepository::ALIAS.'.language', $expr->literal(LanguageDataType::VIETNAMESE_LANGUAGE_CODE)),
-            );
+
         }
 
         return $qb;
@@ -39,7 +40,7 @@ final class TableMenuLiveComponent extends BaseTableLiveComponent
     protected function getSearchColumns(): array
     {
         return array(
-            MenuRepository::ALIAS.'.title',
+            'menu.name',
         );
     }
 }

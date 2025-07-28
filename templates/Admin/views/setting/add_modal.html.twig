@@ -1,0 +1,123 @@
+{% embed 'Admin/partials/modal.html.twig' %}
+    {% block title %}Add Setting{% endblock %}
+    {% block modalClass %}modal-dialog-centered p-10 mw-900px{% endblock %}
+    {% block body %}
+        {{ form_start(form) }}
+        <!--begin::Stepper-->
+        <div class="stepper stepper-pills stepper-column  d-flex flex-column flex-xl-row flex-row-fluid">
+            <!--begin::Aside-->
+            <div class="d-flex justify-content-center justify-content-xl-start flex-row-auto w-100 w-xl-300px">
+                <!--begin::Nav-->
+                <div class="stepper-nav ps-lg-10">
+                    {% for option in form.settingType.children %}
+                    <!--begin:Option-->
+                    <label class="d-flex w-100 flex-stack cursor-pointer mb-5">
+                        <!--begin::Label-->
+                        <span class="d-flex align-items-center me-2">
+                            <!--begin::Icon-->
+                            <span class="symbol symbol-50px me-6">
+                                <span class="symbol-label bg-light-warning">
+                                    <i class="ki-duotone ki-microsoft text-warning fs-2x">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                        <span class="path3"></span>
+                                        <span class="path4"></span>
+                                    </i>
+                                </span>
+                            </span>
+                            <!--end::Icon-->
+                            <!--begin::Info-->
+                            <span class="d-flex flex-column">
+                                <span class="fw-bold fs-6">{{ option.vars.label }}</span>
+                                <span class="fs-7 text-muted">Microsoft Fast NoSQL Database</span>
+                            </span>
+                            <!--end::Info-->
+                        </span>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        <span class="form-check form-check-custom form-check-solid">
+                            {{ form_widget(option, {attr: {'class': 'form-check-input','data-action': "change->Admin--setting-add#onSettingTypeChange"}}) }}
+                        </span>
+                        <!--end::Input-->
+                    </label>
+                    <!--end::Option-->
+                    {% endfor %}
+                </div>
+                <!--end::Nav-->
+            </div>
+            <!--begin::Aside-->
+            <!--begin::Content-->
+            <div class="flex-row-fluid py-lg-5 px-lg-15">
+                <!--begin::Step 3-->
+                <div class="w-100">
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-10">
+                        <!--begin::Label-->
+                        <label class="required fs-5 fw-semibold mb-2">Your Key</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        {{ form_widget(form.settingKey, {attr: {class: "form-control fs-7", placeholder: "Enter key"}}) }}
+                        {{ form_help(form.settingKey) }}
+                        <!--end::Input-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="fv-row mb-10">
+                        <!--begin::Label-->
+                        <label class="required fs-5 fw-semibold mb-2">Your Description</label>
+                        <!--end::Label-->
+                        <!--begin::Input-->
+                        {{ form_widget(form.description) }}
+                        <!--end::Input-->
+                    </div>
+                    <!--end::Input group-->
+                    <!--begin::Input group-->
+                    <div class="fv-row" data-Admin--setting-add-target="settingValue">
+                        <!--begin::Label-->
+                        <label class="d-flex align-items-center fs-5 fw-semibold mb-4">
+                            <span class="required">{{ (form.settingValue.vars.label) }}</span>
+                        </label>
+                        <!--end::Label-->
+                        <div>
+                            {% if form.settingType.vars.value == setting_type_image %}
+                                <div class="flex-column d-flex gap-3" data-controller="core-gallery"
+                                     data-action="Admin--picture-global:pickedPicture@window->core-gallery#listenPickedPicture">
+                                    <div class="d-flex gap-2">
+                                        <a href="#" data-action="click->core-gallery#open:prevent"
+                                           class="btn btn-sm fw-bold btn-primary">Pick</a>
+                                        <a href="#"
+                                           class="btn btn-sm fw-bold btn-secondary">Cancel</a>
+                                    </div>
+                                    <div style="display: none" data-core-gallery-target="areaReview">
+                                        <img src="" alt="review" class="mw-275px img-thumbnail" data-core-gallery-target="review">
+                                    </div>
+                                    {{ form_widget(form.settingValue, {attr: {'data-core-gallery-target': "input"}}) }}
+                                </div>
+                            {% elseif form.settingType.vars.value  == setting_type_json %}
+                                <a href="#" data-action="click->Admin--setting-add#addItem:prevent"
+                                   class="btn btn-sm fw-bold btn-primary"
+                                   data-index="{{ form.settingItems|length > 0 ? form.settingItems|last.vars.name + 1 : 0 }}"
+                                   data-Admin--setting-add-template-param="{{ include('Admin/views/setting/add_item.html.twig') |e('html_attr')}}"
+                                ><i class="ki-duotone ki-plus fs-2">
+                                    </i>Add Item</a>
+                                <div data-Admin--setting-add-target="listItem" class="my-2"
+                                >
+
+                                </div>
+                            {% else %}
+                                {{ form_widget(form.settingValue) }}
+                            {% endif %}
+                        </div>
+                    </div>
+                    <!--end::Input group-->
+                </div>
+                <!--end::Step 3-->
+            </div>
+            <!--end::Content-->
+        </div>
+        <!--end::Stepper-->
+        <button type="button" class="btn btn-primary"
+                data-action="click->Admin--setting-add#onSubmit">Submit</button>
+        {{ form_end(form) }}
+    {% endblock %}
+{% endembed %}

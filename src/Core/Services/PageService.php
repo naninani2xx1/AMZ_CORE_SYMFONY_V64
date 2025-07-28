@@ -103,4 +103,14 @@ class PageService extends AbstractController
 
         return new Response("Deleted Page Successfully");
     }
+
+    public function findOneById($id): Page
+    {
+        return $this->pageRepository->find($id);
+    }
+
+    public function findOneBySlug(string $slug): Page
+    {
+        return $this->pageRepository->findOneBySlug($slug);
+    }
 }

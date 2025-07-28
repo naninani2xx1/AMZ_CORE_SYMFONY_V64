@@ -1,0 +1,10 @@
+parameters:
+  blocks_type:
+    single_banner_block:
+      name: 'Block Single Banner'
+      backend:
+        view: 'Admin/views/blockPreview/single_banner.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/single_banner.html.twig'
+        controller: ''

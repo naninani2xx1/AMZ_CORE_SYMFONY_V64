@@ -1,0 +1,8 @@
+parameters:
+  menu.config:
+    positions:
+      header: "Top Menu in Header"
+      main: "Main Menu in Header"
+      left-footer: "Left-menu in Footer"
+      right-footer: "Right-menu in Footer"
+      middle-footer: "Middle-menu in Footer"

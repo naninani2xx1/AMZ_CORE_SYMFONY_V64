@@ -7,6 +7,7 @@ use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Core\Repository\SettingRepository")
@@ -19,6 +20,7 @@ class Setting extends LifecycleEntity
 
     /**
      * @ORM\Column (type="string", unique=true, nullable = true)
+     * @Assert\NotBlank(message="SettingKey cannot be blank")
      */
     private $settingKey;
 
@@ -28,6 +30,7 @@ class Setting extends LifecycleEntity
     private $settingValue;
 
     /**
+     * @Assert\NotBlank()
      * @ORM\Column (type="text", nullable = true)
      */
     private $settingType;
@@ -39,7 +42,7 @@ class Setting extends LifecycleEntity
 
     public function setSettingKey(string $settingKey): self
     {
-        $this->settingKey = $settingKey;
+        $this->settingKey = strtolower($settingKey);
 
         return $this;
     }

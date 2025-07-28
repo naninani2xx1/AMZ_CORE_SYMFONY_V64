@@ -31,10 +31,7 @@ class TopicController extends AbstractController implements CRUDActionInterface
      */
     public function index(Request $request): Response
     {
-      $data=$this->topicRepository->findAllTopicContact();
-      return  $this->render('Admin/views/topic/index.html.twig', [
-          'topics' => $data,
-      ]);
+      return  $this->render('Admin/views/topic/index.html.twig');
     }
 
     /**

@@ -10,49 +10,40 @@
         </div>
         <!--end::Controls-->
     </div>
-
     {% embed 'Admin/partials/table.html.twig' %}
         {% import 'Admin/partials/macros.html.twig' as macros %}
         {% block columns %}
-            {{ macros.table_column_default("Title") }}
-            {{ macros.table_column_default("Parent Name") }}
-            {{ macros.table_column_default("Position") }}
-            {{ macros.table_column_default("Icon") }}
-            {{ macros.table_column_default("Sort Order") }}
-            {{ macros.table_column_default("URL") }}
-            {{ macros.table_column_default("Created At") }}
-            {{ macros.table_column_default("Updated At") }}
-            {{ macros.table_column_default("Is Archived") }}
+            {{ macros.table_column_default("Author", 'text-start') }}
+            {{ macros.table_column_default("Display", 'text-start') }}
+            {{ macros.table_column_default("Menu Name", 'text-start') }}
+            {{ macros.table_column_default("Position", 'text-start') }}
+            {{ macros.table_column_default("CreatedAt", 'text-start') }}
+            {{ macros.table_column_default("UpdatedAt",  'text-start') }}
         {% endblock %}
-
-
         {% block rows %}
-            {% for menu in computed.data %}
-                <tr class="align-middle border-bottom border-gray-300 fs-7 text-center">
-                    <td>
-                        <a href="{{ path('app_admin_menu_edit',{'id':menu.id}) }}" class="btn btn-icon btn-active-light-primary me-1">
-                            {{ macros.icon_edit() }}
+            {% for item in computed.data %}
+                <tr class="py-3 align-middle  border-bottom border-gray-300 fs-7">
+                    <td class="action-column">
+                        <a href="{{ path('app_admin_menu_edit', {'id': item.id}) }}"   data-amz-btn-open-modal class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
+                                {{ macros.icon_edit() }}
+                            </span>
                         </a>
-                        <a href="{{ path('app_admin_menu_delete', {'id': menu.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
-                            {{ macros.icon_delete() }}
+                        <a href="#" data-amz-btn-remove
+                           data-action="{{ path('app_admin_menu_delete', {'id': item.id, '_csrf_token': csrf_token('menu-delete-'~ item.id) }) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
+                                {{ macros.icon_delete() }}
+                            </span>
                         </a>
                     </td>
-                    <td>{{ menu.title }}</td>
-                    <td>{{ menu.parent.title ?? '---' }}</td>
-                    <td>{{ menu.position }}</td>
-                    <td><img src="{{ asset(menu.icon)??null }}" alt="image" style="max-height: 40px"></td>
-                    <td>{{ menu.sortOrder }}</td>
-                    <td>{{ menu.url }}</td>
-                    <td>{{ menu.createdAt|date('Y-m-d H:i') }}</td>
-                    <td>{{ menu.updatedAt|date('Y-m-d H:i') }}</td>
-                    <td>{{ menu.isArchived == 0 ? 'Lưu trữ' : 'Đã xóa' }}</td>
+                    <td>{{ item.author.username }}</td>
+                    <td>{{ item.display }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.position }}</td>
+                    <td>{{ item.createdAt | date('d/m/Y H:i:a') }}</td>
+                    <td>{{ item.updatedAt | date('d/m/Y H:i:a') }}</td>
                 </tr>
-            {% else %}
-                <tr><td colspan="100%">Không có dữ liệu cài đặt.</td></tr>
             {% endfor %}
         {% endblock %}
-
     {% endembed %}
-
-
 </div>

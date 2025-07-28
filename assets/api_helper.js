@@ -11,7 +11,7 @@ const axiosGet = (url, listCallBack) => {
                 alertError();
                 return;
             }
-            failed(xhr.response.data);
+            failed(xhr.response);
     }).finally(_ => {
         if(final === undefined) return;
         final();
@@ -30,7 +30,7 @@ const axiosPost = (options, listCallBack) => {
             alertError();
             return;
         }
-        failed(xhr.response.data);
+        failed(xhr.response);
     }).finally(_ => {
         if(final === undefined) return;
         final();

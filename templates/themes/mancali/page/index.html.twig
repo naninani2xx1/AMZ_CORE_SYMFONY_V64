@@ -1,0 +1,19 @@
+{% extends themes_path  ~ '/base.html.twig' %}
+{% block title %}
+    {{ page.post.title }}
+{% endblock %}
+{% block customStyle %}
+    <style>
+        {{ page.customCss | raw }}
+    </style>
+{% endblock %}
+{% block body %}
+    <main class="{{ page.css }}">
+        {% set blocks = post.blocks %}
+        {% for block in blocks %}
+            {% if block.location == '' %}
+                {{ render( controller('App\\Controller\\EndUser\\BlockController::run',{id: block.id, request:app.request} )) }}
+            {% endif %}
+        {% endfor %}
+    </main>
+{% endblock %}

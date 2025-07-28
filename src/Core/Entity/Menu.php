@@ -2,13 +2,12 @@
 
 namespace App\Core\Entity;
 
-use App\Core\DataType\MenuType;
+use App\Core\DataType\MenuDataType;
+use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
  * @ORM\Entity(repositoryClass="App\Core\Repository\MenuRepository")
@@ -17,18 +16,13 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Menu extends LifecycleEntity
 {
+    use DoctrineIdentifierTrait;
 
     /**
-     * @ORM\Column(type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
+     * @ORM\Column(type="string", name="name", nullable=true)
      */
-    private $id;
+    private $name;
 
-    /**
-     * @ORM\Column(type="string", nullable=true)
-     */
-    private $title;
 
     /**
      * @ORM\Column(type="string", nullable=true)
@@ -46,9 +40,20 @@ class Menu extends LifecycleEntity
     private $url;
 
     /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $display = MenuDataType::DISPLAY_SHOW;
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $isRoot = MenuDataType::ROOT_LEVEL;
+
+    /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private $sortOrder;
+    private $sortOrder = MenuDataType::MENU_DEFAULT_SORT;
+
 
     /**
      * @ORM\ManyToOne(targetEntity="App\Core\Entity\Menu", inversedBy="children")
@@ -57,15 +62,14 @@ class Menu extends LifecycleEntity
     private $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Core\Entity\Menu", mappedBy="parent" )
+     * @ORM\OneToMany(targetEntity="App\Core\Entity\Menu", mappedBy="parent",cascade={"remove"})
      */
     private $children;
 
-
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\ManyToOne(targetEntity="App\Core\Entity\User", inversedBy="menus")
      */
-    private $language;
+    private $author;
 
 
     public function __construct()
@@ -73,24 +77,17 @@ class Menu extends LifecycleEntity
         $this->children = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getName(): ?string
     {
-        return $this->id;
+        return $this->name;
     }
 
-    public function getTitle(): ?string
+    public function setName(?string $name): self
     {
-        return $this->title;
-    }
-
-    public function setTitle(?string $title): self
-    {
-        $this->title = $title;
+        $this->name = $name;
 
         return $this;
     }
-
-
 
     public function getPosition(): ?string
     {
@@ -128,6 +125,31 @@ class Menu extends LifecycleEntity
         return $this;
     }
 
+    public function getDisplay(): ?string
+    {
+        return $this->display;
+    }
+
+    public function setDisplay(?string $display): self
+    {
+        $this->display = $display;
+
+        return $this;
+    }
+
+    public function getSortOrder(): ?int
+    {
+        return $this->sortOrder;
+    }
+
+    public function setSortOrder(?int $sortOrder): self
+    {
+        $this->sortOrder = $sortOrder;
+
+        return $this;
+    }
+
+
     public function getParent(): ?self
     {
         return $this->parent;
@@ -141,23 +163,6 @@ class Menu extends LifecycleEntity
     }
 
     /**
-     * @return mixed
-     */
-    public function getSortOrder()
-    {
-        return $this->sortOrder;
-    }
-
-    /**
-     * @param mixed $sortOrder
-     */
-    public function setSortOrder($sortOrder): void
-    {
-        $this->sortOrder = $sortOrder;
-    }
-
-
-    /**
      * @return Collection<int, Menu>
      */
     public function getChildren(): Collection
@@ -165,7 +170,7 @@ class Menu extends LifecycleEntity
         return $this->children;
     }
 
-    public function addChild(Menu $child): self
+    public function addChildren(Menu $child): self
     {
         if (!$this->children->contains($child)) {
             $this->children[] = $child;
@@ -175,7 +180,7 @@ class Menu extends LifecycleEntity
         return $this;
     }
 
-    public function removeChild(Menu $child): self
+    public function removeChildren(Menu $child): self
     {
         if ($this->children->removeElement($child)) {
             // set the owning side to null (unless already changed)
@@ -186,6 +191,7 @@ class Menu extends LifecycleEntity
 
         return $this;
     }
+
 
     public function getAuthor(): ?User
     {
@@ -199,16 +205,15 @@ class Menu extends LifecycleEntity
         return $this;
     }
 
-    public function getLanguage(): ?string
+    public function getIsRoot(): ?string
     {
-        return $this->language;
+        return $this->isRoot;
     }
 
-    public function setLanguage(?string $language): self
+    public function setIsRoot(?string $isRoot): self
     {
-        $this->language = $language;
+        $this->isRoot = $isRoot;
 
         return $this;
     }
-
 }

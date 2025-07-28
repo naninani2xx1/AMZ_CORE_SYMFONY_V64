@@ -8,6 +8,9 @@ use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 
 
+/**
+ * @extends ServiceEntityRepository<Setting>
+ */
 class SettingRepository extends ServiceEntityRepository
 {
     const ALIAS = 'setting';

@@ -14,16 +14,26 @@ use Knp\Component\Pager\PaginatorInterface;
  */
 class MenuRepository extends ServiceEntityRepository
 {
-    const ALIAS = 'menu';
-
-    private $paginator;
-
-    public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Menu::class);
         $this->paginator = $paginator;
     }
 
+    //    /**
+    //     * @return User[] Returns an array of User objects
+    //     */
+    //    public function findByExampleField($value): array
+    //    {
+    //        return $this->createQueryBuilder('u')
+    //            ->andWhere('u.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->orderBy('u.id', 'ASC')
+    //            ->setMaxResults(10)
+    //            ->getQuery()
+    //            ->getResult()
+    //        ;
+    //    }
 
     /**
      * @param int $page
@@ -41,4 +51,13 @@ class MenuRepository extends ServiceEntityRepository
 
         return $this->paginator->paginate($queryBuilder, $page, $limit);
     }
+    //    public function findOneBySomeField($value): ?User
+    //    {
+    //        return $this->createQueryBuilder('u')
+    //            ->andWhere('u.exampleField = :val')
+    //            ->setParameter('val', $value)
+    //            ->getQuery()
+    //            ->getOneOrNullResult()
+    //        ;
+    //    }
 }

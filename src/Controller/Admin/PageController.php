@@ -30,8 +30,7 @@ class PageController extends AbstractController implements CRUDActionInterface
      */
     public function index(Request $request): Response
     {
-        $pagination = $this->pageService->findAllPaginated();
-        return $this->render('Admin/views/page/index.html.twig', compact('pagination'));
+        return $this->render('Admin/views/page/index.html.twig');
     }
 
     /**

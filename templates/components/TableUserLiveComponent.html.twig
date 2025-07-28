@@ -10,38 +10,38 @@
         </div>
         <!--end::Controls-->
     </div>
-
     {% embed 'Admin/partials/table.html.twig' %}
         {% import 'Admin/partials/macros.html.twig' as macros %}
         {% block columns %}
-            {{ macros.table_column_default("ID") }}
-            {{ macros.table_column_default("Topic") }}
-            {{ macros.table_column_default("Created_at") }}
-            {{ macros.table_column_default("Archived") }}
+            {{ macros.table_column_default("Username", 'text-start') }}
+            {{ macros.table_column_default("Roles", 'text-start') }}
+            {{ macros.table_column_default("CreatedAt", 'text-start') }}
+            {{ macros.table_column_default("UpdatedAt",  'text-start') }}
         {% endblock %}
-
         {% block rows %}
-            {% for user in computed.data %}
-                <tr class="align-middle border-bottom border-gray-300 fs-7">
-                    <td>
-                        <a href="{{ path('app_admin_user_edit',{ 'id': user.id } ) }}" class="btn btn-icon btn-active-light-primary me-1">
-                            {{ macros.icon_edit() }}
+            {% for item in computed.data %}
+                <tr class="py-3 align-middle border-bottom border-gray-300 fs-7">
+                    <td class="action-column">
+                        <a href="{{ path('app_admin_user_edit', {'id': item.id}) }}"
+                           data-amz-btn-open-modal
+                           class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
+                                {{ macros.icon_edit() }}
+                            </span>
                         </a>
-                        <a href="{{ path('app_admin_user_delete', {'id':  user.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
-                            {{ macros.icon_delete() }}
+                        <a href="#" data-amz-btn-remove
+                           data-action="{{ path('app_admin_user_delete', {'id': item.id, '_csrf_token': csrf_token('user-delete-'~ item.id) }) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
+                                {{ macros.icon_delete() }}
+                            </span>
                         </a>
                     </td>
-                    <td>{{  user.id }}</td>
-                    <td>{{  user.username }}</td>
-                    <td>{{  user.createdAt|date('Y-m-d H:i') }}</td>
-                    <td>{{ user.isArchived == 0 ? 'Lưu Trữ' : 'Đã xóa' }}</td>
-
+                    <td>{{ item.username }}</td>
+                    <td>{{ get_roles_raw_html(item.roles) | raw  }}</td>
+                    <td>{{ item.createdAt | date('d/m/Y H:i:a') }}</td>
+                    <td>{{ item.updatedAt | date('d/m/Y H:i:a') }}</td>
                 </tr>
-            {% else %}
-                <tr><td colspan="6">Không có dữ liệu cài đặt.</td></tr>
             {% endfor %}
         {% endblock %}
     {% endembed %}
-
-
 </div>

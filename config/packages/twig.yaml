@@ -1,6 +1,9 @@
 twig:
     file_name_pattern: '*.twig'
-
+    globals:
+        setting_type_image: !php/const App\Core\DataType\SettingDataType::SETTING_TYPE_IMAGE
+        setting_type_json: !php/const App\Core\DataType\SettingDataType::SETTING_TYPE_JSON
+        themes_path: '%themes%'
 when@test:
     twig:
         strict_variables: true

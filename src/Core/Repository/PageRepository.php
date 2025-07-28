@@ -3,7 +3,10 @@
 namespace App\Core\Repository;
 
 use App\Core\DataType\ArchivedDataType;
+use App\Core\DataType\PostStatusType;
+use App\Core\DataType\PostTypeDataType;
 use App\Core\Entity\Page;
+use App\Form\Common\PublishedChoiceType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -45,5 +48,17 @@ class PageRepository extends ServiceEntityRepository
             $page,
             $limit
         );
+    }
+
+    public function findOneBySlug(string $slug): ?Page
+    {
+        $qb = $this->createQueryBuilder('page');
+        $qb->join('page.post', 'post');
+        $qb->where(
+            $qb->expr()->eq('post.slug', $qb->expr()->literal($slug)),
+            $qb->expr()->eq('post.isArchived', $qb->expr()->literal(ArchivedDataType::UN_ARCHIVED)),
+            $qb->expr()->eq('post.published', $qb->expr()->literal(PostStatusType::PUBLISH_TYPE_PUBLISHED)),
+        );
+        return $qb->getQuery()->getOneOrNullResult();
     }
 }

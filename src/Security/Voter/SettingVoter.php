@@ -2,64 +2,61 @@
 
 namespace App\Security\Voter;
 
+use App\Core\DataType\RoleDataType;
+use App\Core\Entity\Setting;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Authorization\AccessDecisionManagerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 final class SettingVoter extends Voter
 {
-    public const EDIT = 'SETTING_EDIT';
-    public const VIEW = 'SETTING_VIEW';
+    public const EDIT = 'POST_EDIT';
+    public const DELETE = 'POST_DELETE';
+    public const VIEW = 'POST_VIEW';
 
-    public const DELETE = 'SETTING_DELETE';
+    public function __construct(
+        private readonly AccessDecisionManagerInterface $accessDecisionManager
+    )
+    {
+    }
 
-    public const CREATE = 'SETTING_CREATE';
     protected function supports(string $attribute, mixed $subject): bool
     {
-        if($attribute == self::VIEW) {
+        if($attribute === self::VIEW)
             return true;
-        }
-
-        return in_array($attribute, [self::EDIT, self::VIEW, self::DELETE, self::CREATE])
-            && $subject instanceof \App\Core\Entity\Setting;
+        // replace with your own logic
+        // https://symfony.com/doc/current/security/voters.html
+        return in_array($attribute, [self::EDIT, self::DELETE])
+            && $subject instanceof Setting;
     }
 
     protected function voteOnAttribute(string $attribute, mixed $subject, TokenInterface $token): bool
     {
         $user = $token->getUser();
+
+        // if the user is anonymous, do not grant access
         if (!$user instanceof UserInterface) {
             return false;
         }
-        switch ($attribute) {
-            case self::EDIT:
-                return $this->canEdit($user);
-            case self::VIEW:
-                return $this->canView($user);
-            case self::DELETE:
-                return $this->canDelete($user);
-            case self::CREATE:
-                return $this->canCreate($user);
-        }
-        return false;
-    }
-    private function canEdit(UserInterface $user): bool
-    {
-        return in_array('ROLE_ADMIN', $user->getRoles());
+        /** @var Setting $setting */
+        $setting = $subject;
+        // ... (check conditions and return true to grant permission) ...
+        return match ($attribute) {
+            self::DELETE, self::EDIT => $this->canEditAndDelete($token, $setting),
+            self::VIEW => $this->canView($token),
+            default => false,
+        };
+
     }
 
-    private function canDelete(UserInterface $user): bool
+    private function canView(TokenInterface $token): bool
     {
-        return in_array('ROLE_ADMIN', $user->getRoles());
+        return $this->accessDecisionManager->decide($token, [RoleDataType::ROLE_ADMIN_SETTING]);
     }
 
-    private function canView(UserInterface $user): bool
+    private function canEditAndDelete(TokenInterface $token, Setting $setting): bool
     {
-        return in_array('ROLE_ADMIN', $user->getRoles());
+        return $this->accessDecisionManager->decide($token, [RoleDataType::ROLE_ADMIN_SETTING]);
     }
-
-    private function canCreate(UserInterface $user): bool
-    {
-        return in_array('ROLE_ADMIN', $user->getRoles());
-    }
-
 }

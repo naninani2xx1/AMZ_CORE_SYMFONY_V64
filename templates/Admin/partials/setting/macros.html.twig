@@ -1,0 +1,11 @@
+{% macro get_setting_value_item(setting) %}
+    {% if setting.settingType == setting_type_image %}
+        {{ _self.get_setting_value_item_by_type_image(setting) }}
+    {% else %}
+        {{ setting.settingValue }}
+    {% endif %}
+{% endmacro %}
+
+{% macro get_setting_value_item_by_type_image(setting) %}
+    <img src="{{ asset(setting.settingValue) }}" class="mw-175px img-thumbnail" alt="setting-value-{{ setting.settingKey }}">
+{% endmacro %}
