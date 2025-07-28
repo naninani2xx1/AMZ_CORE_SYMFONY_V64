@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route(path="/cms/admin/topic")
+ * @Route(path="/cms/topic")
  */
 class TopicController extends AbstractController implements CRUDActionInterface
 {

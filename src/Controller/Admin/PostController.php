@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/cms/admin/post")
+ * @Route("/cms/post")
  */
 class   PostController extends AbstractController implements CRUDActionInterface
 {

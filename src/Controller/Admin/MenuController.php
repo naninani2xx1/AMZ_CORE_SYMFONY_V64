@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route("/cms/admin/menu")
+ * @Route("/cms/menu")
  */
 class MenuController extends AbstractController implements CRUDActionInterface
 {

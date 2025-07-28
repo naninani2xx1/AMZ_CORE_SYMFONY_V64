@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route(path="/cms/admin/block")
+ * @Route(path="/cms/block")
  */
 class BlockController extends AbstractController implements CRUDActionInterface
 {

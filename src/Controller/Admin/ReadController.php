@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 /**
- * @Route(path="/cms/admin")
+ * @Route(path="/cms/read")
  */
 class ReadController extends AbstractController
 {

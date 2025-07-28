@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route("/cms/admin/manufacturer")
+ * @Route("/cms/manufacturer")
  */
 
 Class ManufacturerController extends AbstractController implements CRUDActionInterface

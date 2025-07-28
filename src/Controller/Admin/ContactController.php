@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route("/cms/admin/contact")
+ * @Route("/cms/contact")
  */
 Class ContactController extends AbstractController implements CRUDActionInterface
 {

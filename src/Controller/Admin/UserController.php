@@ -20,7 +20,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route("/cms/admin/user")
+ * @Route("/cms/user")
  */
 class UserController extends AbstractController implements CRUDActionInterface
 {

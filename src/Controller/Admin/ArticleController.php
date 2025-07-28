@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route(path="/cms/admin/article")
+ * @Route(path="/cms/article")
  */
 class ArticleController extends AbstractController implements CRUDActionInterface
 {

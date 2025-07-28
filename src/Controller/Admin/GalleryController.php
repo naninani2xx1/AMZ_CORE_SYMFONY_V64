@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
- * @Route("/cms/admin/gallery")
+ * @Route("/cms/gallery")
  */
 class GalleryController extends AbstractController implements CRUDActionInterface
 {
