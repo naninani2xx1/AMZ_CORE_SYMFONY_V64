@@ -48,9 +48,16 @@ class User extends LifecycleEntity implements UserInterface, LegacyPasswordAuthe
      */
     private ?Collection $articles = null;
 
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Core\Entity\Menu", mappedBy="author")
+     */
+    private ?Collection $menus = null;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->menus = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -138,6 +145,36 @@ class User extends LifecycleEntity implements UserInterface, LegacyPasswordAuthe
             // set the owning side to null (unless already changed)
             if ($article->getAuthor() === $this) {
                 $article->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Menu>
+     */
+    public function getMenus(): Collection
+    {
+        return $this->menus;
+    }
+
+    public function addMenu(Menu $menu): static
+    {
+        if (!$this->menus->contains($menu)) {
+            $this->menus->add($menu);
+            $menu->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMenu(Menu $menu): static
+    {
+        if ($this->menus->removeElement($menu)) {
+            // set the owning side to null (unless already changed)
+            if ($menu->getAuthor() === $this) {
+                $menu->setAuthor(null);
             }
         }
 

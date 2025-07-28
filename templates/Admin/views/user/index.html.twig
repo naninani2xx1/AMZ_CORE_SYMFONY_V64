@@ -1,0 +1,30 @@
+{% extends 'Admin/base.html.twig' %}
+{% block title %}CMS-User Management{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}User Management{% endblock toolbar_title %}
+
+        {% block toolbar_breadcrumbs %}
+            <!--begin::Item-->
+            <li class="breadcrumb-item text-muted">
+                <a href="#" class="text-muted text-hover-primary">User</a>
+            </li>
+            <!--end::Item-->
+        {% endblock toolbar_breadcrumbs %}
+
+        {% block toolbar_button_actions %}
+            <a href="{{ path('app_admin_user_add') }}"
+               data-amz-btn-open-modal
+               class="btn btn-sm fw-bold btn-primary">Create</a>
+        {% endblock toolbar_button_actions %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+    {{ component('TableUserLiveComponent', {'id': "TableUserLive"}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

@@ -38,7 +38,7 @@
     }}) }}
     {% do form.post.setRendered %}
         <!--begin::Aside column-->
-        <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
+        <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10" data-controller="core-gallery">
             <!--begin::Thumbnail settings-->
             <div class="card card-flush py-4">
                 <!--begin::Card header-->
@@ -52,7 +52,7 @@
                         <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow"
                                data-amz-input-pick-gallery="#{{ form.post.thumbnail.vars.id }}"
                                data-amz-place-view-gallery=".image-input-placeholder"
-                               data-amz-btn-open-gallery="true" data-bs-toggle="tooltip" title="Open Gallery">
+                               data-action="click->core-gallery#open:prevent" data-bs-toggle="tooltip" title="Open Gallery">
                             <i class="ki-duotone ki-pencil fs-7">
                                 <span class="path1"></span>
                                 <span class="path2"></span>

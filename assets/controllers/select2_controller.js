@@ -33,10 +33,9 @@ export default class extends Controller {
          this.select2 = $(this.element).select2({
             placeholder: this.placeholderValue,
             allowClear: true,
-            minimumResultsForSearch:  this.hiddenSearchValue ? -1 : 0
+            minimumResultsForSearch:  this.hiddenSearchValue ? -1 : 0,
+            dropdownParent:  (this.hasDropdownParentValue) ? $(this.dropdownParentValue) : null
         });
-         if(this.hasDropdownParentValue)
-             this.select2.dropdownParent = $(this.dropdownParentValue)
         $(this.element).on('select2:select', this.onChange.bind(this));
     }
 

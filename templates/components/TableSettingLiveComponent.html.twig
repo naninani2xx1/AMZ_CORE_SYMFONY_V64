@@ -1,0 +1,44 @@
+<div{{ attributes }}>
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    <div class="d-flex flex-wrap flex-stack mb-6">
+        <!--begin::Title-->
+        {{ macros.table_get_input_search() }}
+        <!--end::Title-->
+        <!--begin::Controls-->
+        <div class="d-flex my-2">
+
+        </div>
+        <!--end::Controls-->
+    </div>
+    {% embed 'Admin/partials/table.html.twig' %}
+        {% import 'Admin/partials/macros.html.twig' as macros %}
+        {% import 'Admin/partials/setting/macros.html.twig' as SettingMacros %}
+        {% block columns %}
+            {{ macros.table_column_default("Setting Key", 'text-start') }}
+            {{ macros.table_column_default("Setting Value", 'text-start') }}
+            {{ macros.table_column_default("Description", 'text-start') }}
+            {{ macros.table_column_default("CreatedAt", 'text-start') }}
+            {{ macros.table_column_default("UpdatedAt",  'text-start') }}
+        {% endblock %}
+        {% block rows %}
+            {% for item in computed.data %}
+                <tr class="py-3 align-middle  border-bottom border-gray-300 fs-7">
+                    <td class="action-column">
+                        <a href="{{ path('app_admin_setting_edit', {'id': item.id}) }}"
+                           data-amz-btn-open-modal
+                           class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
+                                {{ macros.icon_edit() }}
+                            </span>
+                        </a>
+                    </td>
+                    <td>{{ item.settingKey }}</td>
+                    <td>{{ SettingMacros.get_setting_value_item(item) }}</td>
+                    <td>{{ item.description }}</td>
+                    <td>{{ item.createdAt | date('d/m/Y H:i:a') }}</td>
+                    <td>{{ item.updatedAt | date('d/m/Y H:i:a') }}</td>
+                </tr>
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+</div>

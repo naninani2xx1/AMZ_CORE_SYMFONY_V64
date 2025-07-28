@@ -25,6 +25,7 @@ class CoreExtension extends AbstractExtension
         return [
             new TwigFunction('supports', [CoreExtensionRuntime::class, 'supports']),
             new TwigFunction('is_route_active', [CoreExtensionRuntime::class, 'isRouteActive']),
+            new TwigFunction('get_roles_raw_html', [CoreExtensionRuntime::class, 'getRolesRawHtml']),
         ];
     }
 }

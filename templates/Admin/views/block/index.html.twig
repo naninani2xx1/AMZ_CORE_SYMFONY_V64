@@ -1,0 +1,38 @@
+{% extends 'Admin/base.html.twig' %}
+{% block title %}CMS-Block Management{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}Block Management | Page - {{ page.name }}{% endblock toolbar_title %}
+
+        {% block toolbar_breadcrumbs %}
+            <!--begin::Item-->
+            <li class="breadcrumb-item text-muted">
+                <a href="{{ path('app_admin_page_index') }}" class="text-muted text-hover-primary">Page</a>
+            </li>
+            <!--end::Item-->
+            <!--begin::Item-->
+            <li class="breadcrumb-item">
+                <span class="bullet bg-gray-500 w-5px h-2px"></span>
+            </li>
+            <!--end::Item-->
+            <!--begin::Item-->
+            <li class="breadcrumb-item text-muted">Block</li>
+            <!--end::Item-->
+        {% endblock toolbar_breadcrumbs %}
+
+        {% block toolbar_button_actions %}
+            <a href="{{ path('app_admin_block_add', {'pageId': page.id}) }}"
+               data-amz-btn-open-modal
+               class="btn btn-sm fw-bold btn-primary">Create</a>
+        {% endblock toolbar_button_actions %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+    {{ component('TableBlockLiveComponent', {'id': "TableBlockLive", 'pageEntity': page}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

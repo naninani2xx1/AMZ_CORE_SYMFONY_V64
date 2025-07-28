@@ -3,8 +3,7 @@
 
 namespace App\Core\Entity;
 
-use App\Core\DataType\BlockType;
-use App\Core\Trait\ArchivedTrait;
+use App\Core\DataType\BlockDataType;
 use App\Core\Trait\DoctrineContentTrait;
 use App\Core\Trait\DoctrineDescriptionTrait;
 use App\Core\Trait\DoctrineIdentifierTrait;
@@ -48,11 +47,6 @@ class Block extends LifecycleEntity
      */
     private $post;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Core\Entity\Category", inversedBy="block" )
-     * @ORM\JoinColumn(name="category_id", referencedColumnName="id",nullable=true)
-     */
-    private $category;
 
     /**
      * @ORM\Column(name="slug", type="string", unique=true, nullable=true)
@@ -113,7 +107,7 @@ class Block extends LifecycleEntity
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private $kind = BlockType::BLOCK_KIND_DYNAMIC;
+    private $kind = BlockDataType::BLOCK_KIND_DYNAMIC;
 
     public function getSortOrder(): ?int
     {
@@ -303,18 +297,6 @@ class Block extends LifecycleEntity
     public function setPost(?Post $post): static
     {
         $this->post = $post;
-
-        return $this;
-    }
-
-    public function getCategory(): ?Category
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?Category $category): static
-    {
-        $this->category = $category;
 
         return $this;
     }

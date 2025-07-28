@@ -22,7 +22,11 @@ doctrine:
                 dir: '%kernel.project_dir%/src/Core/Entity'
                 prefix: 'App\Core\Entity'
                 alias: Core
-
+        dql:
+            datetime_functions:
+                DATE_FORMAT: App\Core\DQL\DateFormatDQL
+            string_functions:
+                find_in_set: App\Core\DQL\FindInSetDQL
 when@test:
     doctrine:
         dbal:

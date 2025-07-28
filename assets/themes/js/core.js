@@ -1,5 +1,7 @@
-import {addModalIntoBodyTag, alertError} from "@Common";
-import {axiosGet} from "@ApiHelper";
+import {addModalIntoBodyTag, alertError, alertSuccess} from "@Common";
+import {axiosGet, axiosPost} from "@ApiHelper";
+import {getComponent} from "@symfony/ux-live-component";
+
 
 /** Register event core **/
 const buttonsOpenModal = document.querySelectorAll('[data-amz-btn-open-modal]');
@@ -7,8 +9,15 @@ buttonsOpenModal.forEach(button => {
     button.addEventListener('click', event => {
         event.preventDefault();
         const $this = event.currentTarget;
-        const { action } = $this.dataset;
-        $this.activeProgress();
+        let action;
+
+        if($this.tagName === "BUTTON"){
+           action = $this.dataset.action;
+           $this.activeProgress();
+        }
+        if($this.tagName === "A")
+            action = $this.href;
+
         axiosGet(action, {
             success: res => {
                 addModalIntoBodyTag(res);
@@ -18,7 +27,8 @@ buttonsOpenModal.forEach(button => {
                 alertError('Sorry, looks like there are some errors detected, please try again.')
             },
             final: _ => {
-                $this.activeProgress(false);
+                if($this.tagName === "BUTTON")
+                    $this.activeProgress(false);
             }
         });
     });
@@ -56,3 +66,20 @@ document.addEventListener('picked-gallery', event => {
     selectedDOMViewGallery.style.backgroundImage = `url('${path}')`;
 })
 
+/** remove item live component **/
+const buttonsRemove = document.querySelectorAll('[data-amz-btn-remove]');
+buttonsRemove?.forEach(btn => {
+    btn?.addEventListener('click', async event => {
+        event.preventDefault();
+        const liveComponentDOM = btn.closest('[data-controller]')
+        const component = await getComponent(liveComponentDOM);
+
+        axiosPost({url: btn.getAttribute('data-action')}, {
+            success: res => {
+                alertSuccess({html: res.message, timer: 3000});
+                component.render();
+            },
+            failed: res => alertError(),
+        })
+    })
+})
