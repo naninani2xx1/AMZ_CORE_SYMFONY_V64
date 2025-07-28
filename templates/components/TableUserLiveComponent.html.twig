@@ -15,8 +15,7 @@
         {% import 'Admin/partials/macros.html.twig' as macros %}
         {% block columns %}
             {{ macros.table_column_default("ID") }}
-            {{ macros.table_column_default("Username") }}
-            {{ macros.table_column_default("Roles") }}
+            {{ macros.table_column_default("Topic") }}
             {{ macros.table_column_default("Created_at") }}
             {{ macros.table_column_default("Archived") }}
         {% endblock %}
@@ -34,7 +33,6 @@
                     </td>
                     <td>{{  user.id }}</td>
                     <td>{{  user.username }}</td>
-                    <td>{{  user.roles|join(', ') }}</td>
                     <td>{{  user.createdAt|date('Y-m-d H:i') }}</td>
                     <td>{{ user.isArchived == 0 ? 'Lưu Trữ' : 'Đã xóa' }}</td>
 

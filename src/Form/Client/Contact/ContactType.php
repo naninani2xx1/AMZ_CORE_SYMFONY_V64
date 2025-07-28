@@ -4,6 +4,9 @@ namespace App\Form\Client\Contact;
 
 use App\Core\Repository\SettingRepository;
 use App\DataType\ContactTypeChoice;
+use App\Entity\TopicContact;
+use Doctrine\ORM\Mapping\Entity;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -25,26 +28,16 @@ class ContactType extends AbstractType
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $topics = $this->settingRepository->findTopics();
-
-        $choices = [];
-
-        foreach ($topics as $topic) {
-          $decode=json_decode($topic->getSettingValue());
-          $items = explode(',', $decode[0]);
-          foreach ($items as $item) {
-              $trimItems = trim($item);
-              $choices[$trimItems] = $trimItems;
-          }
-        }
-
         $builder
             ->add('name',TextType::class)
             ->add('email',EmailType::class)
             ->add('phone',TextType::class)
-            ->add('topic', ChoiceType::class, [
-                'choices' => $choices,
-                'multiple' => false,
+            ->add('topic',EntityType::class,[
+                'class'=>TopicContact::class,
+                'choice_label'=>'topic',
+                'placeholder' => 'Chọn chủ đề',
+                'required'=>true,
+                'multiple'=>false,
             ])
             ->add('status', HiddenType::class, [
                 'data'=>1

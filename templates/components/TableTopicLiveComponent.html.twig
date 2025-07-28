@@ -1,0 +1,48 @@
+<div{{ attributes }}>
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    <div class="d-flex flex-wrap flex-stack mb-6">
+        <!--begin::Title-->
+        {{ macros.table_get_input_search() }}
+        <!--end::Title-->
+        <!--begin::Controls-->
+        <div class="d-flex my-2">
+
+        </div>
+        <!--end::Controls-->
+    </div>
+
+{% embed 'Admin/partials/table.html.twig' %}
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    {% block columns %}
+        {{ macros.table_column_default("ID") }}
+        {{ macros.table_column_default("Setting Key") }}
+        {{ macros.table_column_default("Setting Value") }}
+        {{ macros.table_column_default("Setting Type") }}
+        {{ macros.table_column_default("Created At") }}
+    {% endblock %}
+
+    {% block rows %}
+        {% for topic in computed.data %}
+            <tr class="align-middle border-bottom border-gray-300 fs-7 text-center">
+                <td>
+                    <a class="btn btn-icon btn-active-light-primary me-1" href="{{ path('app_admin_topic_edit',{'id':topic.id}) }}">
+                        {{ macros.icon_edit() }}
+                    </a>
+                    <a href="{{ path('app_admin_topic_delete', {'id': topic.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                        {{ macros.icon_delete() }}
+                    </a>
+                </td>
+                <td>{{ topic.id }}</td>
+                <td>{{ topic.topic }}</td>
+                <td>{{ topic.updateAt}}</td>
+                <td>{{ topic.createdAt|date('Y-m-d H:i') }}</td>
+
+            </tr>
+        {% else %}
+            <tr><td colspan="6">Không có dữ liệu cài đặt.</td></tr>
+        {% endfor %}
+    {% endblock %}
+{% endembed %}
+
+
+</div>
