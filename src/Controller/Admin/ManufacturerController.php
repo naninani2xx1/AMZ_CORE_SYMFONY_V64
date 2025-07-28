@@ -30,9 +30,7 @@ Class ManufacturerController extends AbstractController implements CRUDActionInt
     public function index(Request $request): Response
     {
         $data=$this->manufacturerRepository->findAllManufacturer();
-        return  $this->render('Admin/views/manufacturer/index.html.twig', [
-            'manufacturers' => $data,
-        ]);
+        return  $this->render('Admin/views/manufacturer/index.html.twig');
     }
 
     /**

@@ -14,7 +14,8 @@ class TopicContactType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('topic', TextType::class)
+            ->add('name', TextType::class)
+            ->add('type', TextType::class)
         ;
     }
 
@@ -22,6 +23,7 @@ class TopicContactType extends AbstractType
     {
         $resolver->setDefaults([
           'data_class' => TopicContact::class,
+            'attr' => ['novalidate' => 'novalidate','data-controller' => 'Admin--topic'],
         ]);
     }
 }

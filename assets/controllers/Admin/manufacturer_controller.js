@@ -26,7 +26,7 @@ export default class extends Controller {
         // Here you can add event listeners on the element or target elements,
         // add or remove classes, attributes, dispatch custom events, etc.
         // this.fooTarget.addEventListener('click', this._fooBar)
-        this.topicComponent = await getComponent(document.getElementById('TableTopicLive'));
+        this.manufacturerComponent = await getComponent(document.getElementById('TableManufacturerLive'));
     }
 
     // Add custom controller actions here
@@ -38,7 +38,7 @@ export default class extends Controller {
 
         // Here you should remove all event listeners added in "connect()"
         // this.fooTarget.removeEventListener('click', this._fooBar)
-        this.topicComponent = null;
+        this.manufacturerComponent = null;
     }
 
     onSubmit(event){
@@ -50,7 +50,7 @@ export default class extends Controller {
             success: res => {
                 alertSuccess({html: res.message, timer: 3000});
                 $('#app-modal').modal('hide');
-                this.topicComponent.render();
+                this.manufacturerComponent.render();
             },
             failed: res => {
                 if(res.status === 422)

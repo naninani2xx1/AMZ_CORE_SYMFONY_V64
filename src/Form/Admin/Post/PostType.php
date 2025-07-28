@@ -144,7 +144,6 @@ class PostType extends AbstractType
                 }
             }
             $post->setSlug($this->convertValue->standardizationSlug($form->get('slug')->getData()));
-            $post->setSubTitle(ConvertValue::standardizationDash($form->get('subTitle')->getData()));
             $tagString = $form->get('tag')->getData() ?? '';
             $convertTag = array_filter(array_map('trim', explode(',', $tagString)));
             $post->setTags($convertTag);

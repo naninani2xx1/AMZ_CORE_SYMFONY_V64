@@ -15,9 +15,8 @@
     {% import 'Admin/partials/macros.html.twig' as macros %}
     {% block columns %}
         {{ macros.table_column_default("ID") }}
-        {{ macros.table_column_default("Setting Key") }}
-        {{ macros.table_column_default("Setting Value") }}
-        {{ macros.table_column_default("Setting Type") }}
+        {{ macros.table_column_default("Name Topic") }}
+        {{ macros.table_column_default("Type Topic") }}
         {{ macros.table_column_default("Created At") }}
     {% endblock %}
 
@@ -25,7 +24,7 @@
         {% for topic in computed.data %}
             <tr class="align-middle border-bottom border-gray-300 fs-7 text-center">
                 <td>
-                    <a class="btn btn-icon btn-active-light-primary me-1" href="{{ path('app_admin_topic_edit',{'id':topic.id}) }}">
+                    <a class="btn btn-icon btn-active-light-primary me-1" data-amz-btn-open-modal href="{{ path('app_admin_topic_edit',{'id':topic.id}) }}">
                         {{ macros.icon_edit() }}
                     </a>
                     <a href="{{ path('app_admin_topic_delete', {'id': topic.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
@@ -33,8 +32,8 @@
                     </a>
                 </td>
                 <td>{{ topic.id }}</td>
-                <td>{{ topic.topic }}</td>
-                <td>{{ topic.updateAt}}</td>
+                <td>{{ topic.name }}</td>
+                <td>{{ topic.type }}</td>
                 <td>{{ topic.createdAt|date('Y-m-d H:i') }}</td>
 
             </tr>

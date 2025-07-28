@@ -8,6 +8,8 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Email;
 use Symfony\Component\Validator\Constraints\Length;
@@ -53,18 +55,31 @@ class ManufacturerType extends AbstractType
                     new Url(['message' => 'Đường dẫn không hợp lệ.']),
                 ],
             ])
-            ->add('products',TextType::class)
+            ->add('products',TextType::class,[
+                'constraints' => [
+                    new NotBlank(),
+                ]
+            ])
             ->add('sortOrder', IntegerType::class, [
                 'constraints' => [
                     new NotBlank(['message' => 'Thứ tự sắp xếp không được để trống.']),
                 ],
             ]);
+        $builder->addEventListener(FormEvents::SUBMIT, function (FormEvent $event) use ($options) {
+            $form=$event->getForm();
+            $data=$form->getData();
+            $productString = $form->get('products')->getData() ?? '';
+            $convertProduct = array_filter(array_map('trim', explode(',', $productString)));
+            $data->setProducts($convertProduct);
+        });
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Manufacturer::class,
+            'attr' => ['novalidate' => 'novalidate','data-controller'=>'Admin--manufacturer'],
         ]);
     }
 }

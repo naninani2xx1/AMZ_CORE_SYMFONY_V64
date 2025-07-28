@@ -2,13 +2,13 @@
 
 namespace App\Repository;
 
-use App\Entity\Contact;
+use App\Entity\TopicContact;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 
 /**
- * @extends ServiceEntityRepository<Contact>
+ * @extends ServiceEntityRepository<TopicContact>
  */
 class TopicContactRepository extends ServiceEntityRepository
 {
@@ -16,7 +16,7 @@ class TopicContactRepository extends ServiceEntityRepository
     private $paginator;
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator)
     {
-        parent::__construct($registry, Contact::class);
+        parent::__construct($registry, TopicContact::class);
         $this->paginator=$paginator;
     }
     /**
