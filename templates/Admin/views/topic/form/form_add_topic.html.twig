@@ -1,0 +1,24 @@
+{% embed 'Admin/partials/modal.html.twig' %}
+    {% block title %}Add new Topic {% endblock %}
+    {% block modalClass %}modal-dialog-centered p-10 mw-900px{% endblock %}
+    {% block body %}
+        {{ form_start(form) }}
+        <div class="fv-row mb-7">
+            <!--begin::Label-->
+            <label class="required fs-6 fw-semibold mb-2">Topic Name</label>
+
+            {{ form_widget(form.name, {attr: {'class': "form-control fs-7"}}) }}
+
+        </div>
+        <div class="fv-row mb-7">
+            <!--begin::Label-->
+            <label class="required fs-6 fw-semibold mb-2">Topic Type</label>
+
+            {{ form_widget(form.type, {attr: {'class': "form-control fs-7"}}) }}
+
+        </div>
+        <button type="button" class="btn btn-primary"
+                data-action="click->Admin--topic#onSubmit">Submit</button>
+        {{ form_end(form) }}
+    {% endblock %}
+{% endembed %}
