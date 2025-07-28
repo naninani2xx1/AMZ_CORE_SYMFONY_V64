@@ -4,7 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
 use App\Core\Repository\PostRepository;
-use App\Services\PostService;
+use App\Services\Admin\PostService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

@@ -1,20 +1,16 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Admin;
 
 use App\Core\Entity\Category;
-use App\Core\Exception\ValidationFailed;
 use App\Core\Repository\CategoryRepository;
 use App\Form\Admin\Category\CategoryAddForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
-
 use Knp\Component\Pager\Pagination\PaginationInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Messenger\Exception\ValidationFailedException;
 
 class CategoryService extends AbstractController
 {
@@ -31,7 +27,7 @@ class CategoryService extends AbstractController
     public function add(Request $request): Response
     {
         $category = new Category();
-        $form = $this->createForm(CategoryAddForm::class, $category);
+        $form = $this->createForm(CategoryAddForm::class, $category,['action' => $this->generateUrl('app_admin_category_add')]);
 
         if ($this->handleCategoryForm($category, $request, $form)) {
             return $this->redirectToRoute('app_admin_category_index');
@@ -49,7 +45,7 @@ class CategoryService extends AbstractController
         $oldIcon = $category->getIcon();
         $oldThumbnail = $category->getThumbnail();
 
-        $form = $this->createForm(CategoryAddForm::class, $category);
+        $form = $this->createForm(CategoryAddForm::class, $category,['action' => $this->generateUrl('app_admin_category_edit', ['id' => $id])]);
         if ($this->handleCategoryForm($category, $request, $form)) {
             if ($form->get('icon')->getData()===null) {
                 $category->setIcon($oldIcon);

@@ -141,21 +141,22 @@
 
 
             <!-- Advanced Tab -->
-            <div class="tab-pane fade" id="adv" role="tab-panel">
-                <div class="d-flex flex-column gap-7 gap-lg-10">
-                    <div class="card card-flush py-4">
-                        <div class="card-header"><div class="card-title"><h2>Content & Config</h2></div></div>
-                        <div class="card-body pt-0">
-                            {{ form_widget(form.description, {attr:{class:"form-control mb-2",rows:5}}) }}
-                            {{ form_widget(form.config, {attr:{class:"form-control mb-2"}}) }}
-                            {{ form_widget(form.content, {attr:{class:"form-control mb-2"}}) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+            {% if form.kindData is defined %}
+                <div class="mt-10">
+                    <h3 class="mb-5">Cấu hình theo kiểu Block</h3>
 
-        <div class="d-flex justify-content-end">
+                    {% for field in form.kindData %}
+                        <div class="mb-10 fv-row">
+                            {{ form_label(field) }}
+                            {{ form_widget(field, {attr: {class: "form-control"}}) }}
+                            {{ form_errors(field) }}
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+
+
+            <div class="d-flex justify-content-end">
             <a href="{{ path('app_admin_block_index') }}" class="btn btn-light me-5">Cancel</a>
             <button type="submit" class="btn btn-primary">
                 <span class="indicator-label">Save Changes</span>

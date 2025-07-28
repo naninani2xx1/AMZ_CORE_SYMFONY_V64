@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Admin;
 
 use App\Form\Admin\Article\AddArticleForm;
 use Doctrine\ORM\EntityManagerInterface;

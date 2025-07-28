@@ -6,7 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
 use App\Core\Repository\ArticleRepository;
-use App\Services\BlockService;
+use App\Services\Admin\BlockService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

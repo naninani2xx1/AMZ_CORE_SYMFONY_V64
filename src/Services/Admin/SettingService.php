@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Admin;
 
 use App\Core\Entity\Setting;
 use App\Form\Admin\Setting\SettingCommonType;

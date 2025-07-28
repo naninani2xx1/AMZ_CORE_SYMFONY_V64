@@ -42,6 +42,7 @@ class AddGalleryFolderForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Gallery::class,
+            'attr'=>['novalidate'=>'novalidate','data-controller'=>'Admin--gallery'],
         ]);
     }
 }

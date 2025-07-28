@@ -2,13 +2,8 @@
 namespace App\Twig\Runtime;
 
 use App\Core\Entity\Menu;
-use App\Services\MenuService;
 use Doctrine\ORM\EntityManagerInterface;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 use Twig\Extension\RuntimeExtensionInterface;
-
 
 
 class MenuExtensionRuntime implements RuntimeExtensionInterface

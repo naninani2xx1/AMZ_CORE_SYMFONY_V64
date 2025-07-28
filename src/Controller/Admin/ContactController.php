@@ -3,11 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
-use App\Core\Repository\SettingRepository;
-use App\DataType\PostTypeChoice;
-use App\Entity\Contact;
-use App\Repository\ContactRepository;
-use App\Services\ContactService;
+use App\Services\Admin\ContactService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

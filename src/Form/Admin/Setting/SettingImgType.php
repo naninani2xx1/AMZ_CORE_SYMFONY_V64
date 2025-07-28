@@ -4,7 +4,7 @@ namespace App\Form\Admin\Setting;
 
 use App\Core\Entity\Gallery;
 use App\Core\Entity\Setting;
-use App\Services\ImageService;
+use App\Services\Admin\ImageService;
 use App\Utils\ConvertValue;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

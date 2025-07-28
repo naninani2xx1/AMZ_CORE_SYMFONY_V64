@@ -2,11 +2,13 @@
 
 namespace App\Form\Admin\Block;
 
+use App\Core\DataType\BlockType;
 use App\Core\Entity\Block;
 use App\Core\Entity\Category;
 use App\Core\Entity\Post;
-use App\Core\DataType\BlockType;
-use App\Services\ImageService;
+use App\Form\Admin\Block\Type\ContactInfoBlockType;
+use App\Utils\BlockFieldMap;
+use App\Services\Admin\ImageService;
 use App\Utils\ConvertValue;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
@@ -18,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -26,7 +29,8 @@ class BlockFormType extends AbstractType
 {
     private ImageService $imageService;
     private ConvertValue $convertValue;
-    public function __construct(ImageService $imageService,  ConvertValue $convertValue)
+
+    public function __construct(ImageService $imageService, ConvertValue $convertValue)
     {
         $this->imageService = $imageService;
         $this->convertValue = $convertValue;
@@ -54,9 +58,6 @@ class BlockFormType extends AbstractType
                 ],
             ])
             ->add('description', TextareaType::class, [
-                'required' => false,
-            ])
-            ->add('config', TextareaType::class, [
                 'required' => false,
             ])
             ->add('content', TextareaType::class, [
@@ -121,11 +122,12 @@ class BlockFormType extends AbstractType
                     new Assert\Length(['max' => 255]),
                 ],
             ])
-            ->add('kind', TextType::class, [
-                'required' => false,
-                'constraints' => [
-                    new Assert\Length(['max' => 255]),
+            ->add('kind', ChoiceType::class, [
+                'choices' => [
+                    'contact_info' => 'contact_info',
+                    'video_block' => 'video_block',
                 ],
+                'required' => false,
             ])
             ->add('post', EntityType::class, [
                 'class' => Post::class,
@@ -143,6 +145,10 @@ class BlockFormType extends AbstractType
             $data = $event->getData();
             $form = $event->getForm();
 
+            if ($data->getKind() === 'contact_info' && $form->has('kindData')) {
+                $kindData = $form->get('kindData')->getData();
+                $data->setContent(json_encode($kindData, JSON_UNESCAPED_UNICODE));
+            }
             foreach (['imageIcon', 'image', 'imageMobile', 'background', 'mobileBackground'] as $field) {
                 /** @var UploadedFile|null $file */
                 $file = $form->get($field)->getData();
@@ -153,9 +159,17 @@ class BlockFormType extends AbstractType
                         $data->$setter($imgPath);
                     }
                 }
-
             }
+
+
             $data->setSlug($this->convertValue->standardizationSlug($form->get('slug')->getData()));
+        });
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, function (FormEvent $event) {
+            /** @var Block $block */
+            $block = $event->getData();
+            $form = $event->getForm();
+
+            $this->addKindSubForm($form, $block->getKind(), $block);
         });
     }
 
@@ -164,14 +178,23 @@ class BlockFormType extends AbstractType
         $builder->add($fieldName, FileType::class, [
             'required' => false,
             'mapped' => false,
-
         ]);
     }
-
+    private function addKindSubForm(FormInterface $form, ?string $kind, ?Block $block = null): void
+    {
+        if ($kind === 'contact_info') {
+            $kindData = $block ? json_decode($block->getContent() ?? '{}', true) : [];
+            $form->add('kindData', ContactInfoBlockType::class, [
+                'mapped' => false,
+                'data' => $kindData
+            ]);
+        }
+    }
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Block::class,
+            'kind_data' => [],
         ]);
     }
 }

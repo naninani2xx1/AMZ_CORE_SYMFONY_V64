@@ -36,8 +36,13 @@
                     <td>{{ article.getPost.getTitle }}</td>
                     <td>{{ article.getPost.getSubTitle }}</td>
                     <td>
-                        <img src="{{ asset(article.getPost.getThumbnail)??'' }}" alt="{{ article.post.title }}" width="40" height="40">
+                        {% if article.getPost.getThumbnail %}
+                            <img src="{{ asset(article.getPost.getThumbnail) }}" alt="{{ article.post.title }}" width="40" height="40">
+                        {% else %}
+                            <img src="" alt="default image" width="40" height="40">
+                        {% endif %}
                     </td>
+
 
                     <td>{{ article.createdAt|date('Y-m-d H:i') }}</td>
                 </tr>

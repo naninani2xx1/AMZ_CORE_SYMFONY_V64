@@ -3,7 +3,7 @@
 namespace App\Form\Admin\Menu;
 
 use App\Core\Entity\Menu;
-use App\Services\ImageService;
+use App\Services\Admin\ImageService;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;

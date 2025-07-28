@@ -4,7 +4,6 @@
 {% block toolbar %}
     {% embed 'Admin/partials/toolbar.html.twig' %}
         {% block toolbar_title %}Add Block{% endblock toolbar_title %}
-
         {% block toolbar_breadcrumbs %}
             <li class="breadcrumb-item text-muted">
                 <a href="{{ path('app_admin_block_index') }}" class="text-muted text-hover-primary">Block</a>
@@ -13,19 +12,21 @@
                 <span class="bullet bg-gray-500 w-5px h-2px"></span>
             </li>
             <li class="breadcrumb-item text-muted">Add</li>
-        {% endblock toolbar_breadcrumbs %}
-
-        {% block toolbar_button_actions %}{% endblock toolbar_button_actions %}
+        {% endblock %}
+        {% block toolbar_button_actions %}{% endblock %}
     {% endembed %}
 {% endblock %}
 
 {% block body %}
     {% import 'Admin/partials/macros.html.twig' as macros %}
-    {{ form_start(form, {action:path('app_admin_block_edit',{'id': block.id}),attr: {class: "form d-flex flex-column flex-lg-row"}}) }}
 
-    <!-- Aside Column -->
+    {{ form_start(form, {
+        action: path('app_admin_block_edit', {'id': block.id}),
+        attr: { class: 'form d-flex flex-column flex-lg-row' }
+    }) }}
+
+    <!-- ASIDE COLUMN -->
     <div class="d-flex flex-column gap-7 gap-lg-10 w-100 w-lg-300px mb-7 me-lg-10">
-        <!-- Image Fields -->
         {% for f,label in {
             'imageIcon':'Image Icon',
             'image':'Desktop Image',
@@ -36,11 +37,18 @@
             <div class="card card-flush py-4">
                 <div class="card-header"><div class="card-title"><h2>{{ label }}</h2></div></div>
                 <div class="card-body text-center pt-0">
-                    <style>.image-input-placeholder { background-image: url('{{ asset('themes/media/svg/files/blank-image.svg') }}'); } [data-bs-theme="dark"] .image-input-placeholder { background-image: url('{{ asset('themes/media/svg/files/blank-image-dark.svg') }}'); }</style>
+                    <style>
+                        .image-input-placeholder {
+                            background-image: url('{{ asset('themes/media/svg/files/blank-image.svg') }}');
+                        }
+                        [data-bs-theme="dark"] .image-input-placeholder {
+                            background-image: url('{{ asset('themes/media/svg/files/blank-image-dark.svg') }}');
+                        }
+                    </style>
                     <div class="image-input image-input-empty image-input-outline image-input-placeholder mb-3" data-kt-image-input="true">
                         <div class="image-input-wrapper w-150px h-150px"></div>
                         <label class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="change">
-                            {{ form_widget(attribute(form, f), {attr:{accept:".png, .jpg, .jpeg, .webp"}}) }}
+                            {{ form_widget(attribute(form, f), { attr: { accept: '.png, .jpg, .jpeg, .webp' } }) }}
                         </label>
                         <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="cancel"></span>
                         <span class="btn btn-icon btn-circle btn-active-color-primary w-25px h-25px bg-body shadow" data-kt-image-input-action="remove"></span>
@@ -50,7 +58,7 @@
             </div>
         {% endfor %}
 
-        <!-- Status -->
+        <!-- STATUS -->
         <div class="card card-flush py-4">
             <div class="card-header"><div class="card-title"><h2>Status</h2></div></div>
             <div class="card-body pt-0">
@@ -60,7 +68,7 @@
         </div>
     </div>
 
-    <!-- Main Column -->
+    <!-- MAIN COLUMN -->
     <div class="d-flex flex-column flex-row-fluid gap-7 gap-lg-10">
         <ul class="nav nav-custom nav-tabs nav-line-tabs nav-line-tabs-2x border-0 fs-4 fw-semibold mb-n2">
             <li class="nav-item"><a class="nav-link text-active-primary pb-4 active" data-bs-toggle="tab" href="#gen">General</a></li>
@@ -68,93 +76,62 @@
         </ul>
 
         <div class="tab-content">
-            <!-- General Tab -->
-            <div class="tab-pane fade show active" id="gen" role="tab-panel">
+            <!-- GENERAL TAB -->
+            <div class="tab-pane fade show active" id="gen" role="tabpanel">
                 <div class="d-flex flex-column gap-7 gap-lg-10">
-                    <!--begin::General card-->
                     <div class="card card-flush py-4">
-                        <div class="card-header">
-                            <div class="card-title"><h2>General</h2></div>
-                        </div>
+                        <div class="card-header"><div class="card-title"><h2>General</h2></div></div>
                         <div class="card-body pt-0">
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">Title</label>
-                                {{ form_widget(form.title, {attr:{class:"form-control"}}) }}
-                            </div>
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">Sub Title</label>
-                                {{ form_widget(form.subTitle, {attr:{class:"form-control"}}) }}
-                            </div>
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">Slug</label>
-                                {{ form_widget(form.slug, {attr:{class:"form-control"}}) }}
-                            </div>
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">Sort Order</label>
-                                {{ form_widget(form.sortOrder, {attr:{class:"form-control"}}) }}
-                            </div>
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">Type</label>
-                                {{ form_widget(form.type, {attr:{class:"form-control"}}) }}
-                            </div>
+                            {% for field in ['title', 'subTitle', 'slug', 'sortOrder', 'type'] %}
+                                <div class="mb-10 fv-row">
+                                    <label class="form-label">{{ field|title }}</label>
+                                    {{ form_widget(attribute(form, field), { attr: { class: 'form-control' } }) }}
+                                </div>
+                            {% endfor %}
                         </div>
                     </div>
 
-                    <!--begin::Links & Relations card-->
+                    <!-- Links -->
                     <div class="card card-flush py-4">
-                        <div class="card-header">
-                            <div class="card-title"><h2>Links & Relations</h2></div>
-                        </div>
+                        <div class="card-header"><div class="card-title"><h2>Links & Relations</h2></div></div>
                         <div class="card-body pt-0">
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">URL</label>
-                                {{ form_widget(form.url, {attr:{class:"form-control"}}) }}
-                            </div>
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">Location</label>
-                                {{ form_widget(form.location, {attr:{class:"form-control"}}) }}
-                            </div>
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">Video URL</label>
-                                {{ form_widget(form.videoUrl, {attr:{class:"form-control"}}) }}
-                            </div>
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">Text Icon</label>
-                                {{ form_widget(form.textIcon, {attr:{class:"form-control"}}) }}
-                            </div>
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">Kind</label>
-                                {{ form_widget(form.kind, {attr:{class:"form-control"}}) }}
-                            </div>
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">Post</label>
-                                {{ form_widget(form.post, {attr:{class:"form-control"}}) }}
-                            </div>
-                            <div class="mb-10 fv-row">
-                                <label class="form-label">Category</label>
-                                {{ form_widget(form.category, {attr:{class:"form-control"}}) }}
-                            </div>
+                            {% for field in ['url', 'location', 'videoUrl', 'textIcon', 'kind', 'post', 'category'] %}
+                                <div class="mb-10 fv-row">
+                                    <label class="form-label">{{ field|title }}</label>
+                                    {{ form_widget(attribute(form, field), { attr: { class: 'form-control' } }) }}
+                                </div>
+                            {% endfor %}
                         </div>
+                    </div>
+                </div>
+            </div>
+            <!-- ADVANCED TAB -->
+            <div class="tab-pane fade" id="adv" role="tabpanel">
+                <div class="d-flex flex-column gap-7 gap-lg-10">
+                    <div class="card card-flush py-4">
+                        {% if form.kindData is defined %}
+                            <div class="card-header"><div class="card-title"><h2>Block Configuration</h2></div></div>
+                            <div class="card-body pt-0">
+                                {{ form_widget(form.kindData) }}
+                            </div>
+                        {% endif %}
+                        <div class="card-header"><div class="card-title"><h2>Description</h2></div></div>
+                        <div class="card-body pt-0">
+                            {{ form_widget(form.description, { attr: { class: 'form-control mb-2', rows: 5 } }) }}
+                        </div>
+
+                         {% if form.kindData is not defined %}
+                            <div class="card-header"><div class="card-title"><h2>Content</h2></div></div>
+                            <div class="card-body pt-0">
+                                {{ form_widget(form.content, { attr: { class: 'form-control mb-2 ckeditor' } }) }}
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
 
 
-            <!-- Advanced Tab -->
-            <div class="tab-pane fade" id="adv" role="tab-panel">
-                <div class="d-flex flex-column gap-7 gap-lg-10">
-                    <div class="card card-flush py-4">
-                        <div class="card-header"><div class="card-title"><h2>Content & Config</h2></div></div>
-                        <div class="card-body pt-0">
-                            {{ form_widget(form.description, {attr:{class:"form-control mb-2",rows:5}}) }}
-                            {{ form_widget(form.config, {attr:{class:"form-control mb-2"}}) }}
-                            {{ form_widget(form.content, {attr:{class:"form-control mb-2"}}) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
+            <!-- SUBMIT -->
         <div class="d-flex justify-content-end">
             <a href="{{ path('app_admin_block_index') }}" class="btn btn-light me-5">Cancel</a>
             <button type="submit" class="btn btn-primary">
@@ -169,4 +146,6 @@
     {{ form_end(form) }}
 {% endblock %}
 
-{% block javascripts %}{{ parent() }}{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

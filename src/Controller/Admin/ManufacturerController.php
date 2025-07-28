@@ -4,7 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
 use App\Repository\ManufacturerRepository;
-use App\Services\ManufacturerService;
+use App\Services\Admin\ManufacturerService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

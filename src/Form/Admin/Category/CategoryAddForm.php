@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Form\Admin\Category;
 
 use App\Core\Entity\Category;
+use App\Services\Admin\ImageService;
 use App\Utils\ConvertValue;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -16,8 +17,6 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\String\Slugger\SluggerInterface;
-use App\Services\ImageService;
 
 class CategoryAddForm extends AbstractType
 {

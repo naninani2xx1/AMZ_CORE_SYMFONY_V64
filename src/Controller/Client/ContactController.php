@@ -2,6 +2,7 @@
 namespace App\Controller\Client;
 
 
+use App\Core\Entity\Block;
 use App\Entity\Contact;
 use App\Form\Client\Contact\ContactType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -27,6 +28,11 @@ Class ContactController extends AbstractController
      */
     public function index(Request $request): Response
     {
+        $block = $this->em->getRepository(Block::class)->findOneBy(['kind' => 'contact_info']);
+        $data = [];
+        if ($block) {
+            $data = json_decode($block->getContent() ?? '{}', true);
+        }
         $contact = new Contact();
         $form = $this->createForm(ContactType::class, $contact,[
             'action' => $this->generateUrl('app_client_contact_index'),
@@ -40,7 +46,8 @@ Class ContactController extends AbstractController
         }
 
         return $this->render('Client/views/contact/contact.html.twig', [
-            'form' => $form,
+            'form' => $form->createView(),
+            'block_data' => $data,
         ]);
     }
 

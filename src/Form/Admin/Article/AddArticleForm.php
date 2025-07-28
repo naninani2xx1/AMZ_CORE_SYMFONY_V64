@@ -58,6 +58,7 @@ class AddArticleForm extends AbstractType
     {
         $resolver->setDefaults(array(
             'data_class' => Post::class,
+            'attr'=>['novalidate'=>'novalidate','data-controller'=>'Admin--article'],
         ));
     }
 }

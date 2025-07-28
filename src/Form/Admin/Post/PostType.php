@@ -4,9 +4,8 @@ namespace App\Form\Admin\Post;
 
 use App\Core\Entity\Post;
 use App\DataType\PostTypeChoice;
-use App\Services\ImageService;
+use App\Services\Admin\ImageService;
 use App\Utils\ConvertValue;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -19,7 +18,6 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints as Assert;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 class PostType extends AbstractType
 {

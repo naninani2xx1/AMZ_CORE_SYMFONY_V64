@@ -25,7 +25,7 @@
             {% for gallery in computed.data %}
                 <tr class="align-middle border-bottom border-gray-300 fs-7 text-center">
                     <td>
-                        <a href="{{ path('app_admin_gallery_edit', {'id': gallery.id}) }}" class="btn btn-icon btn-active-light-primary me-1">
+                        <a href="{{ path('app_admin_gallery_edit', {'id': gallery.id}) }}" class="btn btn-icon btn-active-light-primary me-1" data-amz-btn-open-modal>
                             {{ macros.icon_edit() }}
                         </a>
                         <a href="{{ path('app_admin_gallery_delete', {'id': gallery.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">

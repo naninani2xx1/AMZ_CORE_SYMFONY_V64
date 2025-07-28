@@ -12,7 +12,7 @@
 
         <section class="block prune-block prune-contact">
             <div class="container maxW-960">
-                {% include 'Client/views/contact/components/contact_info.html.twig' %}
+                {% include 'Client/views/contact/components/contact_info.html.twig' with { data: block_data } %}
 
                 {% include 'Client/views/contact/components/contact_form.html.twig' with { form: form } %}
 

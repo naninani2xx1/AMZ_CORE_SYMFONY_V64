@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Admin;
 
 use App\Core\Entity\Menu;
 use App\Form\Admin\Menu\MenuType;

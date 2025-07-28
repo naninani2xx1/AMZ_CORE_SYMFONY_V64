@@ -6,7 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
 use App\Core\Repository\GalleryRepository;
-use App\Services\GalleryService;
+use App\Services\Admin\GalleryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
