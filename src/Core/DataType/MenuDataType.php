@@ -10,4 +10,8 @@ class MenuDataType
     const MENU_DEFAULT_SORT = 1;
     const ROOT_LEVEL = 'root';
     const SUB_LEVEL = 'sub';
+
+
+    const POSITION_MAIN = 'main';
+    const POSITION_MIDDLE_FOOTER = 'middle-footer';
 }

@@ -25,4 +25,9 @@ class SettingService
     {
         return $this->settingRepository->find($id);
     }
+
+    public function findOneByKey(string $key): ?Setting
+    {
+        return $this->settingRepository->findOneBy(['settingKey' => $key]);
+    }
 }

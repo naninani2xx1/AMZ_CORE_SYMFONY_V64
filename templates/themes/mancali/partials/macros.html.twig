@@ -1,0 +1,18 @@
+{% macro get_single_menu(menu) %}
+    <li class="nav-item">
+        <a class="nav-link" href="{{ (menu.url) }}">{{ menu.name }}</a>
+    </li>
+{% endmacro %}
+
+{% macro get_multiple_menu(menu) %}
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" id="navbarLightDropdownMenuLink-{{ menu.id }}">{{ menu.name }}</a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li class="dropdown">
+                {% for child in menu.children %}
+                    <a class="dropdown-item" href="{{ child.url }}">{{ child.name }}</a>
+                {% endfor %}
+            </li>
+        </ul>
+    </li>
+{% endmacro %}

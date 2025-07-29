@@ -1,5 +1,5 @@
 {% extends 'Admin/base.html.twig' %}
-{% block title %}CMS-Setting Management{% endblock %}
+{% block title %}CMS-Menu Management{% endblock %}
 
 {% block toolbar %}
     {% embed 'Admin/partials/toolbar.html.twig' %}
@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('TableMenuLiveComponent', {'id': "TableMenuLive"}) }}
+    {{ component('TableMenuLiveComponent', {'id': "TableMenuLive", type: type}) }}
 {% endblock %}
 
 {% block javascripts %}

@@ -17,7 +17,7 @@ class FileUploadService
 
     public function upload(UploadedFile $file): string
     {
-        $allowedExtensions = ['jpeg', 'webp', 'png', 'jpg'];
+        $allowedExtensions = ['jpeg', 'webp', 'png', 'jpg','svg'];
         $extension = strtolower($file->getClientOriginalExtension());
 
         if (!in_array($extension, $allowedExtensions)) {

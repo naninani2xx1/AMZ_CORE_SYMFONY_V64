@@ -1,0 +1,59 @@
+<footer class="footer">
+    <div class="container">
+        <div class="list-footer">
+            <div class="sub-menu">
+                <div class="col-item">
+                    <a class="logo-brand" href="#"><img src="{{ asset(get_setting_by_key('logo-website').settingValue) }}" class="logo-image img-fluid" alt="logo"></a>
+                </div>
+
+                <div class="col-item">
+                    <h6>Văn phòng đại diện tại Việt Nam</h6>
+
+                    <div class="info addr"><i class="zmdi zmdi-home"></i> <span id="footerAddr">
+                            {{ get_setting_by_key('address').settingValue }}
+                        </span></div>
+
+                    <div class="info phone">
+                        <i class="zmdi zmdi-phone"></i>
+                        {% set phoneSetting = get_setting_by_key('phone') %}
+                        <a class="phone" href="tel:{{ phoneSetting.settingValue }}">
+                            <span id="footerPhone">
+                                {{ phoneSetting.settingValue }}
+                            </span>
+                        </a>
+                    </div>
+                    {% set emailSetting = get_setting_by_key('email') %}
+                    <div class="info email"><i class="zmdi zmdi-email"></i><a class="email" href="mailto:{{ emailSetting.settingValue }}"><span id="footerEmail">{{ emailSetting.settingValue }}</span></a></div>
+                </div>
+
+                <div class="col-item">
+                    <div class="col-item-wrapper">
+                        {% set menus = get_menus_by_position(menu_position_middle_footer) %}
+                        {% for menu in menus %}
+                            <a href="{{ menu.url }}">{{ menu.name }}</a>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% set settingPolicy = get_setting_by_key('policy') %}
+                {% set jsonPolicy = settingPolicy.settingValue | json_decode %}
+                <div class="col-item">
+                    <h6>Kết nối</h6>
+
+                    <div class="social">
+                        <a class="icon icon-facebook-ic" href="{{ get_setting_by_key('facebook').settingValue }}" target="_blank"></a>
+                        <a class="icon icon-linked-ic" href="{{ get_setting_by_key('linked').settingValue }}" target="_blank"></a>
+                    </div>
+                    <a class="bct" href="{{ jsonPolicy.url }}" target="_blank">USDA Foreign Agricultural Service</a>
+                </div>
+
+            </div>
+
+            <div class="sub-footer">
+                <div class="copyright">© <span class="">{{ "now" | date('Y') }}</span> <span id="">{{ get_setting_by_key('brand-name').settingValue }}</span></div>
+                <div class="privacy"><i class="zmdi zmdi-shield-check"></i>
+                    <a href="{{ jsonPolicy.url }}" target="_blank">{{ jsonPolicy.label }}</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>

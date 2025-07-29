@@ -21,7 +21,7 @@ class CoreExtensionRuntime implements RuntimeExtensionInterface
         $this->environment = $environment;
     }
 
-    public function jsonDecode($value): string
+    public function jsonDecode($value): array
     {
         return json_decode($value, true);
     }

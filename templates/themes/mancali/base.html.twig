@@ -26,8 +26,12 @@
         {% block importmapp %}
         {% endblock %}
     </head>
-    <body>
+    <body suported-aos><!--class="colorMode" suported-aos-->
+        {{ include('themes/mancali/partials/header.html.twig') }}
         {% block body %}{% endblock %}
+        {{ include('themes/mancali/partials/footer.html.twig') }}
+        {{ include('themes/mancali/partials/search_modal.html.twig') }}
+        {{ include('themes/mancali/partials/overlay_loading.html.twig') }}
         <script src="{{ asset('themes/mancali/assets/js/main.js') }}"></script>
     </body>
 </html>

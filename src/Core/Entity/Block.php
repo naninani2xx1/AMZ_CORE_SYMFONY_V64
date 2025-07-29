@@ -80,7 +80,7 @@ class Block extends LifecycleEntity
     private $mobileBackground;
 
     /**
-     * @ORM\Column(type="text", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $type;
 
@@ -107,7 +107,7 @@ class Block extends LifecycleEntity
     /**
      * @ORM\Column(type="string", nullable=true)
      */
-    private $kind = BlockDataType::BLOCK_KIND_DYNAMIC;
+    private $kind = BlockDataType::KIND_DYNAMIC;
 
     public function getSortOrder(): ?int
     {

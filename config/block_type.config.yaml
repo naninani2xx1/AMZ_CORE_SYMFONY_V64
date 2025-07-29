@@ -8,3 +8,12 @@ parameters:
       frontend:
         view: '%themes%block/single_banner.html.twig'
         controller: ''
+
+    contact_form_block:
+      name: 'Block Contact Form'
+      backend:
+        view: 'Admin/views/blockPreview/single_banner.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/contact_form.html.twig'
+        controller: ''

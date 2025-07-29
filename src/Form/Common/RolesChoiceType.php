@@ -29,23 +29,24 @@ class RolesChoiceType extends AbstractType
             'attr' => [
                 'data-controller' => 'select2',
                 'data-select2-placeholder-value' => '-- Select option --',
+                'data-select2-dropdown-parent-value' => '#app-modal',
                 'class' => 'form-select form-select-sm'
             ],
             'placeholder' => '-- Select option --',
             'multiple' => true,
         ]);
 
-        $resolver->setDefined(['data-select2-dropdown-parent-value']);
-        $resolver->setDefined(['data-select2-hidden-search-value']);
-
-        $resolver->setNormalizer('attr', function (Options $options, $value) {
-            if (isset($options['data-select2-dropdown-parent-value'])) {
-                $value['data-select2-dropdown-parent-value'] = $options['data-select2-dropdown-parent-value'];
-            }
-            if (isset($options['data-select2-hidden-search-value'])) {
-                $value['data-select2-hidden-search-value'] = $options['data-select2-hidden-search-value'];
-            }
-            return $value;
-        });
+//        $resolver->setDefined(['data-select2-dropdown-parent-value']);
+//        $resolver->setDefined(['data-select2-hidden-search-value']);
+//
+//        $resolver->setNormalizer('attr', function (Options $options, $value) {
+//            if (isset($options['data-select2-dropdown-parent-value'])) {
+//                $value['data-select2-dropdown-parent-value'] = $options['data-select2-dropdown-parent-value'];
+//            }
+//            if (isset($options['data-select2-hidden-search-value'])) {
+//                $value['data-select2-hidden-search-value'] = $options['data-select2-hidden-search-value'];
+//            }
+//            return $value;
+//        });
     }
 }

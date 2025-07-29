@@ -11,6 +11,7 @@
             {{ form_widget(form.name, {attr: {'class': "form-control fs-7", placeholder: "Enter name"}}) }}
             <!--end::Input-->
         </div>
+        {% if form.position is defined %}
         <div class="fv-row mb-7">
             <!--begin::Label-->
             <label class="required fs-6 fw-semibold mb-2">Position</label>
@@ -19,6 +20,7 @@
             {{ form_widget(form.position) }}
             <!--end::Input-->
         </div>
+        {% endif %}
         <div class="mb-7" data-Admin--menu-add-target="render">
             {% if form.url is defined %}
             <label class="fs-6 fw-semibold mb-2">Url</label>

@@ -4,6 +4,6 @@ namespace App\Core\DataType;
 
 class BlockDataType
 {
-    const BLOCK_KIND_DYNAMIC = 'dynamic';
-    const BLOCK_KIND_STATIC = 'static';
+    const KIND_DYNAMIC = 'dynamic';
+    const KIND_STATIC = 'static';
 }

@@ -3,6 +3,7 @@
 namespace App\Twig\Components;
 
 use App\Core\DataType\ArchivedDataType;
+use App\Core\DataType\BlockDataType;
 use App\Core\DataType\LanguageDataType;
 use App\Core\Entity\Block;
 use App\Core\Entity\Page;
@@ -23,6 +24,9 @@ final class TableBlockLiveComponent extends BaseTableLiveComponent
     #[LiveProp(writable: false)]
     public ?Page $pageEntity = null;
 
+    #[LiveProp(writable: false)]
+    public ?string $kind = null;
+
     protected function getQueryBuilder(): QueryBuilder
     {
         return $this->findAllPaginated();
@@ -31,14 +35,20 @@ final class TableBlockLiveComponent extends BaseTableLiveComponent
     private function findAllPaginated(): QueryBuilder
     {
         $qb = $this->entityManager->getRepository(Block::class)->createQueryBuilder('block');
-        $qb->join('block.post', 'post');
-
         $expr = $qb->expr();
         // TODO: common
         $qb->where(
-            $expr->eq('post.id', $expr->literal($this->pageEntity->getPost()->getId())),
             $expr->eq('block.isArchived', $expr->literal(ArchivedDataType::UN_ARCHIVED)),
         )->orderBy('block.sortOrder', 'ASC');
+
+        if(!empty($this->pageEntity)){
+            $qb->join('block.post', 'post');
+            $qb->andWhere('post.id = :id')->setParameter('id', $this->pageEntity->getPost()->getId());
+        }
+
+        if(!empty($this->kind))
+            $qb->andWhere('block.kind = :kind')->setParameter('kind', $this->kind);
+
 
         // TODO: filter
         if(!empty($this->filter)){
