@@ -20,6 +20,7 @@
         {% endblock %}
         {% block rows %}
             {% for item in computed.data %}
+
                 <tr class="py-3 align-middle  border-bottom border-gray-300 fs-7">
                     <td class="action-column">
                         <a href="{{ path('app_admin_page_edit', {'id': item.id}) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
@@ -28,6 +29,7 @@
                             </span>
                         </a>
                         <a href="{{ path('app_admin_block_index', {'id': item.id}) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+
                             <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Block" data-bs-original-title="Block">
                                  <i class="ki-duotone ki-arrow-two-diagonals fs-2">
                                         <span class="path1"></span>

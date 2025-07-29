@@ -38,7 +38,7 @@
                 </div>
             </div>
             {% set form = builder_contact_form() %}
-            {{ form_start(form, {attr: {'class': 'form', id: 'contactForm', data-parsley-validate="data-parsley-validate"}}) }}
+            {{ form_start(form, {attr: {'class': 'form', id: 'contactForm', 'data-parsley-validate': "data-parsley-validate"}}) }}
                 <div class="m-form">
                     {{ form_widget(form.fullname) }}
 {#                    <input name="Name" class="form-control" type="text" value="" aria-label=" input example" autocomplete="on" placeholder="Họ và tên" required="" data-parsley-required-message="Vui lòng cung cấp Họ tên Quý Khách">#}
@@ -55,25 +55,24 @@
                 </div>
 
                 <div class="m-form">
+                    {{ form_widget(form.topic, {'attr': {'class': 'form-select'}}) }}
 
-                    <select name="topic" class="form-select" required="" data-parsley-required-message="Vui lòng chọn chủ đề">
+                    {#                    <select name="topic" class="form-select" required="" data-parsley-required-message="Vui lòng chọn chủ đề">#}
 
-                        <option value="" selected disabled>Chủ đề</option>
+{#                        <option value="" selected disabled>Chủ đề</option>#}
 
-                        <option value="parner">Hợp tác</option>
+{#                        <option value="parner">Hợp tác</option>#}
 
-                        <option value="Bạc Liêu">Bạc Liêu</option>
+{#                        <option value="Bạc Liêu">Bạc Liêu</option>#}
 
-                        <option value="Sóc Trăng">Sóc Trăng</option>
+{#                        <option value="Sóc Trăng">Sóc Trăng</option>#}
 
-                    </select>
+{#                    </select>#}
                 </div>
 
-                <div class="m-form">
-
-                    <textarea name="message" class="form-control" type="text" value="" aria-label=" input example" placeholder="Nội dung" required="" data-parsley-required-message="Vui lòng cung cấp nội dung	"></textarea>
-                </div>
-
+            <div class="m-form">
+                {{ form_widget(form.description) }}
+            </div>
                 <p class="notice">Bằng cách gửi thông tin của bạn, bạn đồng ý cho phép chúng tôi liên hệ với bạn qua điện thoại, tin nhắn và email để tham vấn và nghiên cứu thị trường. Chúng tôi cam kết không chia sẻ thông tin của bạn với bất kỳ bên thứ ba nào.</p>
 
                 <div class="m-form text-center">
