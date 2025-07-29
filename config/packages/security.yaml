@@ -17,6 +17,7 @@ security:
             security: false
         cms:
             pattern: ^/cms
+            user_checker: App\Controller\Admin\UserChecker
             lazy: true
             provider: user_db
             logout:
