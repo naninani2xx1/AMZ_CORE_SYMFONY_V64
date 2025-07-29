@@ -2,6 +2,7 @@
 
 namespace App\Services\Admin;
 
+use App\Core\Entity\TicketRequest;
 use App\Core\Repository\SettingRepository;
 use App\Entity\Contact;
 use App\Repository\ContactRepository;
@@ -21,29 +22,25 @@ class ContactService extends AbstractController
 
     }
     public function index(Request $request): Response{
-        $getTopics = $this->settingRepository->findTopics();
-        $choicesTopic = [];
-
-        foreach ($getTopics as $topic) {
-            $decode=json_decode($topic->getSettingValue());
-            $items = explode(',', $decode[0]);
-            foreach ($items as $item) {
-                $trimItems = trim($item);
-                $choicesTopic[$trimItems] = $trimItems;
-            }
-        }
-        $filters=$request->query->all();
-        $data = $this->contactRepository->findAllContact($filters,1,10);
-        return $this->render('Admin/views/contact/index.html.twig', [
-            'contacts' => $data,
-            'filters' => $filters,
-            'topics' => $choicesTopic,
-        ]);
+//        $getTopics = $this->settingRepository->findTopics();
+//        $choicesTopic = [];
+//
+//        foreach ($getTopics as $topic) {
+//            $decode=json_decode($topic->getSettingValue());
+//            $items = explode(',', $decode[0]);
+//            foreach ($items as $item) {
+//                $trimItems = trim($item);
+//                $choicesTopic[$trimItems] = $trimItems;
+//            }
+//        }
+//        $filters=$request->query->all();
+//        $data = $this->contactRepository->findAllContact($filters,1,10);
+        return $this->render('Admin/views/contact/index.html.twig');
 
     }
     public function update(Request $request,int $id): Response
     {
-        $contact = $this->em->getRepository(Contact::class)->findOneBy(['id'=>$id]);
+        $contact = $this->em->getRepository(TicketRequest::class)->findOneBy(['id'=>$id]);
         if (!$contact) {
             $this->addFlash('error', 'Contact not found');
         }
@@ -56,7 +53,7 @@ class ContactService extends AbstractController
 
     public function delete(Request $request,int $id): Response
     {
-        $contact = $this->em->getRepository(Contact::class)->findOneBy(['id'=>$id]);
+        $contact = $this->em->getRepository(TicketRequest::class)->findOneBy(['id'=>$id]);
         if (!$contact) {
             $this->addFlash('error', 'Contact not found');
         }

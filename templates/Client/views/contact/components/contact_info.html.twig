@@ -1,47 +1,28 @@
 <div class="contact-info">
     <div class="heading">
-        <h2 class="title underline">Thông tin liên hệ</h2>
+        <h2 class="title underline">thông tin liên hệ</h2>
     </div>
 
     <div class="info-list">
-        {% if data.address %}
-            <div class="info addr">
-                <i class="zmdi zmdi-home"></i>
-                <span>{{ data.address }}</span>
-            </div>
-        {% endif %}
+        <h6>Văn phòng đại diện tại Việt Nam</h6>
 
-        {% if data.phone %}
-            <div class="info phone">
-                <i class="zmdi zmdi-phone"></i>
-                <a href="tel:{{ data.phone }}"><span>{{ data.phone }}</span></a>
-            </div>
-        {% endif %}
+        <div class="info addr"><i class="zmdi zmdi-home"></i> <span>Toà nhà Landmark 81, Lầu 72, 720A đường Điện Biên Phủ, Phường 22, Quận Bình Thạnh, Hồ Chí Minh</span></div>
 
-        {% if data.email %}
-            <div class="info email">
-                <i class="zmdi zmdi-email"></i>
-                <a href="mailto:{{ data.email }}"><span>{{ data.email }}</span></a>
-            </div>
-        {% endif %}
+        <div class="info phone"><i class="zmdi zmdi-phone"></i><a class="phone" href="tel:+2862847002"><span>+28 6284 7002</span></a></div>
 
-        {% if data.organization_1 %}
-            <div class="info more">
-                <i class="zmdi zmdi-account-circle"></i>
-                <a href="#"><span>{{ data.organization_1 }}</span></a>
-            </div>
-        {% endif %}
-        {% if data.organization_2 %}
-            <div class="info more">
-                <i class="zmdi zmdi-accounts-alt"></i>
-                <a href="#"><span>{{ data.organization_2 }}</span></a>
-            </div>
-        {% endif %}
-        {% if data.organization_3 %}
-            <div class="info more">
-                <i class="zmdi zmdi-info"></i>
-                <a href="#"><span>{{ data.organization_3 }}</span></a>
-            </div>
-        {% endif %}
+        <div class="info email"><i class="zmdi zmdi-email"></i><a class="email" href="mailto:smhvn@smh-intl.com"><span>smhvn@smh-intl.com</span></a></div>
+
+        <hr />
+
+        <div class="info more"><i class="zmdi zmdi-account-circle"></i><a href="board.html"><span>Hiệp hội Mận khô California</span></a></div>
+
+        <div class="info more"><i class="zmdi zmdi-accounts-alt"></i><a href="trade.html"><span>Đối tác</span></a></div>
+
+        <div class="info more"><i class="zmdi zmdi-info"></i><a href="products.html"><span>Các sản phẩm mận khô California</span></a></div>
     </div>
+
+    <div class="more-list">
+
+    </div>
+
 </div>

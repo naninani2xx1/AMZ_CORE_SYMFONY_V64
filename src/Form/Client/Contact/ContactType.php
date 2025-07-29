@@ -15,7 +15,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ContactType extends AbstractType
 {
-    private $settingRepository;
+    private  $settingRepository;
     public function __construct(SettingRepository $settingRepository)
     {
         $this->settingRepository = $settingRepository;

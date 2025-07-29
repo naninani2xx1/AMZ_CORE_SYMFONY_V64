@@ -17,7 +17,6 @@ use Doctrine\ORM\Mapping as ORM;
 class TicketRequest extends LifecycleEntity
 {
     use DoctrineIdentifierTrait, DoctrineDescriptionTrait;
-
     /**
      * @ORM\Column(type="string", nullable=true)
      */
@@ -95,5 +94,25 @@ class TicketRequest extends LifecycleEntity
      * @ORM\Column(type="string", nullable=true)
      */
     private $status = TicketRequestDataType::STATUS_NEW_TICKET_REQUEST;
+    /**
+     * @ORM\Column (type="string")
+     */
+    private $topic;
+
+    /**
+     * @return mixed
+     */
+    public function getTopic()
+    {
+        return $this->topic;
+    }
+
+    /**
+     * @param mixed $topic
+     */
+    public function setTopic($topic): void
+    {
+        $this->topic = $topic;
+    }
 
 }

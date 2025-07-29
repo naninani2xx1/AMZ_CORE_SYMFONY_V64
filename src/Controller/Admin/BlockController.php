@@ -31,10 +31,7 @@ class BlockController extends AbstractController implements CRUDActionInterface
      */
     public function index(Request $request): Response
     {
-      $data=$this->blockRepository->findAllArticle();
-      return  $this->render('Admin/views/block/index.html.twig', [
-          'blocks' => $data,
-      ]);
+      return  $this->render('Admin/views/block/index.html.twig');
     }
 
     /**
