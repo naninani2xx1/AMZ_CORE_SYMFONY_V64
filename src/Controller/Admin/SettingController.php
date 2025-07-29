@@ -38,7 +38,7 @@ class SettingController extends AbstractController implements CRUDActionInterfac
     }
 
     /**
-     * @Route("/add", name="app_admin_setting_add", methods={"POST"})
+     * @Route("/add", name="app_admin_setting_add", methods={"GET","POST"})
      */
     public function add(Request $request): Response
     {

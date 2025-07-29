@@ -5,6 +5,9 @@ declare(strict_types=1);
 namespace App\Form\EndUser;
 
 use App\Core\Entity\TicketRequest;
+use App\Entity\TopicContact;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -60,7 +63,21 @@ class AddTicketRequestForm extends AbstractType
 //                "data-parsley-type-message" => "Địa chỉ email chưa đúng",
                 "data-parsley-required-message" => "Vui lòng cung cấp nội dung",
             ]
-        ]);
+        ])
+            ->add('topic', EntityType::class, [
+                'class' => TopicContact::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Chọn chủ đề',
+                'required' => true,
+                'multiple' => false,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('t')
+                        ->where('t.isArchived = :isArchived')
+                        ->setParameter('isArchived', 0);
+                },
+            ])
+        ;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

@@ -6,6 +6,7 @@ namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
 use App\Core\Repository\ArticleRepository;
+use App\Core\Repository\BlockRepository;
 use App\Services\Admin\BlockService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,7 +21,6 @@ class BlockController extends AbstractController implements CRUDActionInterface
     private BlockService $blockService;
 
     public function __construct(BlockService $blockService,
-        private ArticleRepository $blockRepository
     )
     {
         $this->blockService = $blockService;

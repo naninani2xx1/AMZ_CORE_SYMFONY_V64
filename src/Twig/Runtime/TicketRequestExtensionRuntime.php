@@ -4,6 +4,7 @@ namespace App\Twig\Runtime;
 
 use App\Core\Entity\TicketRequest;
 use App\Form\EndUser\AddTicketRequestForm;
+use App\Repository\ContactRepository;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormView;
@@ -27,5 +28,10 @@ class TicketRequestExtensionRuntime implements RuntimeExtensionInterface
         return $this->formFactory->createBuilder(AddTicketRequestForm::class, $ticket, [
             'action' => $this->urlGenerator->generate('app_enduser_ticket_request_add'),
         ])->getForm()->createView();
+    }
+    public function filterTicketRequest(ContactRepository $contactRepository ,$filter=[]): array
+    {
+        $data = $contactRepository->findAllContact($filter);
+        return $data;
     }
 }
