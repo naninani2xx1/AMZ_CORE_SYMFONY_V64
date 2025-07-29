@@ -1,0 +1,85 @@
+<section class="block prune-block prune-contact">
+    <div class="container maxW-960">
+
+        <div class="contact-info">
+            <div class="heading">
+                <h2 class="title underline">{{ block.title }}</h2>
+            </div>
+
+            <div class="info-list">
+                <h6>Văn phòng đại diện tại Việt Nam</h6>
+
+                <div class="info addr"><i class="zmdi zmdi-home"></i> <span>Toà nhà Landmark 81, Lầu 72, 720A đường Điện Biên Phủ, Phường 22, Quận Bình Thạnh, Hồ Chí Minh</span></div>
+
+                <div class="info phone"><i class="zmdi zmdi-phone"></i><a class="phone" href="tel:+2862847002"><span>+28 6284 7002</span></a></div>
+
+                <div class="info email"><i class="zmdi zmdi-email"></i><a class="email" href="mailto:smhvn@smh-intl.com"><span>smhvn@smh-intl.com</span></a></div>
+
+                <hr />
+
+                <div class="info more"><i class="zmdi zmdi-account-circle"></i><a href="board.html"><span>Hiệp hội Mận khô California</span></a></div>
+
+                <div class="info more"><i class="zmdi zmdi-accounts-alt"></i><a href="trade.html"><span>Đối tác</span></a></div>
+
+                <div class="info more"><i class="zmdi zmdi-info"></i><a href="products.html"><span>Các sản phẩm mận khô California</span></a></div>
+            </div>
+
+            <div class="more-list">
+
+            </div>
+
+        </div>
+
+        <div class="contact-form">
+            <div class="heading">
+                <h2 class="subtitle">CẢM ƠN BẠN ĐÃ LIÊN HỆ</h2>
+                <div class="text tool-editor">
+                    <p style="color: black;">Chúng tôi sẽ liên lạc với bạn theo thông tin dưới đây.	</p>
+                </div>
+            </div>
+            {% set form = builder_contact_form() %}
+            {{ form_start(form, {attr: {'class': 'form', id: 'contactForm', data-parsley-validate="data-parsley-validate"}}) }}
+                <div class="m-form">
+                    {{ form_widget(form.fullname) }}
+{#                    <input name="Name" class="form-control" type="text" value="" aria-label=" input example" autocomplete="on" placeholder="Họ và tên" required="" data-parsley-required-message="Vui lòng cung cấp Họ tên Quý Khách">#}
+                </div>
+
+                <div class="m-form">
+                    {{ form_widget(form.phone) }}
+{#                    <input name="Phone" class="form-control" type="text" value="" aria-label=" input example" autocomplete="on" placeholder="Điện thoại" data-parsley-type="integer" required="" minlength="10" data-parsley-minlength="10" data-parsley-type-message="Số điện thoại phải là số gồm 10 chữ số" data-parsley-required-message="Vui lòng cung cấp số điện thoại của Quý Khách" data-parsley-minlength-message="Vui lòng cung cấp chính xác số điện thoại">#}
+                </div>
+
+                <div class="m-form">
+                    {{ form_widget(form.email) }}
+{#                    <input name="Email" class="form-control" type="email" value="" aria-label=" input example" autocomplete="on" placeholder="Địa chỉ email" required="" data-parsley-type="email" data-parsley-type-message="Địa chỉ email chưa đúng" data-parsley-required-message="Vui lòng cung cấp địa chỉ email của Quý Khách">#}
+                </div>
+
+                <div class="m-form">
+
+                    <select name="topic" class="form-select" required="" data-parsley-required-message="Vui lòng chọn chủ đề">
+
+                        <option value="" selected disabled>Chủ đề</option>
+
+                        <option value="parner">Hợp tác</option>
+
+                        <option value="Bạc Liêu">Bạc Liêu</option>
+
+                        <option value="Sóc Trăng">Sóc Trăng</option>
+
+                    </select>
+                </div>
+
+                <div class="m-form">
+
+                    <textarea name="message" class="form-control" type="text" value="" aria-label=" input example" placeholder="Nội dung" required="" data-parsley-required-message="Vui lòng cung cấp nội dung	"></textarea>
+                </div>
+
+                <p class="notice">Bằng cách gửi thông tin của bạn, bạn đồng ý cho phép chúng tôi liên hệ với bạn qua điện thoại, tin nhắn và email để tham vấn và nghiên cứu thị trường. Chúng tôi cam kết không chia sẻ thông tin của bạn với bất kỳ bên thứ ba nào.</p>
+
+                <div class="m-form text-center">
+                    <button type="submit" class="btn">gửi</button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</section>

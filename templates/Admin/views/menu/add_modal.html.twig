@@ -28,7 +28,7 @@
                                data-kt-button="true">
                             <!--begin::Radio button-->
                             <span class="form-check form-check-custom form-check-solid form-check-sm align-items-start mt-1">
-                        {{ form_widget(option, {attr: {'class': 'form-check-input','data-action': "change->Admin--menu-add#onMenuTypeChange"}}) }}
+                        {{ form_widget(option, {attr: {'class': 'form-check-input'}}) }}
                     </span>
                             <!--end::Radio button-->
                             <span class="ms-5">
@@ -39,12 +39,6 @@
                     </div>
                 {% endfor %}
             </div>
-        </div>
-        <div class="mb-7" data-Admin--menu-add-target="render">
-            {% if form.url is defined %}
-            <label class="fs-6 fw-semibold mb-2">Url</label>
-            {{ form_widget(form.url, {attr: {'class': "form-control fs-7", placeholder: "Enter url"}}) }}
-            {% endif %}
         </div>
         <button type="button" class="btn btn-primary"
                 data-action="click->Admin--menu-add#onSubmit">Submit</button>

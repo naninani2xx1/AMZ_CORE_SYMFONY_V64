@@ -3,7 +3,13 @@ twig:
     globals:
         setting_type_image: !php/const App\Core\DataType\SettingDataType::SETTING_TYPE_IMAGE
         setting_type_json: !php/const App\Core\DataType\SettingDataType::SETTING_TYPE_JSON
+        menu_type_root: !php/const App\Core\DataType\MenuDataType::ROOT_LEVEL
+        menu_type_sub: !php/const App\Core\DataType\MenuDataType::SUB_LEVEL
+        menu_position_main: !php/const App\Core\DataType\MenuDataType::POSITION_MAIN
+        menu_position_middle_footer: !php/const App\Core\DataType\MenuDataType::POSITION_MIDDLE_FOOTER
+        block_kind_static: !php/const App\Core\DataType\BlockDataType::KIND_STATIC
         themes_path: '%themes%'
+        menu_position: '%menu.config%'
 when@test:
     twig:
         strict_variables: true

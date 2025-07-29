@@ -3,11 +3,11 @@
 namespace App\Core\Repository;
 
 use App\Core\DataType\ArchivedDataType;
+use App\Core\DataType\MenuDataType;
 use App\Core\Entity\Menu;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\Persistence\ManagerRegistry;
-use Knp\Component\Pager\Pagination\PaginationInterface;
-use Knp\Component\Pager\PaginatorInterface;
 
 /**
  * @extends ServiceEntityRepository<Menu>
@@ -17,9 +17,29 @@ class MenuRepository extends ServiceEntityRepository
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Menu::class);
-        $this->paginator = $paginator;
     }
 
+    public function findOneByPosition(string $position): ?Menu
+    {
+        $qb = $this->createQueryBuilder('menu');
+        $qb->where('menu.position = :position')->setParameter('position', $position);
+        $qb->andWhere('menu.isArchived = :isArchived')->setParameter('isArchived', ArchivedDataType::UN_ARCHIVED);
+        $qb->andWhere('menu.isRoot = :root')->setParameter('root', MenuDataType::ROOT_LEVEL);
+        $qb->andWhere('menu.parent is null');
+        return $qb->getQuery()
+            ->setHint(Query::HINT_READ_ONLY, true)
+            ->setMaxResults(1)
+            ->setFirstResult(0)->getOneOrNullResult();
+    }
+
+    public function findMenusByParent(Menu $parent): ?array
+    {
+        $qb = $this->createQueryBuilder('menu');
+        $qb->where('menu.isArchived = :isArchived')->setParameter('isArchived', ArchivedDataType::UN_ARCHIVED);
+        $qb->andWhere('menu.isRoot = :root')->setParameter('root', MenuDataType::SUB_LEVEL);
+        $qb->andWhere('menu.parent = :parent')->setParameter('parent', $parent);
+        return $qb->getQuery()->setHint(Query::HINT_READ_ONLY, true)->getResult();
+    }
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */
@@ -35,22 +55,6 @@ class MenuRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    /**
-     * @param int $page
-     * @param int $limit
-     * @return PaginationInterface
-     */
-    public function findAllPaginated(int $page = 1,int $limit = 10): PaginationInterface
-    {
-        $queryBuilder = $this->createQueryBuilder(self::ALIAS);
-        $expr = $queryBuilder->expr();
-        $queryBuilder->where(
-            $expr->eq(self::ALIAS.'.isArchived', $expr->literal(ArchivedDataType::UN_ARCHIVED)),
-        )
-            ->orderBy(self::ALIAS.'.createdAt', 'DESC');
-
-        return $this->paginator->paginate($queryBuilder, $page, $limit);
-    }
     //    public function findOneBySomeField($value): ?User
     //    {
     //        return $this->createQueryBuilder('u')

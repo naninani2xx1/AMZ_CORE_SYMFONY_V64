@@ -25,7 +25,12 @@
     <i class="ki-duotone ki-copy fs-{{ size }}">
     </i>
 {% endmacro %}
-
+{% macro icon_add(size = '3') %}
+    <i class="ki-duotone ki-abstract-10 fs-{{ size }}">
+        <span class="path1"></span>
+        <span class="path2"></span>
+    </i>
+{% endmacro %}
 
 {% macro icon_delete(size = '3') %}
     <i class="ki-duotone ki-trash fs-{{ size }}">

@@ -1,0 +1,42 @@
+{% extends 'Admin/base.html.twig' %}
+{% block title %}CMS-Menu Management{% endblock %}
+
+{% block toolbar %}
+    {% embed 'Admin/partials/toolbar.html.twig' %}
+        {% block toolbar_title %}Menu Management{% endblock toolbar_title %}
+
+        {% block toolbar_breadcrumbs %}
+            <!--begin::Item-->
+            <li class="breadcrumb-item text-muted">
+                {% if menu.isRoot == menu_type_root %}
+                    <a href="{{ path('app_admin_menu_index') }}" class="text-muted text-hover-primary">Menu-parent({{ menu.name }})</a>
+                {% else %}
+                <a href="{{ path('app_admin_menu_child_index', {'parentId': menu.id}) }}" class="text-muted text-hover-primary">Menu-parent({{ menu.name }})</a>
+                {% endif %}
+            </li>
+            <!--end::Item-->
+            <!--begin::Item-->
+            <li class="breadcrumb-item">
+                <span class="bullet bg-gray-500 w-5px h-2px"></span>
+            </li>
+            <!--end::Item-->
+            <!--begin::Item-->
+            <li class="breadcrumb-item text-muted">Child</li>
+            <!--end::Item-->
+        {% endblock toolbar_breadcrumbs %}
+
+        {% block toolbar_button_actions %}
+            <a href="{{ path('app_admin_menu_addchild', {'parentId': menu.id}) }}"
+               data-amz-btn-open-modal
+               class="btn btn-sm fw-bold btn-primary">Create</a>
+        {% endblock toolbar_button_actions %}
+    {% endembed %}
+{% endblock %}
+
+{% block body %}
+    {{ component('TableMenuLiveComponent', {'id': "TableMenuLive", type: type, menuParent: menu}) }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{% endblock %}

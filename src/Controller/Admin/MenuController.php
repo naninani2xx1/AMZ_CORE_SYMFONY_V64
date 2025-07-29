@@ -6,8 +6,10 @@ namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
 use App\Core\DataType\ArchivedDataType;
+use App\Core\DataType\MenuDataType;
 use App\Core\Entity\Menu;
 use App\Core\Services\MenuService;
+use App\Form\Admin\Menu\AddMenuChildForm;
 use App\Form\Admin\Menu\AddMenuForm;
 use App\Form\Admin\Menu\EditMenuForm;
 use Doctrine\ORM\EntityManagerInterface;
@@ -37,7 +39,8 @@ class MenuController extends AbstractController implements CRUDActionInterface
      */
     public function index(Request $request): Response
     {
-        return $this->render('Admin/views/menu/index.html.twig');
+        $type = MenuDataType::ROOT_LEVEL;
+        return $this->render('Admin/views/menu/index.html.twig', compact('type'));
     }
 
     /**
@@ -89,6 +92,31 @@ class MenuController extends AbstractController implements CRUDActionInterface
     }
 
     /**
+     * @Route("/add-child/{parentId}", name="app_admin_menu_addchild", methods={"GET","POST"})
+     */
+    public function addChild(Request $request, int $parentId): Response
+    {
+        $menuParent = $this->menuService->findOneById($parentId);
+        $menu = new Menu();
+        $menu->setParent($menuParent);
+        $menu->setAuthor($this->getUser());
+        $menu->setIsRoot(MenuDataType::SUB_LEVEL);
+        $form = $this->createForm(AddMenuChildForm::class, $menu, [
+            'action' => $this->generateUrl('app_admin_menu_addchild', ['parentId' => $parentId]),
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($menu);
+            $this->entityManager->flush();
+            return new JsonResponse([
+                'message' => 'Menu added successfully',
+            ]);
+        }
+
+        return $this->render('Admin/views/menu/add_child_modal.html.twig', compact('form'));
+    }
+
+    /**
      * @param Request $request
      * @param int $id
      * @return Response
@@ -107,5 +135,18 @@ class MenuController extends AbstractController implements CRUDActionInterface
         return new JsonResponse([
             'message' => 'Menu deleted successfully',
         ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param int $parentId
+     * @return Response
+     * @Route(path="/child-list/{parentId}", name="app_admin_menu_child_index", methods={"GET"})
+     */
+    public function indexChild(Request $request, int $parentId): Response
+    {
+        $menu = $this->menuService->findOneById($parentId);
+        $type = MenuDataType::SUB_LEVEL;
+        return $this->render('Admin/views/menu/index_child.html.twig', compact('type', 'menu'));
     }
 }

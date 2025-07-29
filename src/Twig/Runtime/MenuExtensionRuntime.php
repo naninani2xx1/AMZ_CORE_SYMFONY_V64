@@ -1,25 +1,21 @@
 <?php
+
 namespace App\Twig\Runtime;
 
-use App\Core\Entity\Menu;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Core\Services\MenuService;
 use Twig\Extension\RuntimeExtensionInterface;
-
 
 class MenuExtensionRuntime implements RuntimeExtensionInterface
 {
-
-  private EntityManagerInterface $em;
-
-    public function __construct(EntityManagerInterface $em)
+    private MenuService $menuService;
+    public function __construct(MenuService $menuService)
     {
-        $this->em = $em;
+        $this->menuService = $menuService;
+        // Inject dependencies if needed
     }
-    public function renderMenu(): array
+
+    public function findMenusByPosition(string $position): array
     {
-        return $this->em->getRepository(Menu::class)->findBy(
-            ['isArchived' => false],
-            ['sortOrder' => 'ASC']
-        );
+        return $this->menuService->findMenusByPosition($position);
     }
 }

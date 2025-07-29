@@ -71,7 +71,7 @@ final class PictureGlobalListingComponent extends BaseTableLiveComponent
     public function uploadPicture(Request $request): void
     {
         $multiple = $request->files->all('multiple');
-        $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp'];
+        $allowedExtensions = ['jpg', 'jpeg', 'png', 'webp', 'svg'];
         $allowedMaxFileSize = 1024 * 1024 * 3; // 3MB
         // Handle files
         /** @var UploadedFile $file */

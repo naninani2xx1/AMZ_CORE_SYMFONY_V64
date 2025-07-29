@@ -20,4 +20,10 @@ class MenuService
     {
         return $this->menuRepository->find($id);
     }
+
+    public function findMenusByPosition(string $position): ?array
+    {
+        $menuParent = $this->menuRepository->findOneByPosition($position);
+        return $this->menuRepository->findMenusByParent($menuParent);
+    }
 }

@@ -52,7 +52,7 @@ class BlockController extends AbstractController implements CRUDActionInterface
     }
 
     /**
-     * @Route(path="/{pageId}/add", name="app_admin_block_add", methods={"GET","POST"})
+     * @Route(path="/{pageId}/add", name="app_admin_block_add", methods={"GET","POST"}, requirements={"pageId"="\d+"})
      */
     public function addByPage(Request $request, int $pageId): Response
     {
@@ -64,7 +64,7 @@ class BlockController extends AbstractController implements CRUDActionInterface
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $block->setKind(BlockDataType::BLOCK_KIND_DYNAMIC);
+            $block->setKind(BlockDataType::KIND_DYNAMIC);
             $this->entityManager->persist($block);
             $this->entityManager->flush();
 

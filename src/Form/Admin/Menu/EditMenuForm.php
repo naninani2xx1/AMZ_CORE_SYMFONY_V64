@@ -23,7 +23,8 @@ class EditMenuForm extends AbstractType
         /** @var Menu $menu */
         $menu = $options['data'];
         $builder->add('name', TextType::class);
-        $builder->add('position', PositionMenuChoiceType::class);
+        if($menu->getIsRoot() == MenuDataType::ROOT_LEVEL)
+            $builder->add('position', PositionMenuChoiceType::class);
 
         if($menu->getIsRoot() == MenuDataType::SUB_LEVEL)
             $builder->add('url', TextType::class);

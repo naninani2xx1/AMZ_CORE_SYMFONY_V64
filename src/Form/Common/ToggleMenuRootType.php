@@ -22,7 +22,7 @@ class ToggleMenuRootType extends AbstractType
         $resolver->setDefaults([
             'choices' => [
                 'MainMenu' => MenuDataType::ROOT_LEVEL,
-                'SubMenu' => MenuDataType::SUB_LEVEL,
+//                'SubMenu' => MenuDataType::SUB_LEVEL,
             ],
             'data' => MenuDataType::ROOT_LEVEL,
             'attr' => [
