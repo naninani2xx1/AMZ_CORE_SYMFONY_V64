@@ -10,9 +10,9 @@ use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\Trait\DoctrineThumbnailTrait;
 use App\Core\Trait\DoctrineTitleSubtitleTrait;
 use App\Core\ValueObject\LifecycleEntity;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Validator\Constraints\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Core\Repository\BlockRepository")
@@ -23,7 +23,6 @@ use Gedmo\Mapping\Annotation as Gedmo;
 class Block extends LifecycleEntity
 {
     use DoctrineTitleSubtitleTrait, DoctrineDescriptionTrait, DoctrineContentTrait, DoctrineThumbnailTrait, DoctrineIdentifierTrait;
-
 
     /**
      * @ORM\Column(type="integer", nullable=true)
@@ -107,7 +106,40 @@ class Block extends LifecycleEntity
     /**
      * @ORM\Column(type="string", nullable=true)
      */
+
     private $kind = BlockDataType::KIND_DYNAMIC;
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Core\Entity\Block")
+     * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", nullable=true, onDelete="SET NULL")
+     */
+    private $parent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Core\Entity\Block", mappedBy="parent")
+     */
+    private $children;
+
+
+    public function __construct()
+    {
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): static
+    {
+        $this->parent = $parent;
+        return $this;
+    }
+
+    public function getChildren(): Collection
+    {
+        return $this->children;
+    }
 
     public function getSortOrder(): ?int
     {

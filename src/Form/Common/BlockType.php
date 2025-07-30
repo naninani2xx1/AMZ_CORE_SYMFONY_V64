@@ -34,12 +34,14 @@ class BlockType extends AbstractType
         }
 
         return $results;
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'choices' => $this->getBlocks(),
+
             'attr' => [
                 'data-controller' => 'select2',
                 'data-select2-placeholder-value' => '-- Select option --',

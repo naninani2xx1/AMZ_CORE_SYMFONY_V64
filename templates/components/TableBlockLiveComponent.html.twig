@@ -1,50 +1,97 @@
 <div{{ attributes }}>
     {% import 'Admin/partials/macros.html.twig' as macros %}
-    <div class="d-flex flex-wrap flex-stack mb-6">
-        <!--begin::Title-->
-        {{ macros.table_get_input_search() }}
-        <!--end::Title-->
-        <!--begin::Controls-->
-        <div class="d-flex my-2">
 
-        </div>
-        <!--end::Controls-->
+    <div class="d-flex flex-wrap flex-stack mb-6">
+        {{ macros.table_get_input_search() }}
+        <div class="d-flex my-2"></div>
     </div>
+
     {% embed 'Admin/partials/table.html.twig' %}
         {% import 'Admin/partials/macros.html.twig' as macros %}
+
         {% block columns %}
             {{ macros.table_column_default("Order", 'text-start') }}
             {{ macros.table_column_default("Block Name", 'text-start') }}
             {{ macros.table_column_default("Type", 'text-start') }}
             {{ macros.table_column_default("CreatedAt", 'text-start') }}
-            {{ macros.table_column_default("UpdatedAt",  'text-start') }}
+            {{ macros.table_column_default("UpdatedAt", 'text-start') }}
         {% endblock %}
+
         {% block rows %}
             {% for item in computed.data %}
-                <tr class="py-3 align-middle  border-bottom border-gray-300 fs-7">
-                    <td class="action-column">
-                        <a href="{{ path('app_admin_block_edit', {'id': item.id}) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
-                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
-                                {{ macros.icon_edit() }}
-                            </span>
-                        </a>
-                        <a href="{{ path('app_admin_block_preview', {'id': item.id}) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
-                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Preview" data-bs-original-title="Preview">
-                                {{ macros.icon_eye() }}
-                            </span>
-                        </a>
-                        <a href="#" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
-                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
-                                {{ macros.icon_delete() }}
-                            </span>
-                        </a>
-                    </td>
-                    <td>1</td>
-                    <td>{{ item.title }}</td>
-                    <td>{{ item.type }}</td>
-                    <td>{{ item.createdAt | date('d/m/Y H:i:a') }}</td>
-                    <td>{{ item.updatedAt | date('d/m/Y H:i:a') }}</td>
-                </tr>
+                {% if item.parent is null %}
+                    <tr class="py-3 align-middle border-bottom border-gray-300 fs-7">
+                        <td class="action-column">
+                            <a href="{{ path('app_admin_block_edit', {'id': item.id}) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                                <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
+                                    {{ macros.icon_edit() }}
+                                </span>
+                            </a>
+                            <a href="{{ path('app_admin_block_preview', {'id': item.id}) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                                <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Preview" data-bs-original-title="Preview">
+                                    {{ macros.icon_eye() }}
+                                </span>
+                            </a>
+                            <a href="#" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                                <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
+                                    {{ macros.icon_delete() }}
+                                </span>
+                            </a>
+                        </td>
+                        <td>1</td>
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.type }}</td>
+                        <td>{{ item.createdAt | date('d/m/Y H:i:a') }}</td>
+                        <td>{{ item.updatedAt | date('d/m/Y H:i:a') }}</td>
+                    </tr>
+
+                    {% for child in computed.data %}
+                        {% if child.parent and child.parent.id == item.id %}
+                            <tr>
+                                <td colspan="1">
+                                </td>
+                                <td colspan="6">
+                                    <table class="table  table-row-dashed table-row-gray-500 gy-5 gs-5 mb-0">
+                                        <thead>
+                                        <tr class="fw-semibold fs-7 text-gray-800">
+                                            <th scope="col">Action</th>
+                                            <th scope="col">Child Name</th>
+                                            <th scope="col">Url</th>
+                                            <th scope="col">CreatedAt</th>
+                                            <th scope="col">UpdatedAt</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <th scope="row">
+                                                    <a href="{{ path('app_admin_block_edit', {'id': child.id}) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                                                        <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
+                                                            {{ macros.icon_edit() }}
+                                                        </span>
+                                                                            </a>
+                                                                            <a href="{{ path('app_admin_block_preview', {'id': child.id}) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                                                        <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Preview" data-bs-original-title="Preview">
+                                                            {{ macros.icon_eye() }}
+                                                        </span>
+                                                                            </a>
+                                                                            <a href="#" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                                                        <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
+                                                            {{ macros.icon_delete() }}
+                                                        </span>
+                                                    </a>
+                                                </th>
+                                                <td>{{ child.title }}</td>
+                                                <td>{{ child.type }}</td>
+                                                <td>{{ child.createdAt | date('d/m/Y H:i:a') }}</td>
+                                                <td>{{ child.updatedAt | date('d/m/Y H:i:a') }}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
             {% endfor %}
         {% endblock %}
     {% endembed %}

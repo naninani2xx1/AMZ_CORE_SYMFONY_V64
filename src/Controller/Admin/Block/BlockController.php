@@ -6,6 +6,7 @@ use App\Core\Controller\CRUDActionInterface;
 use App\Core\DataType\BlockDataType;
 use App\Core\DTO\BlockDTO;
 use App\Core\Entity\Block;
+use App\Core\Entity\BlockChildren;
 use App\Core\Services\BlockService;
 use App\Core\Services\PageService;
 use App\Form\Admin\Block\AddBlockForm;
@@ -29,6 +30,7 @@ class BlockController extends AbstractController implements CRUDActionInterface
         PageService $pageService,
         BlockService $blockService,
         EntityManagerInterface $entityManager
+
     )
     {
         $this->pageService = $pageService;
@@ -73,7 +75,6 @@ class BlockController extends AbstractController implements CRUDActionInterface
 
         return $this->render('Admin/views/block/add_modal.html.twig', compact('form'));
     }
-
     public function edit(Request $request, int $id): Response
     {
         throw new \Exception('Not implemented');
@@ -112,4 +113,14 @@ class BlockController extends AbstractController implements CRUDActionInterface
 
         return $this->forward($type['backend']['controller'], ['request' => $request, 'block' => $block]);
     }
+    /**
+     * @Route(path="/delete/{id}", name="app_admin_block_delete", methods={"GET","POST"})
+     */
+    public function deleteAction(Request $request, int $id): Response{
+        $block = $this->blockService->findOneById($id);
+        $this->entityManager->remove($block);
+        $this->entityManager->flush();
+        return new JsonResponse(['message' => 'Block deleted successfully!']);
+    }
+
 }

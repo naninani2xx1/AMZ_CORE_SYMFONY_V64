@@ -17,3 +17,12 @@ parameters:
       frontend:
         view: '%themes%block/contact_form.html.twig'
         controller: ''
+
+    product_intro_block:
+      name: 'Product Intro'
+      backend:
+        view: 'Admin/views/blockPreview/single_banner.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/product_intro/product_intro.html.twig'
+        controller: ''

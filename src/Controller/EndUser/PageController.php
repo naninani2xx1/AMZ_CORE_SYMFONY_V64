@@ -39,7 +39,7 @@ class PageController extends AbstractController
             $template = $pageTemplate;
 
         return $this->render($template, array(
-            'page' => $page,
+            'page' => $pa-+ge,
             'post' => $post
         ));
     }
