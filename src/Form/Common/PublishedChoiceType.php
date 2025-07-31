@@ -29,7 +29,7 @@ class PublishedChoiceType extends AbstractType
             'attr' => [
                 'data-controller' => 'select2',
                 'data-select2-placeholder-value' => '-- Select option --',
-                'class' => 'form-select form-select-sm'
+                'class' => 'form-select form-select-sm',
             ],
             'placeholder' => '-- Select option --',
         ]);

@@ -1,10 +1,5 @@
 {% extends 'Admin/base.html.twig' %}
-{% block title %}Category Management{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <link rel="stylesheet" href="{{ asset('/styles/setting.css') }}">
-{% endblock %}
+{% block title %}CMS-Category Management{% endblock %}
 
 {% block toolbar %}
     {% embed 'Admin/partials/toolbar.html.twig' %}
@@ -19,19 +14,13 @@
         {% endblock toolbar_breadcrumbs %}
 
         {% block toolbar_button_actions %}
-            <div>
-                <a href="{{ path('app_admin_category_add') }}" class="btn btn-primary"  >+ Thêm danh mục  </a>
-
-            </div>
+            <a href="{{ path('app_admin_page_add') }}" class="btn btn-sm fw-bold btn-primary">Create</a>
         {% endblock toolbar_button_actions %}
     {% endembed %}
 {% endblock %}
 
 {% block body %}
-
-    {{ component('TableCategoryLiveComponent', {'id': "TableCategoryLive"}) }}
-
-
+    {{ component('TablePageLiveComponent', {'id': "TablePageLive"}) }}
 {% endblock %}
 
 {% block javascripts %}

@@ -8,7 +8,7 @@ import  { alertError, alertSuccess, alertProcessing } from '@Common'
 */
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    static targets = ['dotStatus'];
+    static targets = ['dotStatus', 'form'];
     static classes = []
 
     // Constants for better maintainability
@@ -60,10 +60,10 @@ export default class extends Controller {
 
     add(e){
         const $this = e.currentTarget;
-        const formData = new FormData($this);
+        const formData = new FormData(this.formTarget);
         alertProcessing();
         axiosPost({
-            url: $this.action,
+            url: this.formTarget.action,
             data: formData
         }, {
             success: res => {

@@ -34,7 +34,7 @@ class AddPostType extends AbstractType
         $builder->add('description', TextareaType::class, [
             'required' => false,
         ]);
-        $builder->add('thumbnail', IntegerType::class, ['required' => false]);
+        $builder->add('thumbnail', HiddenType::class, ['required' => false]);
         $builder->add('published', PublishedChoiceType::class, [
             'data-select2-dropdown-parent-value' => '#amz_post_add',
             'data-select2-hidden-search-value' => 'true'

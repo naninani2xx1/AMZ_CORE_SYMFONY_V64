@@ -23,7 +23,9 @@
         <meta property="og:image" content="">
 
         <link href="{{ asset('themes/mancali/assets/css/main.css') }}" rel="stylesheet">
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/lozad/dist/lozad.min.js"></script>
         {% block importmapp %}
+            {{ importmap('app') }}
         {% endblock %}
     </head>
     <body suported-aos><!--class="colorMode" suported-aos-->
@@ -33,5 +35,15 @@
         {{ include('themes/mancali/partials/search_modal.html.twig') }}
         {{ include('themes/mancali/partials/overlay_loading.html.twig') }}
         <script src="{{ asset('themes/mancali/assets/js/main.js') }}"></script>
+
+        <script>
+            const observer = lozad('.lozad', {
+                loaded: function(el) {
+                    // Custom implementation on a loaded element
+                    el.classList.add('loaded');
+                }
+            });
+            observer.observe();
+        </script>
     </body>
 </html>

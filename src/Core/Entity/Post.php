@@ -31,7 +31,7 @@ class Post extends LifecycleEntity
     private ?Article $article;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Core\Entity\SocialSharing", mappedBy="post")
+     * @ORM\OneToOne(targetEntity="App\Core\Entity\SocialSharing", mappedBy="post", cascade={"persist", "remove"})
      */
     private ?SocialSharing $socialSharing;
 
@@ -74,7 +74,7 @@ class Post extends LifecycleEntity
     private $isNew = PostStatusType::NEW_TYPE_NORMAL;
 
     /**
-     * @ORM\Column(type="integer", nullable=true)
+     * @ORM\Column(type="string", nullable=true)
      */
     private $postType;
 
@@ -211,16 +211,19 @@ class Post extends LifecycleEntity
 
     public function getArrTags(): string
     {
-        return is_null($this->tags) ? '' : implode(',', $this->tags);
+        return is_null($this->tags) ? '' : implode(',', ($this->tags));
     }
 
     /**
      * @param mixed $tags
      */
-    public function setArrTags(string $tags): void
+    public function setArrTags(?string $tags): void
     {
+        if(is_null($tags))
+            return;
         $arr = json_decode($tags, true);
-        $this->tags = json_encode(array_column($arr, 'value'));
+
+        $this->tags = array_column($arr, 'value');
     }
 
     public function getConfig(): ?string

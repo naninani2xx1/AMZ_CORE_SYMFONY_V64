@@ -1,13 +1,23 @@
 twig:
     file_name_pattern: '*.twig'
     globals:
+        #setting constant
         setting_type_image: !php/const App\Core\DataType\SettingDataType::SETTING_TYPE_IMAGE
         setting_type_json: !php/const App\Core\DataType\SettingDataType::SETTING_TYPE_JSON
+        #menu constant
         menu_type_root: !php/const App\Core\DataType\MenuDataType::ROOT_LEVEL
         menu_type_sub: !php/const App\Core\DataType\MenuDataType::SUB_LEVEL
         menu_position_main: !php/const App\Core\DataType\MenuDataType::POSITION_MAIN
         menu_position_middle_footer: !php/const App\Core\DataType\MenuDataType::POSITION_MIDDLE_FOOTER
+        #block constant
         block_kind_static: !php/const App\Core\DataType\BlockDataType::KIND_STATIC
+        #article constant
+        article_type_news: !php/const App\Core\DataType\ArticleDataType::TYPE_NEW_ARTICLE
+        article_type_recipe: !php/const App\Core\DataType\ArticleDataType::TYPE_RECIPE_ARTICLE
+        #post constant
+        post_type_published_draft: !php/const App\Core\DataType\PostStatusType::PUBLISH_TYPE_DRAFT
+        post_type_published_published: !php/const App\Core\DataType\PostStatusType::PUBLISH_TYPE_PUBLISHED
+        #common
         themes_path: '%themes%'
         menu_position: '%menu.config%'
 when@test:

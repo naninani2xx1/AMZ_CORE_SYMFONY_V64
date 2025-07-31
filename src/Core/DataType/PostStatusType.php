@@ -15,4 +15,12 @@ class PostStatusType
     /** STATUS PUBLISHED */
     const PUBLISH_TYPE_PUBLISHED = 2;
     const PUBLISH_TYPE_DRAFT = 1;
+
+    public static function getNameByPublishType(int $publishType): string
+    {
+        return match ($publishType) {
+            self::PUBLISH_TYPE_DRAFT => "Draft",
+            self::PUBLISH_TYPE_PUBLISHED => "Published",
+        };
+    }
 }

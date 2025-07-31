@@ -18,6 +18,11 @@ class UserService
         return $this->userRepository->find($id);
     }
 
+    public function findOneByUsername(string $username): ?User
+    {
+        return $this->userRepository->findOneBy(['username' => $username]);
+    }
+
     public function isUsernameAlready(string $username): bool
     {
         $user = $this->userRepository->findOneBy(['username' => $username]);

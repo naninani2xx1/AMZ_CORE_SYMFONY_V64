@@ -21,7 +21,7 @@ class Article extends LifecycleEntity
     private $author = null;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Core\Entity\Post", inversedBy="article")
+     * @ORM\OneToOne(targetEntity="App\Core\Entity\Post", inversedBy="article", cascade={"persist", "remove"})
      */
     private $post;
 

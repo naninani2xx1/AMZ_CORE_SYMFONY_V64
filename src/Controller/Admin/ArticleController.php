@@ -5,12 +5,12 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
-use App\Core\Repository\ArticleRepository;
-use App\Services\Admin\ArticleService;
+use App\Core\Services\ArticleService;
+use App\Utils\ArticleUtils;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 /**
  * @Route(path="/cms/article")
@@ -19,42 +19,74 @@ class ArticleController extends AbstractController implements CRUDActionInterfac
 {
     private ArticleService $articleService;
 
-    public function __construct(ArticleService $articleService,
-        private ArticleRepository $articleRepository
-    )
+    public function __construct(ArticleService $articleService)
     {
         $this->articleService = $articleService;
     }
 
-    /**
-     * @Route(path="/", name="app_admin_article_index")
-     */
     public function index(Request $request): Response
     {
-      $data=$this->articleRepository->findAllArticle();
-      return  $this->render('Admin/views/article/index.html.twig', [
-          'articles' => $data,
-      ]);
+       throw new \Exception('Not implemented');
     }
 
+
     /**
-     * @Route(path="/add", name="app_admin_article_add")
+     * @Route(path="/{type}", name="app_admin_article_index", methods={"GET"})
+     * @param Request $request
+     * @param string $type
+     * @return Response
      */
+    public function indexByType(Request $request, string $type): Response
+    {
+        return $this->render('Admin/views/article/index_'.$type.'.html.twig', compact('type'));
+    }
+
     public function add(Request $request): Response
     {
-        return $this->articleService->add($request);
+        throw new \Exception('Not implemented');
     }
 
     /**
-     * @Route(path="/edit/{id}", name="app_admin_article_edit")
+     * @Route(path="/{type}/add", name="app_admin_article_add")
+     * @param Request $request
+     * @param string $type
+     * @return Response
+     * @throws \Exception
      */
+    public function addArticle(Request $request, string $type): Response
+    {
+        return $this->forward(ArticleUtils::getStrControllerByType($type, 'add'), ['request', $request,'type' => $type]);
+    }
+
     public function edit(Request $request, int $id): Response
     {
-        return $this->articleService->edit($request, $id);
+        throw new \Exception('Not implemented');
+    }
+
+
+    /**
+     * @Route(path="/{type}/edit/{id}", name="app_admin_article_edit", methods={"GET", "POST"})
+     * @param Request $request
+     * @param string $type
+     * @param int $id
+     * @return Response
+     * @throws \Exception
+     */
+    public function editArticle(Request $request, string $type ,int $id): Response
+    {
+        $article = $this->articleService->findOneById($id);
+        return $this->forward(ArticleUtils::getStrControllerByType($type, 'edit'), [
+            'request' => $request,
+            'type' => $type,
+            'article' => $article,
+        ]);
     }
 
     /**
      * @Route(path="/delete/{id}", name="app_admin_article_delete")
+     * @param Request $request
+     * @param int $id
+     * @return Response
      */
     public function delete(Request $request, int $id): Response
     {
