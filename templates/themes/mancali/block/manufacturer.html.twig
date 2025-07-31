@@ -2,11 +2,10 @@
     <section class="block prune-block">
         <div class="container maxW-800">
             <div class="heading">
-                <h2 class="title">Mận khô California</h2>
-                <h2 class="subtitle underline">có nhiều dạng chế biến đa dạng</h2>
+                <h2 class="title">{{ block.title }}</h2>
+                <h2 class="subtitle underline">{{ block.subTitle }}</h2>
                 <div class="text tool-editor">
-                    <p style="color: black;">Các đơn vị chế biến tại California có thể cung cấp mận khô phục vụ nhiều mục đích sử dụng khác nhau, bao gồm: nguyên quả, cắt nhỏ, cắt hạt lựu, dạng vụn, xay nhuyễn, dạng sệt, cô đặc, nước ép và dạng bột. Các sản phẩm hữu cơ cũng có sẵn.</p>
-                    <p>Để biết thông tin sản phẩm và bảng giá, vui lòng liên hệ với một trong các đơn vị chế biến mận khô California được liệt kê bên dưới.</p>
+                    <p style="color: black;">{{ block.content | raw }}</p>
                 </div>
             </div>
         </div>

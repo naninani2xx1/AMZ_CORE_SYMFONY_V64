@@ -10,6 +10,7 @@ export default class extends Controller {
     static values = {
 
     };
+
     initialize() {
         // Called once when the controller is first instantiated (per element)
 

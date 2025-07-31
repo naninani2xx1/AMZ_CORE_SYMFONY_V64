@@ -85,6 +85,18 @@
                 <div class="text-muted fs-7">Set a description to the product for better visibility.</div>
                 <!--end::Description-->
             </div>
+
+            <div class="mb-10">
+                <!--begin::Label-->
+                <label class="form-label">Description</label>
+                <!--end::Label-->
+                {{ form_widget(form.content, {attr: {class: 'form-control fs-7','data-controller': 'ckeditor'}}) }}
+                <!--begin::Description-->
+                <div class="text-muted fs-7">Set a description to the product for better visibility.</div>
+                <!--end::Description-->
+            </div>
+
+
             <div>
                 <label class="form-label">Background</label>
                 <div class="flex-column d-flex gap-3" data-controller="core-gallery"
