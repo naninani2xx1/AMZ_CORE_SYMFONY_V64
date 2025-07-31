@@ -1,0 +1,22 @@
+{% embed 'Admin/partials/modal.html.twig' %}
+    {% block title %}Add Menu{% endblock %}
+    {% block modalClass %}modal-dialog-centered p-10 mw-900px{% endblock %}
+    {% block body %}
+        {{ form_start(form) }}
+        <div class="fv-row mb-7">
+            <!--begin::Label-->
+            <label class="required fs-6 fw-semibold mb-2">Name</label>
+            <!--end::Label-->
+            <!--begin::Input-->
+            {{ form_widget(form.name, {attr: {'class': "form-control fs-7", placeholder: "Enter name"}}) }}
+            <!--end::Input-->
+        </div>
+        <div class="mb-7">
+            <label class="fs-6 fw-semibold mb-2">Url</label>
+            {{ form_widget(form.url, {attr: {'class': "form-control fs-7", placeholder: "Enter url"}}) }}
+        </div>
+        <button type="button" class="btn btn-primary"
+                data-action="click->Admin--menu-add#onSubmit">Submit</button>
+        {{ form_end(form) }}
+    {% endblock %}
+{% endembed %}

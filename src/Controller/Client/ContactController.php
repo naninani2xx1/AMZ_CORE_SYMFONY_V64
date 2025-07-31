@@ -43,7 +43,7 @@ Class ContactController extends AbstractController
             $this->em->flush();
         }
 
-        return $this->render('Client/views/contact/contact.html.twig', [
+        return $this->render('themes/mancali/block/contact_form.html.twig', [
             'form' => $form,
         ]);
     }

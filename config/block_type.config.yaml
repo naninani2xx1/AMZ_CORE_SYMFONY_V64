@@ -35,3 +35,12 @@ parameters:
       frontend:
         view: '%themes%block/qas.html.twig'
         controller: ''
+
+    manufacturer_block:
+      name: 'Manufacturer Block'
+      backend:
+        view: 'Admin/views/blockPreview/single_banner.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/manufacturer.html.twig'
+        controller: ''

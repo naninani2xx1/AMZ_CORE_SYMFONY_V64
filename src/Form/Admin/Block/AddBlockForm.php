@@ -17,18 +17,7 @@ class AddBlockForm extends AbstractType
     {
         $builder->add('title', TextType::class);
         $builder->add('type', BlockType::class);
-        $builder->add('parent', EntityType::class, [
-            'class' => Block::class,
-            'required' => false,
-            'placeholder' => 'Không có block cha',
-            'choice_label' => 'title',
-            'query_builder' => function (EntityRepository $er) {
-                return $er->createQueryBuilder('b')
-                    ->where('b.parent IS NULL')
-                    ->orderBy('b.title', 'ASC');
-            },
-            'label' => 'Block cha'
-        ]);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

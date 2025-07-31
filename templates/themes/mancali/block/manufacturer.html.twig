@@ -1,0 +1,89 @@
+<main>
+    <section class="block prune-block">
+        <div class="container maxW-800">
+            <div class="heading">
+                <h2 class="title">Mận khô California</h2>
+                <h2 class="subtitle underline">có nhiều dạng chế biến đa dạng</h2>
+                <div class="text tool-editor">
+                    <p style="color: black;">Các đơn vị chế biến tại California có thể cung cấp mận khô phục vụ nhiều mục đích sử dụng khác nhau, bao gồm: nguyên quả, cắt nhỏ, cắt hạt lựu, dạng vụn, xay nhuyễn, dạng sệt, cô đặc, nước ép và dạng bột. Các sản phẩm hữu cơ cũng có sẵn.</p>
+                    <p>Để biết thông tin sản phẩm và bảng giá, vui lòng liên hệ với một trong các đơn vị chế biến mận khô California được liệt kê bên dưới.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="block prune-block prune-handler">
+        <div class="container">
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                <tr>
+                    <td>CÔNG TY</td>
+                    <td>THÔNG TIN LIÊN HỆ</td>
+                    <td>SẢN PHẨM</td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for manufacturer in manufacturer_data() %}
+                    <tr>
+                        <td>
+                            <h6 class="name">{{ manufacturer.name }}</h6>
+
+                            <div class="addr">
+                                <i class="zmdi zmdi-home"></i>
+                                <div class="tool-editor addr">
+                                    <p>{{ manufacturer.address }}</p>
+                                </div>
+                            </div>
+
+                            <div class="d-block d-md-none">
+                                <p class="phone">
+                                    <i class="zmdi zmdi-phone"></i>
+                                    <a href="tel:{{ manufacturer.phone }}">{{ manufacturer.phone }}</a>
+                                </p>
+                                <p class="email">
+                                    <i class="zmdi zmdi-email"></i>
+                                    <a href="mailto:{{ manufacturer.email }}">{{ manufacturer.email }}</a>
+                                </p>
+                                <p class="web">
+                                    <i class="zmdi zmdi-globe"></i>
+                                    <a target="_blank" href="{{ manufacturer.urlWeb }}">{{ manufacturer.urlWeb }}</a>
+                                </p>
+
+                                <div class="exportType">
+                                    {% for product in manufacturer.products %}
+                                        <span>{{ product|upper }}</span>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </td>
+
+                        <td>
+                            <p class="phone">
+                                <i class="zmdi zmdi-phone"></i>
+                                <a href="tel:{{ manufacturer.phone }}">{{ manufacturer.phone }}</a>
+                            </p>
+                            <p class="email">
+                                <i class="zmdi zmdi-email"></i>
+                                <a href="mailto:{{ manufacturer.email }}">{{ manufacturer.email }}</a>
+                            </p>
+                            <p class="web">
+                                <i class="zmdi zmdi-globe"></i>
+                                <a target="_blank" href="{{ manufacturer.urlWeb }}">{{ manufacturer.urlWeb }}</a>
+                            </p>
+                        </td>
+
+                        <td>
+                            <div class="exportType">
+                                {% for product in manufacturer.products %}
+                                    <span>{{ product|upper }}</span>
+                                {% endfor %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>

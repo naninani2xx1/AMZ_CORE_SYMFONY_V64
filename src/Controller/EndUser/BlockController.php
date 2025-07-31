@@ -22,7 +22,6 @@ class BlockController extends AbstractController
         $block = $this->blockService->findOneById($id);
         $blocksType = $this->getParameter('blocks_type');
         $type = $blocksType[$block->getType()];
-
         return $this->render($type['frontend']['view'], ['request' => $request, 'block' => $block]);
     }
 }

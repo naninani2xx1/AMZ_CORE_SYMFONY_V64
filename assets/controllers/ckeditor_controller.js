@@ -33,6 +33,12 @@ export default class extends Controller {
     // Add custom controller actions here
     // fooBar() { this.fooTarget.classList.toggle(this.bazClass) }
 
+
+
+
+
+
+
     disconnect() {
         this.ckeditor.destroy();
         // Called anytime its element is disconnected from the DOM
