@@ -17,3 +17,21 @@ parameters:
       frontend:
         view: '%themes%block/contact_form.html.twig'
         controller: ''
+
+    listing_news_article_block:
+      name: 'Block Listing News Article'
+      backend:
+        view: 'Admin/views/blockPreview/single_banner.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/listing_news_article.html.twig'
+        controller: ''
+
+    qas_block:
+      name: 'Block Qas'
+      backend:
+        view: 'Admin/views/blockPreview/single_banner.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/qas.html.twig'
+        controller: ''

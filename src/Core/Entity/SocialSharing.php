@@ -87,9 +87,24 @@ class SocialSharing extends LifecycleEntity
         return $this->googleTag;
     }
 
-    public function setGoogleTag(?array $googleTag): self
+    public function getGoogleTagStr(): string
     {
-        $this->googleTag = $googleTag;
+        return implode(',', $this->googleTag);
+    }
+
+
+    public function setGoogleTag(?string $googleTag): self
+    {
+        if(is_null($googleTag)) return $this;
+        $this->googleTag = array_column(json_decode($googleTag, true), 'value');
+
+        return $this;
+    }
+
+    public function setGoogleTagStr(?string $googleTag): self
+    {
+        if(is_null($googleTag)) return $this;
+        $this->googleTag = array_column(json_decode($googleTag, true), 'value');
 
         return $this;
     }

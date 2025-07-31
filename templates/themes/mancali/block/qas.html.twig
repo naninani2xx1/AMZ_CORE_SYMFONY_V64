@@ -1,0 +1,25 @@
+<section class="block prune-block prune-faq" style="background-image: url('{{ asset(block.background ?? "") }}');">
+    <div class="container">
+        <h1 class="title">{{ block.title }}</h1>
+    </div>
+    <div class="container maxW-960">
+        <div class="faq-list">
+            {% set qas = get_all_qa() %}
+            {% for qa in qas %}
+                <div class="item" data-sort="1">
+                    <a class="item-link" data-bs-toggle="collapse" href="#qa_item-{{ qa.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <div class="text tool-editor">
+                            <p>{{ qa.question }}</p>
+                        </div>
+                        <i class="zmdi zmdi-chevron-down"></i>
+                    </a>
+                    <div class="collapse" id="qa_item-{{ qa.id }}">
+                        <div class="card-body tool-editor">
+                            {{ qa.answer | raw }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>

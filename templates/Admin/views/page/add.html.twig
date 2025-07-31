@@ -34,7 +34,7 @@
         id: 'amz_post_add',
         'action': path('app_admin_page_add'),
         'data-controller': 'Admin--page-add',
-        'data-action': 'submit->Admin--page-add#add:prevent'
+        'data-Admin--page-add-target': 'form'
     }}) }}
     {% do form.post.setRendered %}
         <!--begin::Aside column-->
@@ -366,7 +366,7 @@
                 <a href="{{ path('app_admin_page_index') }}" class="btn btn-light me-5">Cancel</a>
                 <!--end::Button-->
                 <!--begin::Button-->
-                <button type="submit" class="btn btn-primary">
+                <button type="button"   data-action='click->Admin--page-add#add:prevent' class="btn btn-primary">
                     <span class="indicator-label">Save Changes</span>
                     <span class="indicator-progress">Please wait...
 						<span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>

@@ -24,14 +24,14 @@ class CategoryController extends AbstractController implements CRUDActionInterfa
     }
 
     /**
-     * @Route(path="/", name="app_admin_page_index")
+     * @Route(path="/", name="app_admin_category_index")
      * @param Request $request
      * @return Response
      */
     public function index(Request $request): Response
     {
-        $pagination = $this->categoryService->findAllPaginated();
-        return $this->render('Admin/views/page/index.html.twig', compact('pagination'));
+
+        return $this->render('Admin/views/page/index.html.twig');
     }
 
     /**

@@ -14,12 +14,14 @@ use Doctrine\ORM\QueryBuilder;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveAction;
 use Symfony\UX\LiveComponent\Attribute\LiveArg;
 use Symfony\UX\LiveComponent\Attribute\LiveListener;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
+use Symfony\UX\TwigComponent\Attribute\PostMount;
 
 #[AsLiveComponent(template: 'components/PictureListingComponent.html.twig')]
 final class PictureGlobalListingComponent extends BaseTableLiveComponent
@@ -28,17 +30,28 @@ final class PictureGlobalListingComponent extends BaseTableLiveComponent
     private FileUploadService $fileUploadService;
     private KernelInterface $kernel;
     private PictureService $pictureService;
-    public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator,
+    private RequestStack $requestStack;
+    public function __construct(EntityManagerInterface $entityManager, PaginatorInterface $paginator, RequestStack $requestStack,
               KernelInterface $kernel, PictureService $pictureService,   FileUploadService $fileUploadService)
     {
         parent::__construct($entityManager, $paginator);
         $this->fileUploadService = $fileUploadService;
         $this->kernel = $kernel;
         $this->pictureService = $pictureService;
+        $this->requestStack = $requestStack;
     }
 
     #[LiveProp(writable: true)]
     public ?Gallery $gallery = null;
+
+    #[LiveProp(writable: true)]
+    public array $queryParam = [];
+
+    #[PostMount]
+    public function onPostMount(): void
+    {
+        $this->queryParam = $this->requestStack->getCurrentRequest()->query->all();
+    }
 
     public array $flashMessages = [];
     protected function getQueryBuilder(): ?QueryBuilder

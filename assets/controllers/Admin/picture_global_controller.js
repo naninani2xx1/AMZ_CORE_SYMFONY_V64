@@ -41,6 +41,11 @@ export default class extends Controller {
     pickedPicture(event){
         event.preventDefault();
         this.dispatch("pickedPicture", { detail: event.params });
-        alertSuccess({html: "Picked", timer: 2000})
+        alertSuccess({html: "Picked", timer: 2000});
+        const {ckEditorFuncNum, path} = event.params;
+        if(ckEditorFuncNum === 1){
+            window.opener.CKEDITOR.tools.callFunction(ckEditorFuncNum, path);
+            window.close();
+        }
     }
 }

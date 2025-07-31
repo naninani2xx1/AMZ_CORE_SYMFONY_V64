@@ -1,0 +1,20 @@
+<nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center mt-5">
+        <li class="page-item disabled"><a class="page-link" href="#" aria-label="Previous"><i class="zmdi zmdi-arrow-left"></i></a></li>
+
+        {% for page in pagesInRange %}
+            {% if page != current %}
+                <li class="page-item">
+                    <a href="#" class="page-link"
+                       data-action="live#action:prevent"
+                       data-live-action-param="{{ eventName }}"
+                       data-live-page-param="{{ page }}"
+                    >{{ page }}</a></li>
+            {% else %}
+                <li class="page-item active"><a class="page-link" href="#">{{ page }}</a></li>
+            {% endif %}
+        {% endfor %}
+
+        <li class="page-item"><a class="page-link" href="#" aria-label="Next"><i class="zmdi zmdi-arrow-right"></i></a></li>
+    </ul>
+</nav>

@@ -1,0 +1,62 @@
+<div{{ attributes.defaults({
+    'data-controller': 'core-table'
+}) }}>
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    <div class="d-flex flex-wrap flex-stack mb-6">
+        <!--begin::Title-->
+        {{ macros.table_get_input_search() }}
+        <!--end::Title-->
+        <!--begin::Controls-->
+        <div class="d-flex my-2">
+
+        </div>
+        <!--end::Controls-->
+    </div>
+    {% embed 'Admin/partials/table.html.twig' %}
+        {% import 'Admin/partials/macros.html.twig' as macros %}
+        {% import 'Admin/partials/setting/macros.html.twig' as SettingMacros %}
+        {% block columns %}
+            {{ macros.table_column_default("Thumbnail", 'text-start') }}
+            {{ macros.table_column_default("Title", 'text-start') }}
+            {{ macros.table_column_default("Description", 'text-start') }}
+            {{ macros.table_column_default("Published", 'text-start') }}
+            {{ macros.table_column_default("CreatedAt", 'text-start') }}
+        {% endblock %}
+        {% block rows %}
+            {% for item in computed.data %}
+                <tr class="py-3 align-middle  border-bottom border-gray-300 fs-7">
+                    <td class="action-column">
+                        <a href="{{ path('app_admin_article_edit', {'id': item.id, 'type': item.post.postType}) }}"
+                           class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
+                                {{ macros.icon_edit() }}
+                            </span>
+                        </a>
+                        <a href="#" data-amz-btn-remove
+                           data-action="{{ path('app_admin_qa_delete', {'id': item.id, '_csrf_token': csrf_token('qa-delete-'~ item.id) }) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
+                                {{ macros.icon_delete() }}
+                            </span>
+                        </a>
+                    </td>
+                    <td>
+                        <img
+                                src="{{ asset('themes/media/misc/spinner.gif') }}"
+                                data-src="{{ asset(item.post.thumbnail ) }}"
+                                class="lozad rounded mw-100px"
+                                alt=""
+                        />
+                    </td>
+                    <td>{{ item.post.title }}</td>
+                    <td>{{ item.post.description }}</td>
+                    <td>
+                        <span class="badge badge-{{ item.post.published == post_type_published_draft ? "warning" : "primary" }} fs-7">
+                            {{ get_name_by_published(item.post.published) }}
+                        </span>
+                    </td>
+                    <td>{{ item.createdAt | date('d/m/Y H:i:a') }}</td>
+                </tr>
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+</div>

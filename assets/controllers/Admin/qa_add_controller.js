@@ -10,7 +10,7 @@ import {alertError, alertSuccess} from '@Common';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-
+    static outlets = ['ckeditor']
     initialize() {
         // Called once when the controller is first instantiated (per element)
 
@@ -43,6 +43,7 @@ export default class extends Controller {
 
     onSubmit(event){
         const url = this.element.action;
+        this.ckeditorOutlets.forEach(controller => controller.updateHTML())
         let formData = new FormData(this.element);
 
         event.target.activeProgress();

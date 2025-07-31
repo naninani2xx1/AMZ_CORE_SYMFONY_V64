@@ -1,0 +1,25 @@
+<div{{ attributes.defaults({
+    'data-controller': 'core-table',
+}) }}>
+    <div class="list-block list-3">
+        {% for article in computed.data %}
+            <div class="card card-article">
+                <img
+                        src="{{ asset('themes/media/demo-thumb.png') }}"
+                        data-src="{{ asset('themes/mancali/assets/img/article/thumbs/article-01.jpg') }}"
+                        class="lozad card-img-top"
+                        alt="{{ article.post.title }}"
+                />
+                <div class="card-body">
+                    <h5 class="card-title">{{ article.post.title }}</h5>
+                    <div class="card-text">{{ article.post.description }}</div>
+                    <a href="#" class="btn btn-primary stretched-link">chi tiết</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if computed.data is defined and computed.data is not empty %}
+        {{ knp_pagination_render(computed.data, 'themes/mancali/partials/pagination.html.twig',null, {entity: computed.data, eventName: 'changePage'}) }}
+    {% endif %}
+</div>

@@ -62,7 +62,8 @@
                                         <a href="#"
                                            {{ stimulus_action('Admin--picture-global', 'pickedPicture', null, {
                                                'val': picture.id,
-                                               'path': asset(picture.image)
+                                               'path': this.queryParam.CKEditorFuncNum is defined ? absolute_url(asset(picture.image)) : asset(picture.image),
+                                               'CKEditorFuncNum': this.queryParam.CKEditorFuncNum is defined ? this.queryParam.CKEditorFuncNum : null
                                            }) }}
                                            class="btn btn-light-primary btn-sm btn-shadow">Pick</a>
                                     </div>

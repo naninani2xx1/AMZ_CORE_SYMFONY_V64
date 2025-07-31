@@ -2,6 +2,7 @@
 
 namespace App\Core\Services;
 
+use App\Core\DataType\ArchivedDataType;
 use App\Core\Entity\Qa;
 use App\Core\Repository\QaRepository;
 
@@ -16,5 +17,10 @@ class QaService
     public function findOneById(int $id): ?Qa
     {
         return $this->repository->find($id);
+    }
+
+    public function findAll(): ?array
+    {
+        return $this->repository->findBy(['isArchived' => ArchivedDataType::UN_ARCHIVED]);
     }
 }

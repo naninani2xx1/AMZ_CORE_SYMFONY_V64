@@ -17,7 +17,7 @@ trait DoctrineThumbnailTrait
      */
     public function getThumbnail()
     {
-        return $this->thumbnail;
+        return $this->thumbnail ?? "themes/media/demo-thumb.png";
     }
 
     /**
