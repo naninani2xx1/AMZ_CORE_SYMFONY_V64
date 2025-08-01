@@ -23,15 +23,21 @@ class CategoryController extends AbstractController implements CRUDActionInterfa
         $this->categoryService = $categoryService;
     }
 
-    /**
-     * @Route(path="/", name="app_admin_category_index")
-     * @param Request $request
-     * @return Response
-     */
+
     public function index(Request $request): Response
     {
+        throw new \Exception('Not implemented');
+    }
 
-        return $this->render('Admin/views/page/index.html.twig');
+    /**
+     * @Route(path="/{type}", name="app_admin_category_index", methods={"GET"})
+     * @param Request $request
+     * @param string $type
+     * @return Response
+     */
+    public function indexAction(Request $request, string $type): Response
+    {
+        return $this->render('Admin/views/category/index.html.twig', compact('type'));
     }
 
     /**

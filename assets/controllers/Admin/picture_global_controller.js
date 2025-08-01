@@ -40,7 +40,7 @@ export default class extends Controller {
 
     pickedPicture(event){
         event.preventDefault();
-        this.dispatch("pickedPicture", { detail: event.params });
+        this.dispatch(event.params.event, { detail: event.params });
         alertSuccess({html: "Picked", timer: 2000});
         const {ckEditorFuncNum, path} = event.params;
         if(ckEditorFuncNum === 1){

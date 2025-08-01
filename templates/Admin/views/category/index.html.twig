@@ -3,7 +3,7 @@
 
 {% block toolbar %}
     {% embed 'Admin/partials/toolbar.html.twig' %}
-        {% block toolbar_title %}Category Management{% endblock toolbar_title %}
+        {% block toolbar_title %}  Category Management{% endblock toolbar_title %}
 
         {% block toolbar_breadcrumbs %}
             <!--begin::Item-->
@@ -20,7 +20,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('TablePageLiveComponent', {'id': "TablePageLive"}) }}
+    {{ component('TableCategoryLiveComponent', {'id': "TableCategoryLive", 'type': type }) }}
 {% endblock %}
 
 {% block javascripts %}

@@ -21,7 +21,6 @@ class Category extends LifecycleEntity
 {
     use DoctrineTitleSubtitleTrait, DoctrineThumbnailTrait, DoctrineDescriptionTrait, DoctrineIdentifierTrait;
 
-
     /**
      * @ORM\OneToMany(targetEntity="App\Core\Entity\Post", mappedBy="category")
      */
@@ -49,6 +48,10 @@ class Category extends LifecycleEntity
      */
     private $children;
 
+    /**
+     * @ORM\Column(type="string", length="50" ,nullable=true)
+     */
+    private $type;
 
     /**
      * @ORM\Column(type="string", length="50" ,nullable=true)
@@ -192,4 +195,20 @@ class Category extends LifecycleEntity
         return $this->children;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+
+    /**
+     * @param mixed $type
+     */
+    public function setType($type): void
+    {
+        $this->type = $type;
+    }
 }

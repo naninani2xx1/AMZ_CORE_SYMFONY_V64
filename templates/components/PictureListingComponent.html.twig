@@ -59,13 +59,14 @@
                                 </div>
                                 <div class="overlay-layer bg-dark bg-opacity-25 align-items-end justify-content-center">
                                     <div class="d-flex flex-grow-1 flex-center  py-5">
-                                        <a href="#"
-                                           {{ stimulus_action('Admin--picture-global', 'pickedPicture', null, {
+                                        <a
+                                           {{ stimulus_action('Admin--picture-global', 'pickedPicture:prevent', null, {
                                                'val': picture.id,
+                                               'event':this.queryParam.event ?? "pickedPicture",
                                                'path': this.queryParam.CKEditorFuncNum is defined ? absolute_url(asset(picture.image)) : asset(picture.image),
                                                'CKEditorFuncNum': this.queryParam.CKEditorFuncNum is defined ? this.queryParam.CKEditorFuncNum : null
                                            }) }}
-                                           class="btn btn-light-primary btn-sm btn-shadow">Pick</a>
+                                           class="btn cursor-pointer btn-light-primary btn-sm btn-shadow">Pick</a>
                                     </div>
                                 </div>
                             </div>

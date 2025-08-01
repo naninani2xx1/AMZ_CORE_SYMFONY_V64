@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Form\Admin\Article;
 
 use App\Core\DataType\PostStatusType;
-use App\Core\DataType\PostTypeDataType;
 use App\Core\Entity\Post;
 use App\Form\Common\CkeditorType;
 use App\Form\Common\PublishedChoiceType;
+use App\Form\Common\RecipeCategoryChoiceType;
 use App\Form\Common\SocialSharingType;
 use App\Form\Common\TagType;
 use Symfony\Component\Form\AbstractType;
@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AddNewsPostType extends AbstractType
+class AddRecipePostType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -36,6 +36,7 @@ class AddNewsPostType extends AbstractType
         $builder->add('isHot', HiddenType::class, ['required' => false]);
         $builder->add('isNew', HiddenType::class, ['required' => false]);
 
+        $builder->add('category', RecipeCategoryChoiceType::class, ['required' => false, 'data-select2-dropdown-parent-value' => 'form']);
         $builder->add('socialSharing', SocialSharingType::class);
     }
 

@@ -31,11 +31,11 @@ class CoreExtensionRuntime implements RuntimeExtensionInterface
         return !empty($value);
     }
 
-    public function isRouteActive($route): bool
+    public function isRouteActive($route): string
     {
         $request = $this->requestStack->getCurrentRequest();
         $currentRoute = $request->attributes->get('_route');
-        return $currentRoute == $route;
+        return $currentRoute == $route ? "active" : "";
     }
 
     public function getRolesRawHtml(array $roles): string
