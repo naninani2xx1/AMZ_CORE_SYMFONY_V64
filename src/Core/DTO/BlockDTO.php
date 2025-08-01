@@ -7,15 +7,30 @@ use App\Core\Entity\Block;
 final class BlockDTO
 {
     private ?string $title;
+    private ?string $subTitle;
+    private ?string $description;
+    private ?string $content;
     private ?int $sortOrder;
     private ?string $background;
-    public function __construct(?string $title, ?int $sortOrder, ?string $background)
+    public function __construct(?string $title, ?int $sortOrder, ?string $background, ?string $subTitle, ?string $description,
+        ?string $content
+    )
     {
+        $this->content = $content;
+        $this->subTitle = $subTitle;
+        $this->description = trim($description);
         $this->background = $background;
         $this->sortOrder = $sortOrder;
         $this->title = ucwords($title);
     }
 
+    /**
+     * @return string|null
+     */
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
     /**
      * @return string|null
      */
@@ -41,6 +56,37 @@ final class BlockDTO
     }
 
     /**
+     * @return string|null
+     */
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    /**
+     * @param string|null $content
+     * @param Block $entity
+     */
+    public function setContent(?string $content, Block $entity): void
+    {
+        $data = json_decode($content, true);
+        $content = json_decode($entity->getContent(), true);
+        foreach ($data as $key => $val) {
+            $content[$key] = trim($val);
+        }
+
+        $entity->setContent(json_encode($content));
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getSubTitle(): ?string
+    {
+        return $this->subTitle;
+    }
+
+    /**
      * @return string
      */
     public function getTitle(): string
@@ -57,7 +103,10 @@ final class BlockDTO
             $methodGetter =  'get' . ucfirst($prop);
             if (method_exists($entity, $methodGetter) && !empty($value)) {
                 $methodSetter =  'set' . ucfirst($prop);
-                call_user_func([$entity, $methodSetter], $value);
+                if(method_exists($this, $methodSetter))
+                    call_user_func([$this, $methodSetter], $value, $entity);
+                else
+                    call_user_func([$entity, $methodSetter], $value);
             }
         }
     }

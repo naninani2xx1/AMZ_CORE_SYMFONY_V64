@@ -1,0 +1,130 @@
+{% extends 'themes/mancali/base.html.twig' %}
+{% block header %} {% endblock %}
+{% block footer %} {% endblock %}
+{% block importmapp %}
+    {{ importmap('app') }}
+{% endblock %}
+{% block body %}
+<section class="block prune-block prune-contact my-5"
+         data-controller="Admin--block-preview"
+         data-Admin--block-preview-origin-value="{{ app.request.schemeAndHttpHost }}"
+         data-Admin--block-preview-main-url-value="{{ path('app_admin_block_update', {'id': block.id}) | e('html_attr') }}">
+    <div class="container maxW-960">
+
+        <div class="contact-info"
+        >
+            <div class="heading">
+                <h2 class="title underline"
+                    data-action="blur->Admin--block-preview#onChange"
+                    data-Admin--block-preview-prop-param="title"
+                    contenteditable="true"
+                >{{ block.title ?? "thông tin liên hệ" }}</h2>
+            </div>
+            {% set content = block.content | json_decode %}
+            <div class="info-list">
+                <h6
+                        data-action="blur->Admin--block-preview#onChangeTextWithJson"
+                        data-Admin--block-preview-prop-param="content"
+                        data-Admin--block-preview-key-param="title1"
+                        contenteditable="true"
+                >
+                    {% if content.title1 is defined and content.title1 is not empty %}
+                        {{ content.title1 }}
+                    {% else %}
+                        Văn phòng đại diện tại Việt Nam
+                    {% endif %}
+                </h6>
+
+                <div class="info addr"><i class="zmdi zmdi-home"></i>
+                    <span>{{ get_setting_by_key('address').settingValue }}</span>
+                </div>
+
+                {% set phoneSetting = get_setting_by_key('phone')  %}
+                <div class="info phone"><i class="zmdi zmdi-phone"></i><a class="phone" href="tel:{{ phoneSetting.settingValue }}"><span>{{ phoneSetting.settingValue }}</span></a></div>
+
+                {% set emailSetting = get_setting_by_key('email')  %}
+
+                <div class="info email"><i class="zmdi zmdi-email"></i><a class="email" href="mailto:{{ emailSetting.settingValue }}"><span>{{ emailSetting.settingValue }}</span></a></div>
+
+                <hr />
+
+                <div class="info more"><i class="zmdi zmdi-account-circle"></i>
+                    <a href="board.html">
+                        <span>Hiệp hội Mận khô California</span>
+                    </a>
+                </div>
+
+                <div class="info more"><i class="zmdi zmdi-accounts-alt"></i><a href="trade.html"><span>Đối tác</span></a></div>
+
+                <div class="info more"><i class="zmdi zmdi-info"></i><a href="products.html"><span>Các sản phẩm mận khô California</span></a></div>
+            </div>
+
+            <div class="more-list">
+
+            </div>
+
+        </div>
+
+        <div class="contact-form">
+            <div class="heading">
+                <h2 class="subtitle"
+                    data-action="blur->Admin--block-preview#onChange"
+                    data-Admin--block-preview-prop-param="subTitle"
+                    contenteditable="true"
+                >{{ block.subTitle ?? "CẢM ƠN BẠN ĐÃ LIÊN HỆ"}}</h2>
+                <div class="text tool-editor"
+                     data-action="blur->Admin--block-preview#onChange"
+                     data-Admin--block-preview-prop-param="description"
+                     contenteditable="true"
+                >
+                    {{ (block.description ?? '<p style="color: black;">Chúng tôi sẽ liên lạc với bạn theo thông tin dưới đây.	</p>') | raw }}
+                </div>
+            </div>
+            {% set form = builder_contact_form() %}
+            {{ form_start(form, {attr: {'class': 'form',
+                'data-parsley-validate':"data-parsley-validate"}}) }}
+                <div class="m-form">
+                    {{ form_widget(form.fullname) }}
+{#                    <input name="Name" class="form-control" type="text" value="" aria-label=" input example" autocomplete="on" placeholder="Họ và tên" required="" data-parsley-required-message="Vui lòng cung cấp Họ tên Quý Khách">#}
+                </div>
+
+                <div class="m-form">
+                    {{ form_widget(form.phone) }}
+{#                    <input name="Phone" class="form-control" type="text" value="" aria-label=" input example" autocomplete="on" placeholder="Điện thoại" data-parsley-type="integer" required="" minlength="10" data-parsley-minlength="10" data-parsley-type-message="Số điện thoại phải là số gồm 10 chữ số" data-parsley-required-message="Vui lòng cung cấp số điện thoại của Quý Khách" data-parsley-minlength-message="Vui lòng cung cấp chính xác số điện thoại">#}
+                </div>
+
+                <div class="m-form">
+                    {{ form_widget(form.email) }}
+{#                    <input name="Email" class="form-control" type="email" value="" aria-label=" input example" autocomplete="on" placeholder="Địa chỉ email" required="" data-parsley-type="email" data-parsley-type-message="Địa chỉ email chưa đúng" data-parsley-required-message="Vui lòng cung cấp địa chỉ email của Quý Khách">#}
+                </div>
+
+                <div class="m-form">
+                    {{ form_widget(form.topicName) }}
+                </div>
+
+                <div class="m-form">
+                    {{ form_widget(form.description) }}
+{#                    <textarea name="message" class="form-control" type="text" value="" aria-label=" input example" placeholder="Nội dung" required="" data-parsley-required-message="Vui lòng cung cấp nội dung	"></textarea>#}
+                </div>
+
+                <p class="notice"
+                   data-action="blur->Admin--block-preview#onChangeTextWithJson"
+                   data-Admin--block-preview-prop-param="content"
+                   data-Admin--block-preview-key-param="policy"
+                   contenteditable="true"
+                >
+                    {% if content.policy is defined and content.policy is not empty %}
+                        {{ content.policy }}
+                    {% else %}
+                        Bằng cách gửi thông tin của bạn, bạn đồng ý cho phép chúng tôi liên hệ với bạn qua điện thoại, tin nhắn và email để tham vấn và nghiên cứu thị trường. Chúng tôi cam kết không chia sẻ thông tin của bạn với bất kỳ bên thứ ba nào.
+                    {% endif %}
+                </p>
+
+                <div class="m-form text-center">
+                    <button type="submit" class="btn">gửi</button>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</section>
+{% endblock %}

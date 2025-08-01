@@ -61,6 +61,16 @@ export default class extends Controller {
         this._call(prop, val);
     }
 
+
+    onChangeTextWithJson(event){
+        const val = event.target.textContent;
+        const { prop, key } = event.params;
+
+        let data = {};
+        data[key] = val;
+        this._call(prop, JSON.stringify(data));
+    }
+
     sendTurnOnAlertToParent(data, typeAlert) {
         const message = { type: 'notify', message: data.message, typeAlert: typeAlert };
         window.parent.postMessage(message, this.originValue);
