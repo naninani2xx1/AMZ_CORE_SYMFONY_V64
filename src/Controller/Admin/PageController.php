@@ -43,13 +43,14 @@ class PageController extends AbstractController implements CRUDActionInterface
         return $this->pageService->add($request);
     }
     /**
-     * @Route(path="/edit/{id}", name="app_admin_page_edit")
+     * @Route(path="/edit/{id}", name="app_admin_page_edit", requirements={"id"="\d+"})
      * @param Request $request
      * @param int $id
      * @return Response
      */
     public function edit(Request $request, int $id): Response
     {
+
         return $this->pageService->edit($request, $id);
     }
     /**

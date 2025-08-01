@@ -68,19 +68,22 @@ class PageService extends AbstractController
 
     public function edit(Request $request, int $id): Response
     {
+
         $page = $this->pageRepository->find($id);
         if(!$page instanceof Page) throw new NotFoundHttpException();
-
         $form = $this->createForm(AddPageForm::class , $page, [
-            'action' => $this->generateUrl('app_admin_page_edit', ['id' => $page->getId()]),
+            'action' => $this->generateUrl('app_admin_page_edit', ['id' => $id]),
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->flush();
-            return new Response("Edited Page Successfully");
+            return new JsonResponse([
+                'message' => 'Page edit successfully',
+                'redirect' => $this->generateUrl('app_admin_page_edit', ['id' => $page->getId()])
+            ]);
         }
 
-        return $this->render('Admin/views/page/add.html.twig', compact('form', 'page'));
+        return $this->render('Admin/views/page/edit.html.twig', compact('form', 'page'));
     }
 
     /**

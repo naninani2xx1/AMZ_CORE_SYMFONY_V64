@@ -21,15 +21,10 @@
             {% for item in computed.data %}
                     <tr class="py-3 align-middle border-bottom border-gray-300 fs-7">
                         <td class="action-column">
-                            <a href="{{ path('app_admin_block_edit', {'id': item.id}) }}" class="btn btn-icon btn-active-light-primary w-20px h-20px me-2">
+                                <a href="{{ path('app_admin_block_editchild', {'id': item.id}) }}" class="btn btn-icon btn-active-light-primary w-20px h-20px me-2">
                                 <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
                                     {{ macros.icon_edit() }}
                                 </span>
-                            </a>
-                            <a href="{{ path('app_admin_blockchild_index', {'id': item.id}) }}"  class="btn btn-icon btn-active-light-primary w-20px h-20px me-2">
-                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Add child" data-bs-original-title="Add child">
-                                  {{ macros.icon_add() }}
-                            </span>
                             </a>
                             <a href="{{ path('app_admin_block_preview', {'id': item.id}) }}" class="btn btn-icon btn-active-light-primary w-20px h-20px me-2">
                                 <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Preview" data-bs-original-title="Preview">

@@ -21,6 +21,7 @@ class EditBlockCommonForm extends AbstractType
         $builder->add('description', TextareaType::class, ['required' => false]);
         $builder->add('background', HiddenType::class);
         $builder->add('content', TextareaType::class, ['required' => false]);
+        $builder->add('location', TextType::class, ['required' => false]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

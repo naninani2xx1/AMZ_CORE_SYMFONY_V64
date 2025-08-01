@@ -78,6 +78,15 @@
             </div>
             <div class="mb-10">
                 <!--begin::Label-->
+                <label class="form-label">Location</label>
+                <!--end::Label-->
+                {{ form_widget(form.location, {attr: {class: 'form-control fs-7'}}) }}
+                <!--begin::Description-->
+                <div class="text-muted fs-7">Set a description to the product for better visibility.</div>
+                <!--end::Description-->
+            </div>
+            <div class="mb-10">
+                <!--begin::Label-->
                 <label class="form-label">Description</label>
                 <!--end::Label-->
                 {{ form_widget(form.description, {attr: {'class': 'form-control fs-7'}}) }}
@@ -88,7 +97,7 @@
 
             <div class="mb-10">
                 <!--begin::Label-->
-                <label class="form-label">Description</label>
+                <label class="form-label">Content</label>
                 <!--end::Label-->
                 {{ form_widget(form.content, {attr: {class: 'form-control fs-7','data-controller': 'ckeditor'}}) }}
                 <!--begin::Description-->
@@ -114,8 +123,7 @@
                 </div>
             </div>
             <div class="my-4">
-                <button type="submit" class="btn btn-primary"
-                >Submit</button>
+                <button type="submit" class="btn btn-primary" >Submit</button>
             </div>
             <!--end::Input group-->
             {{ form_end(form) }}

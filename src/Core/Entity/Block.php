@@ -12,7 +12,7 @@ use App\Core\Trait\DoctrineTitleSubtitleTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use Symfony\Component\Validator\Constraints\Collection;
+use Doctrine\Common\Collections\Collection;
 
 /**
  * @ORM\Entity(repositoryClass="App\Core\Repository\BlockRepository")
