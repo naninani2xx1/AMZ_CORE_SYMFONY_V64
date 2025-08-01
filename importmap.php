@@ -23,6 +23,9 @@ return [
     '@Common' => [
         'path' => './assets/common.js',
     ],
+    '@Core' => [
+        'path' => './assets/themes/js/core.js',
+    ],
     '@hotwired/stimulus' => [
         'version' => '3.2.2',
     ],
