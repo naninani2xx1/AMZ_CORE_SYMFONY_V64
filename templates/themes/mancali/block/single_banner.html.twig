@@ -1,4 +1,6 @@
-<section class="block prune-titlepage" style="background-image: url('{{ asset(block.background) }}');">
+<section class="block prune-titlepage"
+         style="background-image: url('{{ asset(block.background ?? "assets/img/bg/page-grow.jpg") }}');"
+>
     <div class="container">
         <h1 class="title">{{ block.title }}</h1>
     </div>

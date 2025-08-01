@@ -9,6 +9,7 @@ use App\Core\Trait\DoctrineDescriptionTrait;
 use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\Trait\DoctrineThumbnailTrait;
 use App\Core\Trait\DoctrineTitleSubtitleTrait;
+use App\Core\Trait\PreRemoveCycleTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -23,7 +24,8 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Post extends LifecycleEntity
 {
-    use DoctrineTitleSubtitleTrait, DoctrineThumbnailTrait, DoctrineDescriptionTrait, DoctrineContentTrait,  DoctrineIdentifierTrait;
+    use DoctrineTitleSubtitleTrait, DoctrineThumbnailTrait,
+        DoctrineDescriptionTrait, DoctrineContentTrait,  DoctrineIdentifierTrait;
 
     /**
      * @ORM\OneToOne(targetEntity="App\Core\Entity\Article", mappedBy="post")
@@ -95,7 +97,7 @@ class Post extends LifecycleEntity
     private $tags;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Core\Entity\Block", mappedBy="post")
+     * @ORM\OneToMany(targetEntity="App\Core\Entity\Block", mappedBy="post", cascade={"persist"})
      * @ORM\OrderBy({"sortOrder" = "ASC"})
      */
     private $blocks;

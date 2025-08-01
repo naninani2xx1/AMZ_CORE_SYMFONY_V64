@@ -9,11 +9,16 @@
             <div class="info-list">
                 <h6>Văn phòng đại diện tại Việt Nam</h6>
 
-                <div class="info addr"><i class="zmdi zmdi-home"></i> <span>Toà nhà Landmark 81, Lầu 72, 720A đường Điện Biên Phủ, Phường 22, Quận Bình Thạnh, Hồ Chí Minh</span></div>
+                <div class="info addr"><i class="zmdi zmdi-home"></i>
+                    <span>{{ get_setting_by_key('address').settingValue }}</span>
+                </div>
 
-                <div class="info phone"><i class="zmdi zmdi-phone"></i><a class="phone" href="tel:+2862847002"><span>+28 6284 7002</span></a></div>
+                {% set phoneSetting = get_setting_by_key('phone')  %}
+                <div class="info phone"><i class="zmdi zmdi-phone"></i><a class="phone" href="tel:{{ phoneSetting.settingValue }}"><span>{{ phoneSetting.settingValue }}</span></a></div>
 
-                <div class="info email"><i class="zmdi zmdi-email"></i><a class="email" href="mailto:smhvn@smh-intl.com"><span>smhvn@smh-intl.com</span></a></div>
+                {% set emailSetting = get_setting_by_key('email')  %}
+
+                <div class="info email"><i class="zmdi zmdi-email"></i><a class="email" href="mailto:{{ emailSetting.settingValue }}"><span>{{ emailSetting.settingValue }}</span></a></div>
 
                 <hr />
 
@@ -32,13 +37,16 @@
 
         <div class="contact-form">
             <div class="heading">
-                <h2 class="subtitle">CẢM ƠN BẠN ĐÃ LIÊN HỆ</h2>
+                <h2 class="subtitle">{{ block.subTitle }}</h2>
                 <div class="text tool-editor">
-                    <p style="color: black;">Chúng tôi sẽ liên lạc với bạn theo thông tin dưới đây.	</p>
+                    {{ block.description | raw }}
                 </div>
             </div>
             {% set form = builder_contact_form() %}
-            {{ form_start(form, {attr: {'class': 'form', id: 'contactForm', 'data-parsley-validate':"data-parsley-validate"}}) }}
+            {{ form_start(form, {attr: {'class': 'form',
+                'data-controller': 'EndUser--contact-form',
+                'data-action': 'submit->EndUser--contact-form#onSubmit:prevent',
+                'data-parsley-validate':"data-parsley-validate"}}) }}
                 <div class="m-form">
                     {{ form_widget(form.fullname) }}
 {#                    <input name="Name" class="form-control" type="text" value="" aria-label=" input example" autocomplete="on" placeholder="Họ và tên" required="" data-parsley-required-message="Vui lòng cung cấp Họ tên Quý Khách">#}
@@ -55,18 +63,7 @@
                 </div>
 
                 <div class="m-form">
-
-                    <select name="topic" class="form-select" required="" data-parsley-required-message="Vui lòng chọn chủ đề">
-
-                        <option value="" selected disabled>Chủ đề</option>
-
-                        <option value="parner">Hợp tác</option>
-
-                        <option value="Bạc Liêu">Bạc Liêu</option>
-
-                        <option value="Sóc Trăng">Sóc Trăng</option>
-
-                    </select>
+                    {{ form_widget(form.topicName) }}
                 </div>
 
                 <div class="m-form">

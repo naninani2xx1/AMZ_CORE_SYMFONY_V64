@@ -3,6 +3,7 @@
 namespace App\Twig\Components;
 
 use App\Core\DataType\ArchivedDataType;
+use App\Core\DataType\CategoryDataType;
 use App\Core\DataType\LanguageDataType;
 use App\Core\Entity\Article;
 use App\Core\Entity\Category;
@@ -19,11 +20,9 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 
 
-#[AsLiveComponent(template: 'components/TableCategoryLiveComponent.html.twig')]
-final class TableCategoryLiveComponent extends BaseTableLiveComponent
+#[AsLiveComponent(template: 'components/TableContactTopicLiveComponent.html.twig')]
+final class TableContactTopicLiveComponent extends BaseTableLiveComponent
 {
-    #[LiveProp(writable: false)]
-    public string $type;
     protected function getQueryBuilder(): QueryBuilder
     {
         return $this->findAllPaginated();
@@ -36,8 +35,8 @@ final class TableCategoryLiveComponent extends BaseTableLiveComponent
         // TODO: common
         $qb->where(
             $expr->eq('category.isArchived', $expr->literal(ArchivedDataType::UN_ARCHIVED)),
-            $expr->eq('category.type', $expr->literal($this->type)),
-        )->orderBy('category.levelNumber', 'ASC');
+            $expr->eq('category.type', $expr->literal(CategoryDataType::TYPE_TOPIC_CONTACT)),
+        );
 
         // TODO: filter
         if(!empty($this->filter)){

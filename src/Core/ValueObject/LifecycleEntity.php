@@ -4,15 +4,17 @@ namespace App\Core\ValueObject;
 
 use App\Core\DataType\ArchivedDataType;
 use App\Core\Trait\ArchivedTrait;
+use App\Core\Trait\PreRemoveCycleTrait;
 use App\Core\Trait\TimeStampTrait;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @ORM\MappedSuperclass
  */
 abstract class LifecycleEntity
 {
-    use TimeStampTrait, ArchivedTrait;
+    use TimeStampTrait, ArchivedTrait,  PreRemoveCycleTrait;
 
     /**
      * @ORM\PrePersist
@@ -32,5 +34,9 @@ abstract class LifecycleEntity
     {
         $now = new \DateTime();
         $this->setUpdatedAt($now);
+
+        if(method_exists($this, 'getSlug') && method_exists($this, 'getIsArchived')
+            && $this->getIsArchived())
+            $this->setSlug($this->getSlug(). '-'.Uuid::v4()->toBase32());
     }
 }

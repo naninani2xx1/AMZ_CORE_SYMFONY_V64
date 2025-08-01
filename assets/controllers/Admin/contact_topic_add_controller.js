@@ -10,11 +10,7 @@ import {alertError, alertSuccess} from '@Common';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    static values = {
-        mainUrl: {
-            type: String
-        }
-    };
+
     initialize() {
         // Called once when the controller is first instantiated (per element)
 
@@ -30,7 +26,7 @@ export default class extends Controller {
         // Here you can add event listeners on the element or target elements,
         // add or remove classes, attributes, dispatch custom events, etc.
         // this.fooTarget.addEventListener('click', this._fooBar)
-
+        this.component = await getComponent(document.getElementById('TableContactTopicLive'));
     }
 
     // Add custom controller actions here
@@ -42,21 +38,25 @@ export default class extends Controller {
 
         // Here you should remove all event listeners added in "connect()" 
         // this.fooTarget.removeEventListener('click', this._fooBar)
-
+        this.component = null;
     }
 
-    onChange(event){
-        const val = event.target.textContent;
-        const {prop} = event.params;
-        const formData = new FormData();
-        formData.append(prop, val);
-        axiosPost({url: this.mainUrlValue, data: formData}, {
-            success: res => {
+    onSubmit(event){
+        const url = this.element.action;
+        let formData = new FormData(this.element);
 
+        event.target.activeProgress();
+        axiosPost({url, data: formData}, {
+            success: res => {
+                alertSuccess({html: res.message, timer: 3000});
+                $('#app-modal').modal('hide');
+                this.component.render();
             },
             failed: res => {
-
-            }
+                if(res.status === 422)
+                    alertError(res.data.message);
+            },
+            final: _ => event.target.activeProgress(false)
         })
     }
 }

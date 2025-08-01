@@ -1,0 +1,55 @@
+<div{{ attributes.defaults({
+    'data-controller': 'core-table'
+}) }}>
+    {% import 'Admin/partials/macros.html.twig' as macros %}
+    <div class="d-flex flex-wrap flex-stack mb-6">
+        <!--begin::Title-->
+        {{ macros.table_get_input_search() }}
+        <!--end::Title-->
+        <!--begin::Controls-->
+        <div class="d-flex my-2">
+
+        </div>
+        <!--end::Controls-->
+    </div>
+    {% embed 'Admin/partials/table.html.twig' %}
+        {% import 'Admin/partials/macros.html.twig' as macros %}
+        {% import 'Admin/partials/setting/macros.html.twig' as SettingMacros %}
+        {% block columns %}
+            {{ macros.table_column_default("Title", 'text-start') }}
+            {{ macros.table_column_default("Description", 'text-start') }}
+            {% if type == article_type_recipe %}
+                {{ macros.table_column_default("Category", 'text-start') }}
+            {% endif %}
+            {{ macros.table_column_default("Published", 'text-start') }}
+            {{ macros.table_column_default("CreatedAt", 'text-start') }}
+            {{ macros.table_column_default("UpdatedAt", 'text-start') }}
+        {% endblock %}
+        {% block rows %}
+            {% for item in computed.data %}
+                <tr class="py-3 align-middle  border-bottom border-gray-300 fs-7">
+                    <td class="action-column">
+                        <a href="{{ path('app_admin_category_edit', {'id': item.id, 'type': type }) }}"
+                           data-amz-btn-open-modal
+                           class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
+                                {{ macros.icon_edit() }}
+                            </span>
+                        </a>
+                        <a href="#" data-amz-btn-remove
+                           data-action="{{ path('app_admin_category_delete', {'id': item.id, 'type': type ,'_csrf_token': csrf_token('category-delete-'~ item.id) }) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
+                                {{ macros.icon_delete() }}
+                            </span>
+                        </a>
+                    </td>
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.description ?? "No description" }}</td>
+                    <td>{{ item.parent ? item.parent.title : "Not found" }}</td>
+                    <td>{{ item.createdAt | date('d/m/Y H:i:a') }}</td>
+                    <td>{{ item.updatedAt | date('d/m/Y H:i:a') }}</td>
+                </tr>
+            {% endfor %}
+        {% endblock %}
+    {% endembed %}
+</div>

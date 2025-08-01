@@ -1,18 +1,20 @@
 {% extends 'Admin/base.html.twig' %}
-{% block title %}CMS-Block Static Management{% endblock %}
+{% block title %}CMS- Contact Topic Management{% endblock %}
 
 {% block toolbar %}
     {% embed 'Admin/partials/toolbar.html.twig' %}
-        {% block toolbar_title %}Block Static Management{% endblock toolbar_title %}
+        {% block toolbar_title %}  Contact Topic Management {% endblock toolbar_title %}
 
         {% block toolbar_breadcrumbs %}
             <!--begin::Item-->
-            <li class="breadcrumb-item text-muted">Block</li>
+            <li class="breadcrumb-item text-muted">
+                <a href="#" class="text-muted text-hover-primary">Contact Topic</a>
+            </li>
             <!--end::Item-->
         {% endblock toolbar_breadcrumbs %}
 
         {% block toolbar_button_actions %}
-            <a href="{{ path('app_admin_block_static_add') }}"
+            <a href="{{ path('app_admin_contact_topic_add') }}"
                data-amz-btn-open-modal
                class="btn btn-sm fw-bold btn-primary">Create</a>
         {% endblock toolbar_button_actions %}
@@ -20,7 +22,7 @@
 {% endblock %}
 
 {% block body %}
-    {{ component('TableStaticBlockLiveComponent', {'id': "TableBlockLive"}) }}
+    {{ component('TableContactTopicLiveComponent', {'id': "TableContactTopicLive" }) }}
 {% endblock %}
 
 {% block javascripts %}

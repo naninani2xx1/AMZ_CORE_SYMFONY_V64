@@ -9,6 +9,8 @@ use App\Core\Entity\Block;
 use App\Core\Services\BlockService;
 use App\Core\Services\PageService;
 use App\Form\Admin\Block\AddBlockForm;
+use App\Form\Admin\Block\AddBlockStaticForm;
+use App\Form\Admin\Block\InsertStaticBlockForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -112,4 +114,30 @@ class BlockController extends AbstractController implements CRUDActionInterface
 
         return $this->forward($type['backend']['controller'], ['request' => $request, 'block' => $block]);
     }
+
+    /**
+     * @Route(path="/add-static-block/{pageId}", name="app_admin_block_add_static_block", methods={"GET","POST"})
+     */
+    public function addStaticBlock(Request $request, int $pageId): Response
+    {
+        $page = $this->pageService->findOneById($pageId);
+        $form = $this->createForm(InsertStaticBlockForm::class, $page, [
+            'action' => $this->generateUrl('app_admin_block_add_static_block', ['pageId' => $pageId]),
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($page->getPost()->getBlocks()->toArray() as $block) {
+                $newBlock = clone $block;
+                $newBlock->setKind(BlockDataType::KIND_DYNAMIC);
+                $newBlock->setPost($page->getPost());
+                $this->entityManager->persist($newBlock);
+            }
+            $this->entityManager->flush();
+            
+            return new JsonResponse(['message' => 'Static Block added to the Page successfully!']);
+        }
+
+        return $this->render('Admin/views/block/add_static_modal.html.twig', compact('form', 'page'));
+    }
+
 }

@@ -42,7 +42,7 @@ class Block extends LifecycleEntity
      private $status;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Core\Entity\Post", inversedBy="blocks")
+     * @ORM\ManyToOne(targetEntity="App\Core\Entity\Post", inversedBy="blocks",cascade={"persist"})
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id",nullable=true)
      */
     private $post;
@@ -299,5 +299,11 @@ class Block extends LifecycleEntity
         $this->post = $post;
 
         return $this;
+    }
+
+    public function __clone(): void
+    {
+        $this->id = null;
+        $this->kind = null;
     }
 }
