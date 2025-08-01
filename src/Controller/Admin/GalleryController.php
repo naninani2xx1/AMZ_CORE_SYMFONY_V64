@@ -17,8 +17,9 @@ class GalleryController extends AbstractController
     /**
      * @Route(path="/gallery/core/open-list", name="app_admin_gallery_core_open_list")
      */
-    public function openList(): Response
+    public function openList(Request $request): Response
     {
-        return $this->render('Admin/partials/gallery/open_list_management_modal.html.twig');
+        $eventName = $request->query->get('eventName');
+        return $this->render('Admin/partials/gallery/open_list_management_modal.html.twig', compact(['eventName']));
     }
 }

@@ -56,13 +56,24 @@
                 {{ form_widget(form.post.socialSharing.facebookTitle, {'attr': {'class': 'form-control fs-7','placeholder': 'Enter facebook title','data-social-sharing-target': 'facebookTitle'}}) }}
                 <!--end::Input-->
             </div>
+
             <div class="mb-10">
                 <!--begin::Label-->
                 <label class="form-label">Facebook Thumbnail</label>
                 <!--end::Label-->
-                <!--begin::Input-->
-                {{ form_widget(form.post.socialSharing.facebookThumbnail, {'attr': {'class': 'form-control fs-7'}}) }}
-                <!--end::Input-->
+                <div class="flex-column d-flex gap-3" data-controller="core-gallery"
+                     data-action="Admin--picture-global:socialSharing@facebookThumbnail@window->core-gallery#listenPickedPicture">
+                    <div class="d-flex gap-2">
+                        <a href="#" data-action="click->core-gallery#open:prevent" data-core-gallery-name-event-param="socialSharing@facebookThumbnail"
+                           class="btn btn-sm fw-bold btn-primary">Pick</a>
+                    </div>
+                    <div style="{% if form.post.socialSharing.facebookThumbnail.vars.value is empty %}display: none"{% endif %} data-core-gallery-target="areaReview">
+                        <img src="{% if form.post.socialSharing.facebookThumbnail.vars.value is not empty %}
+                                {{ asset(form.post.socialSharing.facebookThumbnail.vars.value) }}{% endif %}"
+                             alt="review" class="mw-275px img-thumbnail" data-core-gallery-target="review">
+                    </div>
+                    {{ form_widget(form.post.socialSharing.facebookThumbnail,  {attr: {'data-core-gallery-target': "input"}}) }}
+                </div>
             </div>
             <div class="mb-10">
                 <!--begin::Label-->

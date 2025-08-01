@@ -19,8 +19,12 @@
             {{ macros.table_column_default("Thumbnail", 'text-start') }}
             {{ macros.table_column_default("Title", 'text-start') }}
             {{ macros.table_column_default("Description", 'text-start') }}
+            {% if type == article_type_recipe %}
+                {{ macros.table_column_default("Category", 'text-start') }}
+            {% endif %}
             {{ macros.table_column_default("Published", 'text-start') }}
             {{ macros.table_column_default("CreatedAt", 'text-start') }}
+            {{ macros.table_column_default("UpdatedAt", 'text-start') }}
         {% endblock %}
         {% block rows %}
             {% for item in computed.data %}
@@ -49,12 +53,16 @@
                     </td>
                     <td>{{ item.post.title }}</td>
                     <td>{{ item.post.description }}</td>
+                    {% if type == article_type_recipe %}
+                        <td>{{ item.post.category ? item.post.category.title : "Not found" }}</td>
+                    {% endif %}
                     <td>
                         <span class="badge badge-{{ item.post.published == post_type_published_draft ? "warning" : "primary" }} fs-7">
                             {{ get_name_by_published(item.post.published) }}
                         </span>
                     </td>
                     <td>{{ item.createdAt | date('d/m/Y H:i:a') }}</td>
+                    <td>{{ item.updatedAt | date('d/m/Y H:i:a') }}</td>
                 </tr>
             {% endfor %}
         {% endblock %}
