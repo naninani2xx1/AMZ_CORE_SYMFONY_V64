@@ -44,7 +44,7 @@ class RecipeArticleController extends AbstractController
 
     public function edit(Request $request, string $type, Article $article): Response
     {
-        $form = $this->createForm(AddNewsArticleForm::class , $article, [
+        $form = $this->createForm(AddRecipeArticleForm::class , $article, [
             'action' => $this->generateUrl('app_admin_article_edit', ['type' => $type, 'id' => $article->getId()]),
         ]);
         $form->handleRequest($request);
@@ -53,6 +53,6 @@ class RecipeArticleController extends AbstractController
 
             return new JsonResponse(['message' => 'Edited Article successfully'], Response::HTTP_OK);
         }
-        return $this->render('Admin/views/article/add_news.html.twig', compact(['form', 'article', 'type']));
+        return $this->render('Admin/views/article/add_recipe.html.twig', compact(['form', 'article', 'type']));
     }
 }

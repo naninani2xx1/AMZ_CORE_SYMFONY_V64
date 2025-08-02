@@ -5,10 +5,17 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
+use App\Core\DataType\ArchivedDataType;
+use App\Core\Entity\Category;
 use App\Core\Services\CategoryService;
+use App\Utils\CategoryUtils;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
@@ -17,9 +24,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class CategoryController extends AbstractController implements CRUDActionInterface
 {
     private $categoryService;
+    private $entityManager;
 
-    public function __construct(CategoryService $categoryService)
+    public function __construct(CategoryService $categoryService, EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
         $this->categoryService = $categoryService;
     }
 
@@ -40,34 +49,71 @@ class CategoryController extends AbstractController implements CRUDActionInterfa
         return $this->render('Admin/views/category/index.html.twig', compact('type'));
     }
 
-    /**
-     * @Route(path="/add", name="app_admin_page_add")
-     * @param Request $request
-     * @return Response
-     */
     public function add(Request $request): Response
     {
-       return $this->categoryService->add($request);
+        throw new \Exception('Not implemented');
     }
+
     /**
-     * @Route(path="/edit/{id}", name="app_admin_page_edit")
+     * @Route(path="/{type}/add", name="app_admin_category_add", methods={"GET", "POST"})
      * @param Request $request
-     * @param int $id
+     * @param string $type
      * @return Response
      */
+    public function addAction(Request $request, string $type): Response
+    {
+        return $this->forward(CategoryUtils::getStrControllerByType($type, 'add'), ['request' => $request, 'type' => $type]);
+    }
+
     public function edit(Request $request, int $id): Response
     {
-        return $this->categoryService->edit($request, $id);
+       throw new \Exception('Not implemented');
     }
+
+
     /**
-     * @Route(path="/delete/{id}", name="app_admin_page_delete")
+     * @Route(path="/{type}/edit/{id}", name="app_admin_category_edit", methods={"GET", "POST"})
+     * @param Request $request
+     * @param int $id
+     * @param string $type
+     * @return Response
+     */
+    public function editAction(Request $request, int $id, string $type): Response
+    {
+        $category = $this->categoryService->findById($id);
+        return $this->forward(CategoryUtils::getStrControllerByType($type, 'edit'), [
+            'request' => $request,
+            'type' => $type,
+            'category' => $category,
+        ]);
+    }
+
+    public function delete(Request $request, int $id): Response
+    {
+        throw new \Exception('Not implemented');
+    }
+
+    /**
+     * @Route(path="/{type}/delete/{id}", name="app_admin_category_delete")
      * @param Request $request
      * @param int $id
      * @return Response
      */
-    public function delete(Request $request, int $id): Response
+    public function deleteAction(Request $request, int $id): Response
     {
-        return $this->categoryService->delete($request, $id);
+        $csrfToken = $request->query->get('_csrf_token');
+
+        if (!$this->isCsrfTokenValid('category-delete-'.$id, $csrfToken))
+            throw new AccessDeniedHttpException();
+        $category = $this->categoryService->findById($id);
+        if(!$category instanceof Category) throw new NotFoundHttpException();
+
+        $category->setArchived(ArchivedDataType::ARCHIVED);
+        $this->entityManager->flush();
+
+        return new JsonResponse([
+            'message' => "Category deleted Successfully"
+        ]);
     }
 
 }

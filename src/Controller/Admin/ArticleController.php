@@ -92,4 +92,20 @@ class ArticleController extends AbstractController implements CRUDActionInterfac
     {
         return $this->articleService->delete($request, $id);
     }
+    /**
+     * @Route(path="/{type}/{slug}", name="app_admin_article_detail", methods={"GET"})
+     */
+    public function showDetail(string $type, string $slug): Response
+    {
+        $article = $this->articleService->findOneBySlug($slug);
+
+        if (!$article) {
+            throw $this->createNotFoundException('Bài viết không tồn tại');
+        }
+
+        return $this->render('Admin/views/article/detail_article.html.twig', [
+            'article' => $article,
+            'type' => $type
+        ]);
+    }
 }

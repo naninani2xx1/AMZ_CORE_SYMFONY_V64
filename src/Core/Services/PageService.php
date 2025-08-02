@@ -95,7 +95,7 @@ class PageService extends AbstractController
     public function delete(Request $request, int $id): Response
     {
         $csrfToken = $request->request->get('_csrf_token');
-        if (!$this->isCsrfTokenValid($csrfToken, 'page-delete-'.$id))
+        if (!$this->isCsrfTokenValid('page-delete-'.$id, $csrfToken))
             throw new AccessDeniedHttpException();
 
         $page = $this->pageRepository->find($id);

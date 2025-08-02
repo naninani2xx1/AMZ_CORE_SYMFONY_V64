@@ -17,6 +17,30 @@ use Doctrine\ORM\Mapping as ORM;
 class TicketRequest extends LifecycleEntity
 {
     use DoctrineIdentifierTrait, DoctrineDescriptionTrait;
+
+
+    /**
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $topicName;
+
+    /**
+     * @return mixed
+     */
+    public function getTopicName()
+    {
+        return $this->topicName;
+    }
+
+    /**
+     * @param mixed $topicName
+     */
+    public function setTopicName(Category|string $topicName): void
+    {
+        if($topicName instanceof Category)
+            $topicName = $topicName->getTitle();
+        $this->topicName = $topicName;
+    }
     /**
      * @ORM\Column(type="string", nullable=true)
      */

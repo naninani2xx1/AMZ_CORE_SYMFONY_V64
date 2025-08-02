@@ -11,7 +11,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CategoryService extends AbstractController
+class CategoryService
 {
     private  CategoryRepository $categoryRepository;
     public function __construct(
@@ -19,21 +19,6 @@ class CategoryService extends AbstractController
     )
     {
         $this->categoryRepository = $categoryRepository;
-    }
-
-    public function add(Request $request): Response
-    {
-        return new Response("Added Category Successfully");
-    }
-
-    public function edit(Request $request, int $id): Response
-    {
-        return new Response("Edited Category Successfully");
-    }
-
-    public function delete(Request $request, int $id): Response
-    {
-        return new Response("Deleted Category Successfully");
     }
 
     public function findMaxRootLevelNumber(): ?string
@@ -100,5 +85,10 @@ class CategoryService extends AbstractController
 //        }
 
         $this->getEntityManager()->flush();
+    }
+
+    public function findAllContactTopic()
+    {
+        return $this->categoryRepository->findAllContactTopic();
     }
 }   

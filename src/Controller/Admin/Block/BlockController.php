@@ -6,11 +6,12 @@ use App\Core\Controller\CRUDActionInterface;
 use App\Core\DataType\BlockDataType;
 use App\Core\DTO\BlockDTO;
 use App\Core\Entity\Block;
-use App\Core\Entity\BlockChildren;
 use App\Core\Services\BlockService;
 use App\Core\Services\PageService;
 use App\Form\Admin\Block\AddBlockForm;
+use App\Form\Admin\Block\AddBlockStaticForm;
 use App\Form\Admin\Block\EditBlockCommonForm;
+use App\Form\Admin\Block\InsertStaticBlockForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -31,7 +32,6 @@ class BlockController extends AbstractController implements CRUDActionInterface
         PageService $pageService,
         BlockService $blockService,
         EntityManagerInterface $entityManager
-
     )
     {
         $this->pageService = $pageService;
@@ -61,12 +61,12 @@ class BlockController extends AbstractController implements CRUDActionInterface
     {
         $page = $this->pageService->findOneById($pageId);
         $block = new Block();
+        $block->setPost($page->getPost());
         $form = $this->createForm(AddBlockForm::class, $block, [
             'action' => $this->generateUrl('app_admin_block_add', ['pageId' => $pageId]),
         ]);
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
-            $block->setPost($page->getPost());
             $block->setKind(BlockDataType::KIND_DYNAMIC);
             $this->entityManager->persist($block);
             $this->entityManager->flush();
@@ -76,6 +76,7 @@ class BlockController extends AbstractController implements CRUDActionInterface
 
         return $this->render('Admin/views/block/add_modal.html.twig', compact('form'));
     }
+
     public function edit(Request $request, int $id): Response
     {
         throw new \Exception('Not implemented');
@@ -114,16 +115,31 @@ class BlockController extends AbstractController implements CRUDActionInterface
 
         return $this->forward($type['backend']['controller'], ['request' => $request, 'block' => $block]);
     }
-    /**
-     * @Route(path="/delete/{id}", name="app_admin_block_delete", methods={"GET","POST"})
-     */
-    public function deleteAction(Request $request, int $id): Response{
-        $block = $this->blockService->findOneById($id);
-        $this->entityManager->remove($block);
-        $this->entityManager->flush();
-        return new JsonResponse(['message' => 'Block deleted successfully!']);
-    }
 
+    /**
+     * @Route(path="/add-static-block/{pageId}", name="app_admin_block_add_static_block", methods={"GET","POST"})
+     */
+    public function addStaticBlock(Request $request, int $pageId): Response
+    {
+        $page = $this->pageService->findOneById($pageId);
+        $form = $this->createForm(InsertStaticBlockForm::class, $page, [
+            'action' => $this->generateUrl('app_admin_block_add_static_block', ['pageId' => $pageId]),
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            foreach ($page->getPost()->getBlocks()->toArray() as $block) {
+                $newBlock = clone $block;
+                $newBlock->setKind(BlockDataType::KIND_DYNAMIC);
+                $newBlock->setPost($page->getPost());
+                $this->entityManager->persist($newBlock);
+            }
+            $this->entityManager->flush();
+
+            return new JsonResponse(['message' => 'Static Block added to the Page successfully!']);
+        }
+
+        return $this->render('Admin/views/block/add_static_modal.html.twig', compact('form', 'page'));
+    }
     /**
      * @Route(path="/blockChild/{id}", name="app_admin_blockchild_index")
      */
@@ -135,7 +151,7 @@ class BlockController extends AbstractController implements CRUDActionInterface
         ]);
     }
     /**
-     * @Route(path="/add_child/{id}", name="app_admin_block_addchild",methods={"GET","POST"})
+     * @Route(path="/add_child/{id}", name="app_admin_block_addchild")
      */
     public function addChild(Request $request, int $id, EntityManagerInterface $em): Response
     {
@@ -145,6 +161,7 @@ class BlockController extends AbstractController implements CRUDActionInterface
         $blockChild = new Block();
         $form = $this->createForm(AddBlockForm::class, $blockChild, [
             'action' => $this->generateUrl('app_admin_block_addchild', ['id' => $id]),
+            'method' => 'POST'
         ]);
 
         $form->handleRequest($request);
@@ -160,8 +177,8 @@ class BlockController extends AbstractController implements CRUDActionInterface
         return $this->render('Admin/views/block/add_modal.html.twig', ['form' => $form,]);
     }
     /**
-     * @Route(path="/edit_child/{id}", name="app_admin_block_editchild")
-     */
+    * @Route(path="/edit_child/{id}", name="app_admin_block_editchild")
+    */
     public function editChild(Request $request, int $id, EntityManagerInterface $em): Response
     {
         $blockChild = $em->getRepository(Block::class)->find($id);
@@ -174,6 +191,7 @@ class BlockController extends AbstractController implements CRUDActionInterface
 
         if ($form->isSubmitted() && $form->isValid()) {
             $em->flush();
+            return new JsonResponse(['message' => 'Block updated successfully!']);
         }
         $block = $blockChild->getParent();
         if (is_int($block)) {
@@ -188,5 +206,5 @@ class BlockController extends AbstractController implements CRUDActionInterface
             'page' => $page,
         ]);
     }
-}
 
+}

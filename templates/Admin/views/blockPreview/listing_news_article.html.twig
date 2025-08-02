@@ -1,0 +1,14 @@
+{% extends 'themes/mancali/base.html.twig' %}
+{% block header %} {% endblock %}
+{% block footer %} {% endblock %}
+{% block importmapp %}
+    {{ importmap('app') }}
+{% endblock %}
+{% block body %}
+<section class="block article list">
+    <div class="container maxW-1180">
+        {{ component('EndUser:TableArticleLiveComponent', {"id": "TableArticleLive", 'type': article_type_news}) }}
+    </div>
+</section>
+
+{% endblock %}

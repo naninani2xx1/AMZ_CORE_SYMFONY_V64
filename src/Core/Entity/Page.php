@@ -25,7 +25,7 @@ class Page extends LifecycleEntity
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Core\Entity\Post", inversedBy="page")
+     * @ORM\OneToOne(targetEntity="App\Core\Entity\Post", inversedBy="page", cascade={"persist"})
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id",nullable=true)
      */
     private $post;

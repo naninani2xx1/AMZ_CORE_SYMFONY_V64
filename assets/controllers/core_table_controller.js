@@ -1,5 +1,5 @@
 import { Controller } from '@hotwired/stimulus';
-import { axiosPost } from "@ApiHelper";
+import { initEventDeleteItem, initEventOpenModal} from  '@Core';
 import {getComponent} from "@symfony/ux-live-component";
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
@@ -19,6 +19,8 @@ export default class extends Controller {
 
         this.component.on('render:finished', (component) => {
             this.initLozad();
+            initEventDeleteItem();
+            initEventOpenModal()
         });
     }
 

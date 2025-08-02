@@ -19,7 +19,7 @@ use Symfony\UX\LiveComponent\Attribute\AsLiveComponent;
 use Symfony\UX\LiveComponent\Attribute\LiveProp;
 
 
-#[AsLiveComponent(template: 'components/TableArticleLiveComponent.html.twig')]
+#[AsLiveComponent(template: 'components/TableCategoryLiveComponent.html.twig')]
 final class TableCategoryLiveComponent extends BaseTableLiveComponent
 {
     #[LiveProp(writable: false)]

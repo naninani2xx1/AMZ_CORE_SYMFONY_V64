@@ -29,11 +29,16 @@
         {% endblock %}
     </head>
     <body suported-aos><!--class="colorMode" suported-aos-->
-        {{ include('themes/mancali/partials/header.html.twig') }}
+        {% block header %}
+            {{ include('themes/mancali/partials/header.html.twig') }}
+        {% endblock %}
         {% block body %}{% endblock %}
+    {% block footer %}
         {{ include('themes/mancali/partials/footer.html.twig') }}
+    {% endblock %}
         {{ include('themes/mancali/partials/search_modal.html.twig') }}
         {{ include('themes/mancali/partials/overlay_loading.html.twig') }}
+        {{ include('themes/mancali/partials/ticket_success_modal.html.twig') }}
         <script src="{{ asset('themes/mancali/assets/js/main.js') }}"></script>
 
         <script>
