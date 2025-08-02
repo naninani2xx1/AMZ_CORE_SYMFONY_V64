@@ -36,7 +36,7 @@
                                 {{ macros.icon_edit() }}
                             </span>
                         </a>
-                        <a href="{{ path('app_admin_article_detail', {'type': item.post.postType, 'slug': item.post.slug}) }}"
+                        <a href="{{ path('app_admin_article_detail', {'type': item.post.postType, 'slug': item.post.slug, 'id': item.id}) }}"
                            class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
                             <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Xem chi tiết" data-bs-original-title="Xem chi tiết">
                                 {{ macros.icon_eye() }}

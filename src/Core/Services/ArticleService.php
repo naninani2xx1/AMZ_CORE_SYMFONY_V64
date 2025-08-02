@@ -12,20 +12,20 @@ class ArticleService extends AbstractController
 {
     private EntityManagerInterface $entityManager;
     private ArticleRepository $articleRepository;
-    private PostRepository $postRepository;
-    public function __construct(PostRepository $postRepository,EntityManagerInterface $entityManager, ArticleRepository $articleRepository)
+
+    public function __construct(EntityManagerInterface $entityManager, ArticleRepository $articleRepository)
     {
         $this->articleRepository = $articleRepository;
         $this->entityManager = $entityManager;
-        $this->postRepository = $postRepository;
+
     }
 
     public function findOneById(int $id): ?Article
     {
         return $this->articleRepository->find($id);
     }
-    public function findOneBySlug(string $slug): ?Article
+    public function findOneBySlug(string $slug, int $id): ?Article
     {
-        return $this->postRepository->findOneBy(['slug' => $slug]);
+        return $this->articleRepository->findBySlug($slug, $id);
     }
 }

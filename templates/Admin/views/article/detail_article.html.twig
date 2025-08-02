@@ -6,7 +6,7 @@
         {% block toolbar_title %}View Page{% endblock toolbar_title %}
         {% block toolbar_breadcrumbs %}
             <li class="breadcrumb-item text-muted">
-                <a href="{{ path('app_admin_article_index') }}" class="text-muted text-hover-primary">Page</a>
+                <a href="{{ path('app_admin_article_index', { 'type': type }) }}" class="text-muted text-hover-primary">Page</a>
             </li>
             <li class="breadcrumb-item">
                 <span class="bullet bg-gray-500 w-5px h-2px"></span>
@@ -85,7 +85,7 @@
 
             <div class="d-flex justify-content-end">
                 <a href="{{ path('app_admin_post_edit',{'id':article.id}) }}" class="btn btn-primary">Edit</a>
-                <a href="{{ path('app_admin_article_index') }}" class="btn btn-light">Back to List</a>
+                <a href="{{ path('app_admin_article_index', { 'type': type }) }}" class="btn btn-light">Back to List</a>
 
             </div>
 

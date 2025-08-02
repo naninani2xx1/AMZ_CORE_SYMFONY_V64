@@ -6,6 +6,7 @@ use App\Core\Entity\Article;
 use App\Core\Entity\Post;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\PaginatorInterface;
 
@@ -50,6 +51,22 @@ class ArticleRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
+    /**
+     * @throws NonUniqueResultException
+     */
+    public function findBySlug(string $slug, int $id): ?Article
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.post', 'p')
+            ->andWhere('p.slug = :slug')
+            ->andWhere('a.id = :id')
+            ->setParameters([
+                'slug' => $slug,
+                'id' => $id
+            ])
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
 
 
 
