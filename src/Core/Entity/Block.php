@@ -195,7 +195,7 @@ class Block extends LifecycleEntity
 
     public function getBackground(): ?string
     {
-        return $this->background;
+        return $this->background ?? "themes/mancali/assets/img/trade/trade-01.jpg";
     }
 
     public function setBackground(?string $background): static

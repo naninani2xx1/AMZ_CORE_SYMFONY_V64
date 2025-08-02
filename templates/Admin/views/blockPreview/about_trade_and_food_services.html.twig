@@ -1,0 +1,51 @@
+{% extends 'themes/mancali/base.html.twig' %}
+{% block header %} {% endblock %}
+{% block footer %} {% endblock %}
+{% block importmapp %}
+    {{ importmap('app') }}
+{% endblock %}
+{% block body %}
+    <style>
+        [data-Admin--block-preview-target="description"] > ul {
+            list-style: disc !important;
+        }
+    </style>
+<section class="block prune-block"
+         data-controller="Admin--block-preview"
+         data-Admin--block-preview-origin-value="{{ app.request.schemeAndHttpHost }}"
+         data-Admin--block-preview-main-url-value="{{ path('app_admin_block_update', {'id': block.id}) | e('html_attr') }}"
+>
+    <div class="container"  style="position: relative">
+        <div class="card-large vertical">
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+                <button style="position: absolute; z-index: 100; top: 0; right: 0 "
+                        data-action="click->Admin--block-preview#requestOpenGallery"
+                        data-Admin--block-preview-prop-param="background"
+                        data-Admin--block-preview-event-name-param="picture@background"
+                        type="button">Import Background</button>
+            </div>
+            <img
+                    data-Admin--block-preview-target="background"
+                    src="{% if block.background is not null %}{{ asset(block.background) }}{% endif %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <!--<h5 class="card-title">California<br /> Nơi chất lượng tạo nên khác biệt </h5>-->
+                <div class="card-text tool-editor"
+                >
+                    <div  data-Admin--block-preview-target="description">
+                        {% if block.description is not null %}
+                            {{ block.description | raw }}
+                        {% else %}
+                            <p style="text-align: center;">Cả thế giới tìm đến California vì mận khô. Bên cạnh những yếu tố làm nên sự khác biệt của mận khô California – như điều kiện canh tác nổi tiếng toàn cầu và tiêu chuẩn nông nghiệp cao nhất thế giới – ngành công nghiệp mận khô California còn đầu tư vào ngành hàng này nhiều hơn bất kỳ khu vực trồng mận nào khác trên thế giới.</p>
+                        {% endif %}
+                    </div>
+                    <button
+                            data-action="click->Admin--block-preview#requestOpenCkeditor"
+                            data-Admin--block-preview-prop-param="description"
+                            type="button">Edit</button>
+                </div>
+                <!--<a href="#" class="btn btn-primary">KHÁM PHÁ</a>-->
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

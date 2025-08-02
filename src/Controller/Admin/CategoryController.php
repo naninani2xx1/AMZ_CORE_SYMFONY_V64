@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @Route(path="/cms/category")
@@ -106,9 +107,13 @@ class CategoryController extends AbstractController implements CRUDActionInterfa
         if (!$this->isCsrfTokenValid('category-delete-'.$id, $csrfToken))
             throw new AccessDeniedHttpException();
         $category = $this->categoryService->findById($id);
-        if(!$category instanceof Category) throw new NotFoundHttpException();
+        if(!$category instanceof Category)
+            throw new NotFoundHttpException();
 
         $category->setArchived(ArchivedDataType::ARCHIVED);
+
+        $slug = $category->getSlug() .'-removed-' .Uuid::v4()->toBase32();
+        $category->setSlug($slug);
         $this->entityManager->flush();
 
         return new JsonResponse([

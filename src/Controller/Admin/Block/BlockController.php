@@ -3,6 +3,7 @@
 namespace App\Controller\Admin\Block;
 
 use App\Core\Controller\CRUDActionInterface;
+use App\Core\DataType\ArchivedDataType;
 use App\Core\DataType\BlockDataType;
 use App\Core\DTO\BlockDTO;
 use App\Core\Entity\Block;
@@ -10,6 +11,8 @@ use App\Core\Services\BlockService;
 use App\Core\Services\PageService;
 use App\Form\Admin\Block\AddBlockForm;
 use App\Form\Admin\Block\AddBlockStaticForm;
+use App\Form\Admin\Block\EditPropBlockForm;
+use App\Form\Admin\Block\EditPropListingItemBlockForm;
 use App\Form\Admin\Block\InsertStaticBlockForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +20,8 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Attribute\MapRequestPayload;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
@@ -81,9 +86,22 @@ class BlockController extends AbstractController implements CRUDActionInterface
         throw new \Exception('Not implemented');
     }
 
+    /**
+     * @Route(path="/delete/{id}", name="app_admin_block_delete", methods={"POST"})
+     */
     public function delete(Request $request, int $id): Response
     {
-        throw new \Exception('Not implemented');
+        $csrfToken = $request->query->get('_csrf_token');
+        if (!$this->isCsrfTokenValid('block-delete-'.$id, $csrfToken))
+            throw new AccessDeniedHttpException();
+
+        $block = $this->blockService->findOneById($id);
+        if(!$block instanceof Block) throw new NotFoundHttpException();
+
+        $block->setArchived(ArchivedDataType::ARCHIVED);
+        $this->entityManager->flush();
+
+        return new JsonResponse(['message' => 'Block deleted successfully!']);
     }
 
     public function add(Request $request): Response
@@ -139,5 +157,86 @@ class BlockController extends AbstractController implements CRUDActionInterface
 
         return $this->render('Admin/views/block/add_static_modal.html.twig', compact('form', 'page'));
     }
+
+    /**
+     * @Route(path="/edit/by-property/{id}", name="app_admin_block_edit_property_block", methods={"GET","POST"})
+     */
+    public function editPropBlock(Request $request, int $id): Response
+    {
+        $prop = $request->query->get('prop');
+        $block = $this->blockService->findOneById($id);
+
+        $form = $this->createForm(EditPropBlockForm::class, $block, [
+            'action' => $this->generateUrl('app_admin_block_edit_property_block', ['id' => $block->getId(), 'prop' => $prop]),
+            'property' => $prop,
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->flush();
+            return new JsonResponse(['message' => 'Block edited successfully!', 'payload' => [
+                $prop => $block->getDescription()
+            ]]);
+        }
+
+        return $this->render('Admin/views/block/edit_prop_modal.html.twig', compact('form', 'prop' ,'block'));
+    }
+
+    /**
+     * @Route(path="/delete/listing-item/{id}", name="app_admin_block_delete_listing_item", methods={"POST"})
+     */
+    public function deleteListingItem(Request $request, int $id): Response
+    {
+        $block = $this->blockService->findOneById($id);
+        if(!$block instanceof Block) throw new NotFoundHttpException();
+        $uuid = $request->query->get('uuid');
+        $content = json_decode($block->getContent(), true);
+        if($content === null) throw new NotFoundHttpException();
+        $listingItem = $content['listingItem'];
+
+        unset($listingItem[$uuid]);
+        $content['listingItem'] = $listingItem;
+        $block->setContent(json_encode($content));
+        $this->entityManager->flush();
+        return new JsonResponse(['message' => 'Item Block deleted successfully!']);
+    }
+
+    /**
+     * @Route(path="/edit/listing-item/{id}", name="app_admin_block_edit_listing_item", methods={"GET","POST"})
+     */
+    public function editPropListingItemBlock(Request $request, int $id): Response
+    {
+        $prop = $request->query->get('prop');
+        $uuid = $request->query->get('uuid');
+        $block = $this->blockService->findOneById($id);
+
+        $content = json_decode($block->getContent(), true);
+        if($content === null) throw new NotFoundHttpException();
+        $listingItem = $content['listingItem'];
+
+        $form = $this->createForm(EditPropListingItemBlockForm::class, null, [
+            'action' => $this->generateUrl('app_admin_block_edit_listing_item', [
+                'id' => $block->getId(),
+                'prop' => $prop,
+                'uuid' => $uuid,
+            ]),
+            'property' => $prop,
+            'value' => $listingItem[$uuid][$prop]
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $listingItem[$uuid][$prop] = $form->get($prop)->getData();
+            $content['listingItem'] = $listingItem;
+            $block->setContent(json_encode($content));
+
+            $this->entityManager->flush();
+            return new JsonResponse(['message' => 'Block edited successfully!', 'payload' => [
+                'uuid' => $uuid,
+                $prop => $form->get($prop)->getData(),
+            ]]);
+        }
+
+        return $this->render('Admin/views/block/edit_prop_modal.html.twig', compact('form', 'prop' ,'block'));
+    }
+
 
 }

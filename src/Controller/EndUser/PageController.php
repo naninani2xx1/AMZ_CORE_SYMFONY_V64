@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\EndUser;
 
+use App\Core\Entity\Page;
 use App\Core\Services\PageService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +28,7 @@ class PageController extends AbstractController
     public function index(string $slug): Response
     {
         $page = $this->pageService->findOneBySlug($slug);
-
+        if(!$page instanceof Page) throw new NotFoundHttpException("Page not found");
         $post = $page->getPost();
         if (empty($post)){
             throw new NotFoundHttpException('Page not found',null, Response::HTTP_NOT_FOUND);

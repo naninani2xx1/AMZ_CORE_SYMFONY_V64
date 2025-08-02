@@ -45,7 +45,9 @@
                    data-Admin--block-admin-preview-origin-value="{{ app.request.schemeAndHttpHost }}"
                    data-Admin--block-admin-preview-target="iframe"
                    data-Admin--block-admin-preview-request-open-gallery-value="{{ path('app_admin_gallery_core_open_list') }}"
-                   data-action="Admin--picture-global:picture@background@window->Admin--block-admin-preview#listenPickedPicture"
+                   data-Admin--block-admin-preview-request-open-ckeditor-value="{{ path('app_admin_block_edit_property_block', {'id': block.id}) }}"
+                   data-Admin--block-admin-preview-request-open-ckeditor-item-block-value="{{ path('app_admin_block_edit_listing_item', {'id': block.id}) }}"
+                   data-action="Admin--picture-global:pickedPicture@window->Admin--block-admin-preview#listenPickedPicture"
                    sandbox="allow-scripts allow-same-origin allow-forms allow-presentation"
                    class="w-100 h-700px mb-8"
                    src="{{ path('app_admin_block_run_preview', {'id': block.id}) }}"
@@ -56,4 +58,5 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('plugins/ckeditor/ckeditor.js') }}"></script>
 {% endblock %}

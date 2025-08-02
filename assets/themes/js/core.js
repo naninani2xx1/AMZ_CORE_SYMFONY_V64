@@ -43,7 +43,8 @@ const initEventOpenModal = () => {
 /** remove item live component **/
 const handle =  async (event) => {
     event.preventDefault();
-    const liveComponentDOM = btn.closest('[data-controller]')
+    const btn = event.currentTarget;
+    const liveComponentDOM = btn.closest('[data-controller="core-table live"]')
     const component = await getComponent(liveComponentDOM);
 
     axiosPost({url: btn.getAttribute('data-action')}, {
@@ -51,7 +52,10 @@ const handle =  async (event) => {
             alertSuccess({html: res.message, timer: 3000});
             component.render();
         },
-        failed: res => alertError(),
+        failed: res => {
+            console.log(res)
+            alertError();
+        },
     })
 }
 const initEventDeleteItem = () => {

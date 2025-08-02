@@ -12,16 +12,41 @@ final class BlockDTO
     private ?string $content;
     private ?int $sortOrder;
     private ?string $background;
+    private ?string $listingItem;
     public function __construct(?string $title, ?int $sortOrder, ?string $background, ?string $subTitle, ?string $description,
-        ?string $content
+        ?string $content, ?string $listingItem
     )
     {
         $this->content = $content;
+        $this->listingItem = $listingItem;
         $this->subTitle = $subTitle;
         $this->description = trim($description);
         $this->background = $background;
         $this->sortOrder = $sortOrder;
         $this->title = ucwords($title);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getListingItem(): ?string
+    {
+        return $this->listingItem;
+    }
+
+    /**
+     * @param string|null $listingItem
+     * @param Block $entity
+     */
+    public function setListingItem(?string $listingItem, Block $entity): void
+    {
+        $data = json_decode($listingItem, true);
+        $content = json_decode($entity->getContent(), true);
+
+        foreach ($data as $key => $val) {
+            $content['listingItem'][$key] = $val;
+        }
+        $entity->setContent(json_encode($content));
     }
 
     /**
@@ -47,13 +72,6 @@ final class BlockDTO
         return $this->sortOrder;
     }
 
-    /**
-     * @param int|null $sortOrder
-     */
-    public function setSortOrder(?int $sortOrder): void
-    {
-        $this->sortOrder = $sortOrder;
-    }
 
     /**
      * @return string|null
@@ -101,8 +119,13 @@ final class BlockDTO
 
         foreach ($props as $prop => $value) {
             $methodGetter =  'get' . ucfirst($prop);
+            $methodSetter =  'set' . ucfirst($prop);
+            if(method_exists($this, $methodGetter)  && !empty($value)) {
+                if(method_exists($this, $methodSetter))
+                    call_user_func([$this, $methodSetter], $value, $entity);
+                continue;
+            }
             if (method_exists($entity, $methodGetter) && !empty($value)) {
-                $methodSetter =  'set' . ucfirst($prop);
                 if(method_exists($this, $methodSetter))
                     call_user_func([$this, $methodSetter], $value, $entity);
                 else

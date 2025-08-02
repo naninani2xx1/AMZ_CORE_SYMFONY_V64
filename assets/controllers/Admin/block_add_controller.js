@@ -50,7 +50,8 @@ export default class extends Controller {
             success: res => {
                 alertSuccess({html: res.message, timer: 3000});
                 $('#app-modal').modal('hide');
-                this.blockComponent.render();
+                if(this.blockComponent !== undefined)
+                    this.blockComponent.render();
             },
             failed: res => {
                 if(res.status === 422)

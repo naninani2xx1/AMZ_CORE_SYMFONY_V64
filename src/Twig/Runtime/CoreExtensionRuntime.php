@@ -4,6 +4,7 @@ namespace App\Twig\Runtime;
 
 use App\Core\DataType\RoleDataType;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Uid\Uuid;
 use Twig\Environment;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -46,5 +47,11 @@ class CoreExtensionRuntime implements RuntimeExtensionInterface
             $arr[] = RoleDataType::getNameByRole($role);
         }
         return $this->environment->render('Admin/partials/roles_raw.html.twig', compact('arr'));
+    }
+
+
+    public function generateUuid(): string
+    {
+        return Uuid::v4()->toRfc4122();
     }
 }

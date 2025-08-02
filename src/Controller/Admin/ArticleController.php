@@ -5,12 +5,17 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
+use App\Core\DataType\ArchivedDataType;
 use App\Core\Services\ArticleService;
 use App\Utils\ArticleUtils;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @Route(path="/cms/article")
@@ -18,9 +23,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class ArticleController extends AbstractController implements CRUDActionInterface
 {
     private ArticleService $articleService;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(ArticleService $articleService)
+    public function __construct(ArticleService $articleService, EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
         $this->articleService = $articleService;
     }
 
@@ -83,13 +90,27 @@ class ArticleController extends AbstractController implements CRUDActionInterfac
     }
 
     /**
-     * @Route(path="/delete/{id}", name="app_admin_article_delete")
+     * @Route(path="/delete/{id}", name="app_admin_article_delete", methods={"POST"})
      * @param Request $request
      * @param int $id
-     * @return Response
+     * @return JsonResponse
      */
-    public function delete(Request $request, int $id): Response
+    public function delete(Request $request, int $id): JsonResponse
     {
-        return $this->articleService->delete($request, $id);
+        $csrfToken = $request->query->get('_csrf_token');
+
+        if (!$this->isCsrfTokenValid('article-delete-'.$id, $csrfToken))
+            throw new AccessDeniedHttpException();
+        $article = $this->articleService->findOneById($id);
+
+        $article->setArchived(ArchivedDataType::ARCHIVED);
+        $post = $article->getPost();
+        $slug = $post->getSlug() .'-removed-' .Uuid::v4()->toBase32();
+        $post->setSlug($slug);
+        $this->entityManager->flush();
+
+        return new JsonResponse([
+            'message' => "Category deleted Successfully"
+        ]);
     }
 }

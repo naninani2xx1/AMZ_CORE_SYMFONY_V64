@@ -1,0 +1,24 @@
+<section class="block prune-block prune-trade bgColor3">
+    {% set content = block.content | json_decode %}
+    <div class="container">
+        {% if content.listingItem is defined and content.listingItem is not empty %}
+            {% for item in content.listingItem %}
+                <div class="card-large {{ loop.index is odd ? "" : "right" }}">
+                    <img src="{{ asset(item.image) }}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ item.title }}</h5>
+                        <div class="card-text tool-editor">
+                            {% if  item.description is not null %}
+                                {{ item.description | raw }}
+                            {% else %}
+                                <p>Các nhà chế biến mận tại California có thể cung cấp mận dưới nhiều hình thức khác nhau,
+                                    bao gồm nguyên quả, cắt đôi, cắt nhỏ, nghiền, xay nhuyễn, dạng sệt, cô đặc, nước ép và bột.</p>
+                            {% endif %}
+                        </div>
+                        <a href="{{ item.customUrl ?? "#" }}" class="btn btn-primary">{{ item.subTitle ?? "khám phá" }}</a>
+                    </div>
+                </div>
+            {% endfor %}
+        {% endif %}
+    </div>
+</section>

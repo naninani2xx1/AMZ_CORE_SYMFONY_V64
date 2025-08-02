@@ -1,7 +1,7 @@
 parameters:
   blocks_type:
     single_banner_block:
-      name: 'Block Single Banner'
+      name: 'Single Banner block'
       backend:
         view: 'Admin/views/blockPreview/single_banner.html.twig'
         controller: 'App\Controller\Admin\Block\BlockCommon::edit'
@@ -10,7 +10,7 @@ parameters:
         controller: ''
 
     contact_form_block:
-      name: 'Block Contact Form'
+      name: 'Contact Form Block'
       backend:
         view: 'Admin/views/blockPreview/contact_form.html.twig'
         controller: 'App\Controller\Admin\Block\BlockCommon::edit'
@@ -19,7 +19,7 @@ parameters:
         controller: ''
 
     listing_news_article_block:
-      name: 'Block Listing News Article'
+      name: 'Listing News Article Block'
       backend:
         view: 'Admin/views/blockPreview/listing_news_article.html.twig'
         controller: 'App\Controller\Admin\Block\BlockCommon::edit'
@@ -28,10 +28,28 @@ parameters:
         controller: ''
 
     qas_block:
-      name: 'Block Qas'
+      name: 'Qas block'
       backend:
         view: 'Admin/views/blockPreview/qas.html.twig'
         controller: 'App\Controller\Admin\Block\BlockCommon::edit'
       frontend:
         view: '%themes%block/qas.html.twig'
+        controller: ''
+
+    about_trade_and_food_services_block:
+      name: 'About Trade and food services block'
+      backend:
+        view: 'Admin/views/blockPreview/about_trade_and_food_services.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/about_trade_and_food_services.html.twig'
+        controller: ''
+
+    listing_prune_trade_and_food_services_block:
+      name: 'Listing Prune Trade and food services block'
+      backend:
+        view: 'Admin/views/blockPreview/listing_prune_trade_and_food_services.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/listing_prune_trade_and_food_services.html.twig'
         controller: ''

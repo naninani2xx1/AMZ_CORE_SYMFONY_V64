@@ -13,7 +13,10 @@ export default class extends Controller {
     static targets = ['iframe'];
     static values = {
         origin: String,
-        requestOpenGallery: String
+        requestOpenGallery: String,
+        requestOpenCkeditor: String,
+        requestOpenCkeditorItemBlock: String,
+        eventRegister: String,
     };
     initialize() {
         // Called once when the controller is first instantiated (per element)
@@ -31,6 +34,7 @@ export default class extends Controller {
         // add or remove classes, attributes, dispatch custom events, etc.
         // this.fooTarget.addEventListener('click', this._fooBar)
         window.addEventListener('message', this.receiver.bind(this));
+        window.addEventListener('block@update', this.receiverEditPropBlockModal.bind(this));
     }
 
     // Add custom controller actions here
@@ -43,17 +47,27 @@ export default class extends Controller {
         // Here you should remove all event listeners added in "connect()" 
         // this.fooTarget.removeEventListener('click', this._fooBar)
         window.removeEventListener('message', this.receiver.bind(this));
+        window.removeEventListener('block@update', this.receiverEditPropBlockModal.bind(this));
+    }
+
+    receiverEditPropBlockModal(event) {
+        console.log("Received block@update event:", event.detail);
+        this.sendToIframe(event.detail)
     }
 
     receiver(event){
         if (event.origin !== this.originValue) return;
-
+        console.log('Received from iframe:', event.data);
         if (event.data.type === 'notify') {
-            console.log('Received from iframe:', event.data);
             this.handleNotifyAlert(event.data);
         }else if(event.data.type === "requestOpenGallery"){
-            console.log('Received from iframe:', event.data);
             this.requestOpenGallery(event.data);
+        }else if(event.data.type === "requestOpenCkeditor"){
+            const { prop } = event.data;
+            this.requestOpenCkeditor(this.requestOpenCkeditorValue+ "?prop=" + prop);
+        }else if(event.data.type === "requestOpenCkeditorItemBlock"){
+            const { uuid, prop } = event.data;
+            this.requestOpenCkeditor(this.requestOpenCkeditorItemBlockValue+ "?prop=" + prop + "&uuid=" + uuid);
         }
     }
 
@@ -70,7 +84,20 @@ export default class extends Controller {
     }
 
     requestOpenGallery(data){
-        axiosGet(this.requestOpenGalleryValue+ "?event=" + data.eventName, {
+        const {eventName, eventRegister } = data;
+        this.element.setAttribute('data-Admin--block-admin-preview-event-register-value', eventRegister);
+
+        axiosGet(this.requestOpenGalleryValue+ "?event=" + eventName, {
+            success: res => {
+                addModalIntoBodyTag(res);
+                $('#app-modal').modal('show');
+            },
+            failed: res => {}
+        })
+    }
+
+    requestOpenCkeditor(url){
+        axiosGet(url, {
             success: res => {
                 addModalIntoBodyTag(res);
                 $('#app-modal').modal('show');
@@ -82,6 +109,8 @@ export default class extends Controller {
     listenPickedPicture(event){
         let data = event.detail;
         data.type = "pickedPicture";
+        if(this.hasEventRegisterValue)
+            data.eventRegister = this.eventRegisterValue;
         this.sendToIframe(data);
     }
 }
