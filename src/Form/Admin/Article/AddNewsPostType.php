@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Form\Admin\Article;
 
+use App\Core\DataType\PostStatusType;
+use App\Core\DataType\PostTypeDataType;
 use App\Core\Entity\Post;
 use App\Form\Common\CkeditorType;
 use App\Form\Common\PublishedChoiceType;
@@ -29,7 +31,7 @@ class AddNewsPostType extends AbstractType
         $builder->add('thumbnail', HiddenType::class, ['required' => false]);
         $builder->add('published', PublishedChoiceType::class, [
             'data-select2-dropdown-parent-value' => '#article-form',
-            'data' => $post->getPublished()
+            'data' => $post instanceof Post ? $post->getPublished() : PostStatusType::PUBLISH_TYPE_PUBLISHED,
         ]);
         $builder->add('isHot', HiddenType::class, ['required' => false]);
         $builder->add('isNew', HiddenType::class, ['required' => false]);

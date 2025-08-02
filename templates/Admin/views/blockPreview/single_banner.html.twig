@@ -1,19 +1,28 @@
 {% extends 'themes/mancali/base.html.twig' %}
+{% block header %} {% endblock %}
+{% block footer %} {% endblock %}
 {% block importmapp %}
     {{ importmap('app') }}
 {% endblock %}
 {% block body %}
-    <section data-controller="Admin--block-review"
-             data-Admin--block-review-main-url-value="{{ path('app_admin_block_update', {'id': block.id}) | e('html_attr') }}"
+    <section data-controller="Admin--block-preview"
+             data-Admin--block-preview-origin-value="{{ app.request.schemeAndHttpHost }}"
+             data-Admin--block-preview-main-url-value="{{ path('app_admin_block_update', {'id': block.id}) | e('html_attr') }}"
              class="block prune-titlepage"
+             data-Admin--block-preview-target="background"
              style="position: relative;
                      {% if block.background is not null %}background-image: url('{{ asset(block.background) }}');{% endif %}">
         <div class="container">
-            <h1 class="title" data-action="blur->Admin--block-review#onChange"
-                data-Admin--block-review-prop-param="title"
+            <h1 class="title" data-action="blur->Admin--block-preview#onChange"
+                data-Admin--block-preview-prop-param="title"
                 contenteditable="true">{{ block.title }}</h1>
-
         </div>
-
+        <div style="display: flex; flex-direction: column; gap: 10px;">
+            <button style="position: absolute; z-index: 100; top: 0; right: 0 "
+                    data-action="click->Admin--block-preview#requestOpenGallery"
+                    data-Admin--block-preview-prop-param="background"
+                    data-Admin--block-preview-event-name-param="picture@background"
+                    type="button">Import Background</button>
+        </div>
     </section>
 {% endblock %}

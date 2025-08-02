@@ -3,10 +3,12 @@
 namespace App\Core\Repository;
 
 use App\Core\DataType\ArchivedDataType;
+use App\Core\DataType\CategoryDataType;
 use App\Core\Entity\Category;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\ORM\NonUniqueResultException;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Knp\Component\Pager\Pagination\PaginationInterface;
@@ -20,6 +22,7 @@ class CategoryRepository extends ServiceEntityRepository
     const ALIAS = 'category';
     private PaginatorInterface $paginator;
     private EntityManagerInterface $entityManager;
+
     public function __construct(ManagerRegistry $registry, PaginatorInterface $paginator, EntityManagerInterface $entityManager)
     {
         $this->paginator = $paginator;
@@ -46,9 +49,9 @@ class CategoryRepository extends ServiceEntityRepository
         $queryBuilder = $this->createQueryBuilder('category');
         $expr = $queryBuilder->expr();
         $queryBuilder->where(
-            $expr->eq(self::ALIAS.'.isArchived', $expr->literal(ArchivedDataType::UN_ARCHIVED)),
+            $expr->eq(self::ALIAS . '.isArchived', $expr->literal(ArchivedDataType::UN_ARCHIVED)),
         )
-            ->orderBy(self::ALIAS.'.createdAt', 'DESC');
+            ->orderBy(self::ALIAS . '.createdAt', 'DESC');
 
         return $this->paginator->paginate(
             $queryBuilder,
@@ -88,5 +91,14 @@ class CategoryRepository extends ServiceEntityRepository
         return $qb->getQuery()->getResult();
     }
 
-
+    public function findAllContactTopic()
+    {
+        $qb = $this->createQueryBuilder('category');
+        $qb->select(['category.id', 'category.title']);
+        $qb->where(
+            $qb->expr()->eq('category.type', $qb->expr()->literal(CategoryDataType::TYPE_TOPIC_CONTACT)),
+            $qb->expr()->eq('category.isArchived', $qb->expr()->literal(ArchivedDataType::UN_ARCHIVED)),
+        );
+        return $qb->getQuery()->setHint(Query::HINT_READ_ONLY, true)->getResult();
+    }
 }

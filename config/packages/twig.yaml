@@ -17,6 +17,9 @@ twig:
         #post constant
         post_type_published_draft: !php/const App\Core\DataType\PostStatusType::PUBLISH_TYPE_DRAFT
         post_type_published_published: !php/const App\Core\DataType\PostStatusType::PUBLISH_TYPE_PUBLISHED
+        #category constant
+        category_type_news_article: !php/const App\Core\DataType\CategoryDataType::TYPE_NEWS_ARTICLE
+        category_type_recipe_article: !php/const App\Core\DataType\CategoryDataType::TYPE_RECIPE_ARTICLE
         #common
         themes_path: '%themes%'
         menu_position: '%menu.config%'

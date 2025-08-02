@@ -21,8 +21,9 @@ class CoreExtensionRuntime implements RuntimeExtensionInterface
         $this->environment = $environment;
     }
 
-    public function jsonDecode($value): array
+    public function jsonDecode(?string $value): array
     {
+        if(is_null($value)) return array();
         return json_decode($value, true);
     }
 
@@ -31,11 +32,11 @@ class CoreExtensionRuntime implements RuntimeExtensionInterface
         return !empty($value);
     }
 
-    public function isRouteActive($route): bool
+    public function isRouteActive($route): string
     {
         $request = $this->requestStack->getCurrentRequest();
         $currentRoute = $request->attributes->get('_route');
-        return $currentRoute == $route;
+        return $currentRoute == $route ? "active" : "";
     }
 
     public function getRolesRawHtml(array $roles): string

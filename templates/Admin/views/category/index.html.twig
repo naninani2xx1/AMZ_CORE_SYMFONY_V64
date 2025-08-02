@@ -3,7 +3,7 @@
 
 {% block toolbar %}
     {% embed 'Admin/partials/toolbar.html.twig' %}
-        {% block toolbar_title %}Category Management{% endblock toolbar_title %}
+        {% block toolbar_title %}  Category Management{% endblock toolbar_title %}
 
         {% block toolbar_breadcrumbs %}
             <!--begin::Item-->
@@ -14,13 +14,15 @@
         {% endblock toolbar_breadcrumbs %}
 
         {% block toolbar_button_actions %}
-            <a href="{{ path('app_admin_page_add') }}" class="btn btn-sm fw-bold btn-primary">Create</a>
+            <a href="{{ path('app_admin_category_add', {'type': category_type_recipe_article}) }}"
+               data-amz-btn-open-modal
+               class="btn btn-sm fw-bold btn-primary">Create</a>
         {% endblock toolbar_button_actions %}
     {% endembed %}
 {% endblock %}
 
 {% block body %}
-    {{ component('TablePageLiveComponent', {'id': "TablePageLive"}) }}
+    {{ component('TableCategoryLiveComponent', {'id': "TableCategoryLive", 'type': type }) }}
 {% endblock %}
 
 {% block javascripts %}

@@ -9,7 +9,7 @@
         </form>
         <!--end::Form-->
         {% if this.hasAddNew %}
-            <button type="button" class="btn btn-flex btn-sm btn-light-primary h-40px" data-action="live#action"
+            <button type="button" class="btn btn-flex btn-sm btn-light-primary h-40px" data-action="live#action:prevent"
                     data-live-action-param="addNew"
             >
                 <i class="ki-duotone ki-cross fs-2 p-0">
@@ -17,7 +17,7 @@
                     <span class="path2"></span>
                 </i></button>
         {% else %}
-            <button type="button" class="btn btn-flex btn-sm btn-light-primary h-40px" data-action="live#action"
+            <button type="button" class="btn btn-flex btn-sm btn-light-primary h-40px" data-action="live#action:prevent"
                     data-live-action-param="addNew"
             >
                 <i class="ki-duotone ki-add-folder fs-2 p-0">
@@ -46,10 +46,10 @@
                             <span class="path2"></span>
                         </i>
                     </span>
-                    <a href="#"  data-live-action-param="setGallery"
+                    <a href="#" data-action="live#action:prevent" data-live-action-param="setGallery"
                        data-live-gallery-param="{{ gallery.id }}"
                        class="{{ this.gallery.id == gallery.id ? "text-primary": "text-gray-800"  }} text-hover-primary">{{ gallery.name }}</a>
-
+                    <span class="badge badge-sm badge-circle badge-light-success">{{ gallery.countPictures }}</span>
                 </div>
                 <!--end::Details-->
                 <!--begin::Lat seen-->

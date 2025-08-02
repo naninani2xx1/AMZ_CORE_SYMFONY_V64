@@ -42,7 +42,7 @@ export default class extends Controller {
     open(event){
         event.preventDefault();
         event.stopPropagation();
-        axiosGet('/cms/gallery/core/open-list', {
+        axiosGet('/cms/gallery/core/open-list' + "?event=" + event.params.nameEvent, {
             success: res => {
                 document.body.insertAdjacentHTML('afterend', res)
                 $(res).modal('show');

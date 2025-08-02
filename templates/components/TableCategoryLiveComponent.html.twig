@@ -1,4 +1,6 @@
-<div{{ attributes }}>
+<div{{ attributes.defaults({
+    'data-controller': 'core-table'
+}) }}>
     {% import 'Admin/partials/macros.html.twig' as macros %}
     <div class="d-flex flex-wrap flex-stack mb-6">
         <!--begin::Title-->
@@ -10,48 +12,44 @@
         </div>
         <!--end::Controls-->
     </div>
-
     {% embed 'Admin/partials/table.html.twig' %}
         {% import 'Admin/partials/macros.html.twig' as macros %}
+        {% import 'Admin/partials/setting/macros.html.twig' as SettingMacros %}
         {% block columns %}
-            {{ macros.table_column_default("Parent") }}
-            {{ macros.table_column_default("Title") }}
-            {{ macros.table_column_default("Slug") }}
-            {{ macros.table_column_default("Icon") }}
-            {{ macros.table_column_default("Thumbnail") }}
-            {{ macros.table_column_default("Decription") }}
-            {{ macros.table_column_default("Custom path") }}
-            {{ macros.table_column_default("Created At") }}
-            {{ macros.table_column_default("Updated At") }}
+            {{ macros.table_column_default("Title", 'text-start') }}
+            {{ macros.table_column_default("Description", 'text-start') }}
+            {% if type == article_type_recipe %}
+                {{ macros.table_column_default("Category", 'text-start') }}
+            {% endif %}
+            {{ macros.table_column_default("Published", 'text-start') }}
+            {{ macros.table_column_default("CreatedAt", 'text-start') }}
+            {{ macros.table_column_default("UpdatedAt", 'text-start') }}
         {% endblock %}
-
         {% block rows %}
-            {% for cate in computed.data %}
-                <tr class="align-middle border-bottom border-gray-300 fs-7">
-                    <td>
-                        <a href="{{ path('app_admin_category_edit', {'id': cate.id}) }}" class="btn btn-icon btn-active-light-primary me-1">
-                            {{ macros.icon_edit() }}
+            {% for item in computed.data %}
+                <tr class="py-3 align-middle  border-bottom border-gray-300 fs-7">
+                    <td class="action-column">
+                        <a href="{{ path('app_admin_category_edit', {'id': item.id, 'type': type }) }}"
+                           data-amz-btn-open-modal
+                           class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Edit" data-bs-original-title="Edit">
+                                {{ macros.icon_edit() }}
+                            </span>
                         </a>
-                        <a href="{{ path('app_admin_category_delete', {'id':cate.id}) }}" class="btn btn-icon btn-active-light-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
-                            {{ macros.icon_delete() }}
+                        <a href="#" data-amz-btn-remove
+                           data-action="{{ path('app_admin_category_delete', {'id': item.id, 'type': type ,'_csrf_token': csrf_token('category-delete-'~ item.id) }) }}" class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
+                            <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
+                                {{ macros.icon_delete() }}
+                            </span>
                         </a>
                     </td>
-                    <td>{{ cate.levelNumber }}</td>
-                    <td>{{ cate.title }}</td>
-                    <td>{{ cate.slug }}</td>
-                    <td><img width="40" height="40" src="{{ cate.icon }}" alt="{{ cate.title }}"></td>
-                    <td><img width="40" height="40" src="{{ cate.thumbnail }}" alt="{{ cate.title }}"></td>
-                    <td>{{ cate.description }}</td>
-                    <td>{{ cate.customPath }}</td>
-                    <td>{{ cate.createdAt|date('Y-m-d H:i') }}</td>
-                    <td>{{ cate.updatedAt|date('Y-m-d H:i') }}</td>
-
+                    <td>{{ item.title }}</td>
+                    <td>{{ item.description ?? "No description" }}</td>
+                    <td>{{ item.parent ? item.parent.title : "Not found" }}</td>
+                    <td>{{ item.createdAt | date('d/m/Y H:i:a') }}</td>
+                    <td>{{ item.updatedAt | date('d/m/Y H:i:a') }}</td>
                 </tr>
-            {% else %}
-                <tr><td colspan="6">Không có dữ liệu cài đặt.</td></tr>
             {% endfor %}
         {% endblock %}
     {% endembed %}
-
-
 </div>

@@ -34,7 +34,7 @@ class TicketRequestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($ticket);
             $this->entityManager->flush();
-            return new JsonResponse(['message' => 'Add successfully!'], Response::HTTP_BAD_REQUEST);
+            return new JsonResponse(['message' => 'Add successfully!'], Response::HTTP_OK);
         }
         return new JsonResponse(['message' => 'ok'], Response::HTTP_BAD_REQUEST);
     }

@@ -12,7 +12,7 @@ parameters:
     contact_form_block:
       name: 'Block Contact Form'
       backend:
-        view: 'Admin/views/blockPreview/single_banner.html.twig'
+        view: 'Admin/views/blockPreview/contact_form.html.twig'
         controller: 'App\Controller\Admin\Block\BlockCommon::edit'
       frontend:
         view: '%themes%block/contact_form.html.twig'
@@ -21,7 +21,7 @@ parameters:
     listing_news_article_block:
       name: 'Block Listing News Article'
       backend:
-        view: 'Admin/views/blockPreview/single_banner.html.twig'
+        view: 'Admin/views/blockPreview/listing_news_article.html.twig'
         controller: 'App\Controller\Admin\Block\BlockCommon::edit'
       frontend:
         view: '%themes%block/listing_news_article.html.twig'
@@ -30,7 +30,7 @@ parameters:
     qas_block:
       name: 'Block Qas'
       backend:
-        view: 'Admin/views/blockPreview/single_banner.html.twig'
+        view: 'Admin/views/blockPreview/qas.html.twig'
         controller: 'App\Controller\Admin\Block\BlockCommon::edit'
       frontend:
         view: '%themes%block/qas.html.twig'

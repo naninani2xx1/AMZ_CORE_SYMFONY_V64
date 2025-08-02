@@ -1,0 +1,49 @@
+{% extends 'themes/mancali/base.html.twig' %}
+{% block header %} {% endblock %}
+{% block footer %} {% endblock %}
+{% block importmapp %}
+    {{ importmap('app') }}
+{% endblock %}
+{% block body %}
+<section class="block prune-block prune-faq"
+         data-controller="Admin--block-preview"
+         data-Admin--block-preview-origin-value="{{ app.request.schemeAndHttpHost }}"
+         data-Admin--block-preview-target="background"
+         data-Admin--block-preview-main-url-value="{{ path('app_admin_block_update', {'id': block.id}) | e('html_attr') }}"
+         style=" {% if block.background is not null %}background-image: url('{{ asset(block.background) }}');{% endif %}; position: relative;">
+    <div class="container">
+        <h1 class="title"
+            data-action="blur->Admin--block-preview#onChange"
+            data-Admin--block-preview-prop-param="title"
+            contenteditable="true"
+        >{{ block.title ?? "câu hỏi thường gặp" }}</h1>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 10px;">
+        <button style="position: absolute; z-index: 100; top: 0; right: 0 "
+                data-action="click->Admin--block-preview#requestOpenGallery"
+                data-Admin--block-preview-prop-param="background"
+                data-Admin--block-preview-event-name-param="picture@background"
+                type="button">Import Background</button>
+    </div>
+    <div class="container maxW-960">
+        <div class="faq-list">
+            {% set qas = get_all_qa() %}
+            {% for qa in qas %}
+                <div class="item" data-sort="1">
+                    <a class="item-link" data-bs-toggle="collapse" href="#qa_item-{{ qa.id }}" role="button" aria-expanded="false" aria-controls="collapseExample">
+                        <div class="text tool-editor">
+                            <p>{{ qa.question }}</p>
+                        </div>
+                        <i class="zmdi zmdi-chevron-down"></i>
+                    </a>
+                    <div class="collapse" id="qa_item-{{ qa.id }}">
+                        <div class="card-body tool-editor">
+                            {{ qa.answer | raw }}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

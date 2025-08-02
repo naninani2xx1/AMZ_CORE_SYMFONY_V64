@@ -10,10 +10,12 @@ import {alertError, alertSuccess} from '@Common';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
+    static targets = ['background', 'image'];
     static values = {
         mainUrl: {
             type: String
-        }
+        },
+        origin: String
     };
     initialize() {
         // Called once when the controller is first instantiated (per element)
@@ -30,7 +32,7 @@ export default class extends Controller {
         // Here you can add event listeners on the element or target elements,
         // add or remove classes, attributes, dispatch custom events, etc.
         // this.fooTarget.addEventListener('click', this._fooBar)
-
+        window.addEventListener('message', this.receiver.bind(this));
     }
 
     // Add custom controller actions here
@@ -42,20 +44,62 @@ export default class extends Controller {
 
         // Here you should remove all event listeners added in "connect()" 
         // this.fooTarget.removeEventListener('click', this._fooBar)
+        window.removeEventListener('message', this.receiver.bind(this));
+    }
 
+    receiver(event){
+        if (event.origin !== this.originValue) return;
+        if (event.data.type === 'pickedPicture') {
+            this._listPickedPicture(event.data);
+            console.log('Received from parent:', event.data);
+        }
     }
 
     onChange(event){
         const val = event.target.textContent;
         const {prop} = event.params;
+        this._call(prop, val);
+    }
+
+
+    onChangeTextWithJson(event){
+        const val = event.target.textContent;
+        const { prop, key } = event.params;
+
+        let data = {};
+        data[key] = val;
+        this._call(prop, JSON.stringify(data));
+    }
+
+    sendTurnOnAlertToParent(data, typeAlert) {
+        const message = { type: 'notify', message: data.message, typeAlert: typeAlert };
+        window.parent.postMessage(message, this.originValue);
+    }
+
+    requestOpenGallery(event){
+        const { eventName } = event.params;
+        const message = { type: 'requestOpenGallery', message: 'request open gallery', eventName: eventName };
+        window.parent.postMessage(message, this.originValue);
+    }
+
+    _listPickedPicture(data){
+        const { path, event } = data;
+        this.backgroundTarget.style.backgroundImage = `url('${path}')`;
+
+        if(event === "picture@background"){
+            this._call('background', path);
+        }
+    }
+
+    _call(prop,val){
         const formData = new FormData();
         formData.append(prop, val);
         axiosPost({url: this.mainUrlValue, data: formData}, {
             success: res => {
-
+                this.sendTurnOnAlertToParent(res, "success");
             },
             failed: res => {
-
+                this.sendTurnOnAlertToParent(res, "failed");
             }
         })
     }
