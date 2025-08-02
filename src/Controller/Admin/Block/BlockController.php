@@ -10,6 +10,7 @@ use App\Core\Services\BlockService;
 use App\Core\Services\PageService;
 use App\Form\Admin\Block\AddBlockForm;
 use App\Form\Admin\Block\AddBlockStaticForm;
+use App\Form\Admin\Block\EditBlockCommonForm;
 use App\Form\Admin\Block\InsertStaticBlockForm;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -138,6 +139,72 @@ class BlockController extends AbstractController implements CRUDActionInterface
         }
 
         return $this->render('Admin/views/block/add_static_modal.html.twig', compact('form', 'page'));
+    }
+    /**
+     * @Route(path="/blockChild/{id}", name="app_admin_blockchild_index")
+     */
+    public function indexBlockChild(Request $request, int $id): Response
+    {
+        $this->entityManager->getRepository(Block::class)->findBy(['parent' => $id]);
+        return $this->render('Admin/views/block/indexChild.html.twig', [
+            'parentBlockId' => $id
+        ]);
+    }
+    /**
+     * @Route(path="/add_child/{id}", name="app_admin_block_addchild")
+     */
+    public function addChild(Request $request, int $id, EntityManagerInterface $em): Response
+    {
+        $parentBlock = $em->getRepository(Block::class)->find($id);
+
+
+        $blockChild = new Block();
+        $form = $this->createForm(AddBlockForm::class, $blockChild, [
+            'action' => $this->generateUrl('app_admin_block_addchild', ['id' => $id]),
+            'method' => 'POST'
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $blockChild->setParent($parentBlock);
+            $em->persist($blockChild);
+            $em->flush();
+
+            return new JsonResponse(['message'=>"Đã thêm block con "]);
+        }
+
+        return $this->render('Admin/views/block/add_modal.html.twig', ['form' => $form,]);
+    }
+    /**
+    * @Route(path="/edit_child/{id}", name="app_admin_block_editchild")
+    */
+    public function editChild(Request $request, int $id, EntityManagerInterface $em): Response
+    {
+        $blockChild = $em->getRepository(Block::class)->find($id);
+        $form = $this->createForm(EditBlockCommonForm::class, $blockChild, [
+            'action' => $this->generateUrl('app_admin_block_editchild', ['id' => $id]),
+            'method' => 'POST'
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $em->flush();
+            return new JsonResponse(['message' => 'Block updated successfully!']);
+        }
+        $block = $blockChild->getParent();
+        if (is_int($block)) {
+            $block = $em->getRepository(Block::class)->find($block);
+        }
+        $page = $block?->getPost()?->getPage();
+
+        return $this->render('Admin/views/block/edit_block_common.html.twig', [
+            'form' => $form,
+            'blockChild' => $blockChild,
+            'block' => $block,
+            'page' => $page,
+        ]);
     }
 
 }

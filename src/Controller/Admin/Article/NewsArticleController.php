@@ -36,7 +36,13 @@ class NewsArticleController extends AbstractController
             $this->entityManager->persist($article);
             $this->entityManager->flush();
 
-            return $this->redirectToRoute('app_admin_article_edit', ['id' => $article->getId(), 'type' => $type]);
+            return new JsonResponse([
+                'message' => 'Tạo bài viết thành công!',
+                'redirect' => $this->generateUrl('app_admin_article_edit', [
+                    'id' => $article->getId(),
+                    'type' => $type,
+                ]),
+            ]);
         }
         return $this->render('Admin/views/article/add_news.html.twig', compact(['form', 'article', 'type']));
     }
