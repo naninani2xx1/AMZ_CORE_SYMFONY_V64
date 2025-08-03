@@ -2,6 +2,7 @@
 
 namespace App\Twig\Runtime;
 
+use App\Core\Entity\Setting;
 use App\Core\Services\SettingService;
 use Twig\Extension\RuntimeExtensionInterface;
 
@@ -13,8 +14,8 @@ class SettingExtensionRuntime implements RuntimeExtensionInterface
        $this->settingService = $settingService;
     }
 
-    public function getSettingByKey($key)
+    public function getSettingByKey($key) : ?Setting
     {
-        return $this->settingService->findOneByKey($key);
+        return $this->settingService->findOneByKey($key) ?? new Setting();
     }
 }
