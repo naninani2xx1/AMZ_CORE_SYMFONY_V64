@@ -5,11 +5,17 @@ declare(strict_types=1);
 namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
+use App\Core\DataType\ArchivedDataType;
+use App\Core\Entity\Page;
 use App\Core\Services\PageService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Uid\Uuid;
 
 /**
  * @Route(path="/cms/page")
@@ -17,9 +23,11 @@ use Symfony\Component\Routing\Attribute\Route;
 class PageController extends AbstractController implements CRUDActionInterface
 {
     private $pageService;
+    private EntityManagerInterface $entityManager;
 
-    public function __construct(PageService $pageService)
+    public function __construct(PageService $pageService, EntityManagerInterface $entityManager)
     {
+        $this->entityManager = $entityManager;
         $this->pageService = $pageService;
     }
 
@@ -61,6 +69,18 @@ class PageController extends AbstractController implements CRUDActionInterface
      */
     public function delete(Request $request, int $id): Response
     {
-        return $this->pageService->delete($request, $id);
+        $csrfToken = $request->query->get('_csrf_token');
+        if (!$this->isCsrfTokenValid('page-delete-'.$id, $csrfToken))
+            throw new AccessDeniedHttpException();
+
+        $page = $this->pageService->findOneById($id);
+        $page->setArchived(ArchivedDataType::ARCHIVED);
+
+        $post = $page->getPost();
+        $slug = $post->getSlug() .'-removed-' .Uuid::v4()->toBase32();
+        $post->setSlug($slug);
+        $this->entityManager->flush();
+
+        return new Response("Deleted Page Successfully");
     }
 }

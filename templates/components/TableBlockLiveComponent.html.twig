@@ -43,7 +43,9 @@
                                 {{ macros.icon_eye() }}
                             </span>
                         </a>
-                        <a href="#" class="btn btn-icon btn-active-light-primary w-20px h-20px me-2">
+                        <a href="#" data-action="{{ path('app_admin_block_delete', {'id': item.id, '_csrf_token': csrf_token('block-delete-' ~ item.id )}) }}"
+                           data-amz-btn-remove
+                           class="btn btn-icon btn-active-light-primary w-30px h-30px me-2">
                             <span data-bs-toggle="tooltip" data-bs-trigger="hover" aria-label="Delete" data-bs-original-title="Delete">
                                 {{ macros.icon_delete() }}
                             </span>

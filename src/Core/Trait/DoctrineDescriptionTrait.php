@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 trait DoctrineDescriptionTrait
 {
     /**
-     * @ORM\Column(type="string", nullable=true)
+     * @ORM\Column(type="text", nullable=true)
      */
     private $description;
 

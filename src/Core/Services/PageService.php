@@ -86,33 +86,12 @@ class PageService extends AbstractController
         return $this->render('Admin/views/page/edit.html.twig', compact('form', 'page'));
     }
 
-    /**
-     * Archived Page
-     * @param Request $request
-     * @param int $id
-     * @return Response
-     */
-    public function delete(Request $request, int $id): Response
-    {
-        $csrfToken = $request->request->get('_csrf_token');
-        if (!$this->isCsrfTokenValid('page-delete-'.$id, $csrfToken))
-            throw new AccessDeniedHttpException();
-
-        $page = $this->pageRepository->find($id);
-        if(!$page instanceof Page) throw new NotFoundHttpException();
-
-        $page->setArchived(ArchivedDataType::ARCHIVED);
-        $this->entityManager->flush();
-
-        return new Response("Deleted Page Successfully");
-    }
-
     public function findOneById($id): Page
     {
         return $this->pageRepository->find($id);
     }
 
-    public function findOneBySlug(string $slug): Page
+    public function findOneBySlug(string $slug): ?Page
     {
         return $this->pageRepository->findOneBySlug($slug);
     }

@@ -30,7 +30,7 @@ const axiosPost = (options, listCallBack) => {
             alertError();
             return;
         }
-        failed(xhr.response);
+        failed(xhr);
     }).finally(_ => {
         if(final === undefined) return;
         final();

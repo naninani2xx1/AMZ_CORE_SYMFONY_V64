@@ -1,0 +1,20 @@
+
+<section class="block prune-block">
+    <div class="container">
+        <div class="card-large vertical">
+            <img src="{% if block.background is not null %}{{ asset(block.background) }}{% endif %}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <!--<h5 class="card-title">California<br /> Nơi chất lượng tạo nên khác biệt </h5>-->
+                <div class="card-text tool-editor"
+                >
+                    {% if block.description is not null %}
+                        {{ block.description | raw }}
+                    {% else %}
+                        <p style="text-align: center;">Cả thế giới tìm đến California vì mận khô. Bên cạnh những yếu tố làm nên sự khác biệt của mận khô California – như điều kiện canh tác nổi tiếng toàn cầu và tiêu chuẩn nông nghiệp cao nhất thế giới – ngành công nghiệp mận khô California còn đầu tư vào ngành hàng này nhiều hơn bất kỳ khu vực trồng mận nào khác trên thế giới.</p>
+                    {% endif %}
+                </div>
+                <!--<a href="#" class="btn btn-primary">KHÁM PHÁ</a>-->
+            </div>
+        </div>
+    </div>
+</section>

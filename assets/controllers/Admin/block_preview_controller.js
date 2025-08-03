@@ -10,7 +10,7 @@ import {alertError, alertSuccess} from '@Common';
 
 /* stimulusFetch: 'lazy' */
 export default class extends Controller {
-    static targets = ['background', 'image'];
+    static targets = ['background', 'image', 'description', 'listingItem'];
     static values = {
         mainUrl: {
             type: String
@@ -50,9 +50,20 @@ export default class extends Controller {
     receiver(event){
         if (event.origin !== this.originValue) return;
         if (event.data.type === 'pickedPicture') {
-            this._listPickedPicture(event.data);
             console.log('Received from parent:', event.data);
+            const { eventRegister } = event.data;
+            if(eventRegister)
+                this._listenPickedPictureForItemBlock(event.data);
+            else
+                this._listenPickedPictureForBlock(event.data);
+        }else if (event.data.type === 'updateProperty') {
+            console.log('Received from parent:', event.data);
+            this.updateDataOnView(event.data);
         }
+    }
+
+    updateDataOnView(payload){
+        this.descriptionTarget.innerHTML = payload.description;
     }
 
     onChange(event){
@@ -82,13 +93,27 @@ export default class extends Controller {
         window.parent.postMessage(message, this.originValue);
     }
 
-    _listPickedPicture(data){
+    requestOpenCkeditor(event){
+        const { prop } = event.params;
+        const message = { type: 'requestOpenCkeditor', message: 'request open ckeditor', prop: prop};
+        window.parent.postMessage(message, this.originValue);
+    }
+
+    _listenPickedPictureForBlock(data){
         const { path, event } = data;
-        this.backgroundTarget.style.backgroundImage = `url('${path}')`;
+        if(this.backgroundTarget.tagName === "IMG")
+            this.backgroundTarget.src = `${path}`;
+        else
+            this.backgroundTarget.style.backgroundImage = `url('${path}')`;
 
         if(event === "picture@background"){
             this._call('background', path);
         }
+    }
+
+    _listenPickedPictureForItemBlock(data){
+        const  {eventRegister} = data;
+        window.dispatchEvent(new CustomEvent(eventRegister, { detail: data }));
     }
 
     _call(prop,val){
@@ -102,5 +127,9 @@ export default class extends Controller {
                 this.sendTurnOnAlertToParent(res, "failed");
             }
         })
+    }
+    addItem(event){
+        const component = this.listingItemTarget.querySelector('#ListingItemBlockLive').__component;
+        component.action('addItem');
     }
 }

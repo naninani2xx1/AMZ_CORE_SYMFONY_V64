@@ -3,6 +3,7 @@
 namespace App\Core\Entity;
 
 
+use App\Core\DataType\ArchivedDataType;
 use App\Core\DataType\PostStatusType;
 use App\Core\Trait\DoctrineContentTrait;
 use App\Core\Trait\DoctrineDescriptionTrait;
@@ -13,6 +14,7 @@ use App\Core\Trait\PreRemoveCycleTrait;
 use App\Core\ValueObject\LifecycleEntity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
@@ -335,7 +337,9 @@ class Post extends LifecycleEntity
      */
     public function getBlocks(): Collection
     {
-        return $this->blocks;
+        $criteria = Criteria::create();
+        $criteria->andWhere(Criteria::expr()->eq('isArchived', ArchivedDataType::UN_ARCHIVED));
+        return $this->blocks->matching($criteria);
     }
 
     public function addBlock(Block $block): static
