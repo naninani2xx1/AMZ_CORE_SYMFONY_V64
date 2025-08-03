@@ -53,3 +53,48 @@ parameters:
       frontend:
         view: '%themes%block/listing_prune_trade_and_food_services.html.twig'
         controller: ''
+
+    about_text_prune_block:
+      name: 'About text prune block'
+      backend:
+        view: 'Admin/views/blockPreview/about_text_prune.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/about_text_prune.html.twig'
+        controller: ''
+
+    prune_product_block:
+      name: 'Prune product block'
+      backend:
+        view: 'Admin/views/blockPreview/listing_prune_products.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/listing_prune_products.html.twig'
+        controller: ''
+
+    about_list_of_distributors_block:
+      name: 'About List of Distributors block'
+      backend:
+        view: 'Admin/views/blockPreview/list_of_distributors.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/list_of_distributors.html.twig'
+        controller: ''
+
+    about_distributor_block:
+      name: 'About text Distributors block'
+      backend:
+        view: 'Admin/views/blockPreview/about_distributor.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/about_distributor.html.twig'
+        controller: ''
+
+    list_of_distributor_block:
+      name: 'List of Distributors block'
+      backend:
+        view: 'Admin/views/blockPreview/list_of_distributor.html.twig'
+        controller: 'App\Controller\Admin\Block\BlockCommon::edit'
+      frontend:
+        view: '%themes%block/list_of_distributor.html.twig'
+        controller: ''

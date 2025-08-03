@@ -1,0 +1,11 @@
+<section class="prune-next">
+    <div class="container maxW-800">
+        <div class="heading">
+            <h2 class="title underline">{{ block.title }}</h2>
+            <div class="text tool-editor">
+                {{ block.description | raw  }}
+            </div>
+            <a href="{{ block.url ?? "#" }}" class="btn btn-primary">{{ block.subTitle }}</a>
+        </div>
+    </div>
+</section>

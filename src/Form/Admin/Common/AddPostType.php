@@ -50,8 +50,8 @@ class AddPostType extends AbstractType
             $post = $event->getData();
             $form = $event->getForm();
             if ($post instanceof Post) {
-                $form->add('isHot', HiddenType::class, ['required' => false]);
-                $form->add('isNew', HiddenType::class, ['required' => false]);
+                $form->add('isHot', HiddenType::class, ['required' => false, 'mapped' => false]);
+                $form->add('isNew', HiddenType::class, ['required' => false, 'mapped' => false]);
                 $form->add('content', TextareaType::class, [
                     'required' => false,
                 ]);

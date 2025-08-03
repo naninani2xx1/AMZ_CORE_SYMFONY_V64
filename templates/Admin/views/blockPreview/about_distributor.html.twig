@@ -1,0 +1,44 @@
+{% extends 'themes/mancali/base.html.twig' %}
+{% block header %} {% endblock %}
+{% block footer %} {% endblock %}
+{% block importmapp %}
+    {{ importmap('app') }}
+{% endblock %}
+{% block body %}
+<style>
+    [data-Admin--block-preview-target="description"] > ul {
+        list-style: disc !important;
+    }
+</style>
+<section class="block prune-block"
+         data-controller="Admin--block-preview"
+         data-Admin--block-preview-origin-value="{{ app.request.schemeAndHttpHost }}"
+         data-Admin--block-preview-main-url-value="{{ path('app_admin_block_update', {'id': block.id}) | e('html_attr') }}"
+>
+    <div class="container maxW-800">
+        <div class="heading">
+            <h2 class="title"    data-Admin--block-preview-target="title"
+                contenteditable="true"
+                data-action="blur->Admin--block-preview#onChange"
+                data-Admin--block-preview-prop-param="title">Mận khô California</h2>
+            <h2 class="subtitle underline"    data-Admin--block-preview-target="subTitle"
+                contenteditable="true"
+                data-action="blur->Admin--block-preview#onChange"
+                data-Admin--block-preview-prop-param="subTitle">có nhiều dạng chế biến đa dạng</h2>
+            <div class="text tool-editor"
+                 data-Admin--block-preview-target="description"
+                 data-action="click->Admin--block-preview#requestOpenCkeditor"
+                 data-Admin--block-preview-prop-param="description">
+                {% if block.description is not null %}
+                    {{ block.description | raw }}
+                {% else %}
+                    <p style="color: black;">Các đơn vị chế biến tại California có thể cung cấp mận khô phục vụ nhiều mục đích sử dụng khác nhau, bao gồm: nguyên quả, cắt nhỏ, cắt hạt lựu, dạng vụn, xay nhuyễn, dạng sệt, cô đặc, nước ép và dạng bột. Các sản phẩm hữu cơ cũng có sẵn.</p>
+                    <p>Để biết thông tin sản phẩm và bảng giá, vui lòng liên hệ với một trong các đơn vị chế biến mận khô California được liệt kê bên dưới.</p>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</section>
+
+{% endblock %}

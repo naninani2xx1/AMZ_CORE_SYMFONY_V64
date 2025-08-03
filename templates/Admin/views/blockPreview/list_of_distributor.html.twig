@@ -1,0 +1,85 @@
+{% extends 'themes/mancali/base.html.twig' %}
+{% block header %} {% endblock %}
+{% block footer %} {% endblock %}
+{% block importmapp %}
+    {{ importmap('app') }}
+{% endblock %}
+
+{% block body %}
+    <section class="block prune-block prune-handler">
+        <div class="container">
+            <table cellpadding="0" cellspacing="0">
+                <thead>
+                <tr>
+                    <td>CÔNG TY</td>
+                    <td>THÔNG TIN LIÊN HỆ</td>
+                    <td>SẢN PHẨM</td>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in get_all_distributors() %}
+                    <tr>
+                        <td>
+                            <h6 class="name">{{ item.companyName }}</h6>
+
+                            <div class="addr">
+
+                                <i class="zmdi zmdi-home"></i>
+
+                                <div class="tool-editor addr">
+
+                                    <p>{{ item.companyAddress }}</p>
+
+                                </div>
+
+                            </div>
+
+                            <div class="d-block d-md-none">
+
+                                <p class="phone"><i class="zmdi zmdi-phone"></i><a href="tel:{{ item.phone }}">{{ item.phone }}</a></p>
+
+                                <p class="email"><i class="zmdi zmdi-email"></i><a href="mailto:{{ item.email }}">{{ item.email }}</a></p>
+                                {% if item.webLink is not null %}
+                                    <p class="web"><i class="zmdi zmdi-globe"></i><a target="_blank" href="{{ item.webLink }}">{{ item.webLink }}</a></p>
+                                {% endif %}
+                                <div class="exportType">
+                                    {% for product in item.productsArr %}
+                                        <span>{{ product }}</span>
+                                    {% endfor %}
+                                </div>
+
+                            </div>
+
+                        </td>
+
+                        <td>
+
+                            <p class="phone"><i class="zmdi zmdi-phone"></i><a href="tel:530.671.4911">530.671.4911</a></p>
+
+                            <p class="email"><i class="zmdi zmdi-email"></i><a href="mailto:emily@wilburpacking.com">emily@wilburpacking.com</a></p>
+
+                            <p class="web"><i class="zmdi zmdi-globe"></i><a target="_blank" href="wilburpacking.com">wilburpacking.com</a></p>
+
+                        </td>
+
+                        <td>
+
+                            <div class="exportType">
+
+                                <span>EXPORT</span>
+
+                                <span>INDUSTRIAL</span>
+
+                                <span>ORGANIC</span>
+
+                            </div>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+{% endblock %}

@@ -6,10 +6,15 @@ namespace App\Controller\Admin;
 
 use App\Core\Controller\CRUDActionInterface;
 use App\Core\DataType\ArchivedDataType;
+use App\Core\DataType\PostStatusType;
 use App\Core\Entity\Page;
 use App\Core\Services\PageService;
+use App\Form\Admin\Page\AddPageForm;
+use App\Security\Voter\PageVoter;
+use Cocur\Slugify\Slugify;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
@@ -49,7 +54,24 @@ class PageController extends AbstractController implements CRUDActionInterface
      */
     public function add(Request $request): Response
     {
-       return $this->pageService->add($request);
+        $page = new Page();
+        //check permission
+        $this->denyAccessUnlessGranted(PageVoter::ADD, $page);
+
+        $form = $this->createForm(AddPageForm::class, $page);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            //logic here
+            $this->entityManager->persist($page);
+            $this->entityManager->persist($page->getPost());
+            $this->entityManager->flush();
+
+            return new JsonResponse([
+                'message' => 'Page added successfully',
+                'redirect' => $this->generateUrl('app_admin_page_edit', ['id' => $page->getId()])
+            ]);
+        }
+        return $this->render('Admin/views/page/add.html.twig', compact('form', 'page'));
     }
     /**
      * @Route(path="/edit/{id}", name="app_admin_page_edit")
@@ -59,7 +81,36 @@ class PageController extends AbstractController implements CRUDActionInterface
      */
     public function edit(Request $request, int $id): Response
     {
-        return $this->pageService->edit($request, $id);
+        $page = $this->pageService->findOneById($id);
+        if(!$page instanceof Page) throw new NotFoundHttpException();
+
+        $form = $this->createForm(AddPageForm::class , $page, [
+            'action' => $this->generateUrl('app_admin_page_edit', ['id' => $page->getId()]),
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $isHot = $form->get('post')->get('isHot')->getData();
+            $isNew = $form->get('post')->get('isNew')->getData();
+            $isKeepSlug = $request->request->get('keep_slug');
+
+            if(is_string($isHot) && $isHot == 'on')
+                $page->getPost()->setIsHot(PostStatusType::HOT_TYPE_HOT);
+            if(is_string($isNew) && $isNew == 'on')
+                $page->getPost()->setIsNew(PostStatusType::NEW_TYPE_NEW);
+            if(is_null($isKeepSlug)){
+                $slugify = new Slugify();
+                $slug = $slugify->slugify($page->getPost()->getTitle());
+                $page->getPost()->setSlug($slug);
+            }
+
+            $this->entityManager->flush();
+            return new JsonResponse([
+                'message' => 'Page edited successfully',
+                'redirect' => $this->generateUrl('app_admin_page_edit', ['id' => $page->getId()])
+            ]);
+        }
+
+        return $this->render('Admin/views/page/add.html.twig', compact('form', 'page'));
     }
     /**
      * @Route(path="/delete/{id}", name="app_admin_page_delete")

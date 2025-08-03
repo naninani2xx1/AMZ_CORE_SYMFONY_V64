@@ -1,0 +1,36 @@
+{% extends 'themes/mancali/base.html.twig' %}
+{% block header %} {% endblock %}
+{% block footer %} {% endblock %}
+{% block importmapp %}
+    {{ importmap('app') }}
+{% endblock %}
+{% block body %}
+<style>
+    [data-Admin--block-preview-target="description"] > ul {
+        list-style: disc !important;
+    }
+</style>
+<section class="block prune-block"
+         data-controller="Admin--block-preview"
+         data-Admin--block-preview-origin-value="{{ app.request.schemeAndHttpHost }}"
+         data-Admin--block-preview-main-url-value="{{ path('app_admin_block_update', {'id': block.id}) | e('html_attr') }}"
+>
+    <div class="container maxW-800">
+        <div class="heading">
+            <!--<h2 class="subtitle">Hơn 150 năm</h2>
+            <h2 class="title underline">gìn giữ và phát triển <br />nền nông nghiệp bền vững</h2>-->
+            <div  class="text tool-editor" data-Admin--block-preview-target="description"
+                  data-action="click->Admin--block-preview#requestOpenCkeditor"
+                  data-Admin--block-preview-prop-param="description"
+            >
+                {% if block.description is not null %}
+                    {{ block.description | raw }}
+                {% else %}
+                    <p style="color: black;">Ngành Mận khô California cung cấp đa dạng sản phẩm như: mận khô nguyên trái, cắt hạt lựu, xay nhuyễn, dạng sệt, nước ép/cô đặc và bột mận.</p>
+                    <p>	Hiệp hội Mận khô California hỗ trợ nghiên cứu kỹ thuật để khai thác lợi ích của mận khô trong chế biến thực phẩm như giữ ẩm, giảm chất béo và tăng hương vị.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,36 @@
+<div class="card-large block-listing-item {{ loop.index is odd ? "" : "right" }}" data-controller="Admin--block-listing-item"
+     data-Admin--block-listing-item-origin-value="{{ app.request.schemeAndHttpHost }}"
+     data-Admin--block-listing-item-delete-url-value="{{ path('app_admin_block_delete_listing_item', {'id': block.id, 'uuid': item.uuid}) }}"
+     data-Admin--block-listing-item-main-url-value="{{ path('app_admin_block_update', {'id': block.id}) | e('html_attr') }}"
+     data-Admin--block-listing-item-uuid-value="{{ item.uuid }}" id="{{ item.uuid }}"
+     data-Admin--block-listing-item-event-name-for-image-value="picture@image{{ item.uuid }}"
+>
+
+    <div class="card-img-top" style="position: relative">
+        <button style="position: absolute; top: 50%; left: 50%; width: auto; transform: translateX(-50%)"
+                data-action="click->Admin--block-listing-item#requestOpenGallery"
+                data-Admin--block-listing-item-prop-param="image"
+                data-Admin--block-listing-item-event-register-param="picture@image{{ item.uuid }}"
+                data-Admin--block-listing-item-event-name-param="pickedPicture"
+                type="button">Import Image</button>
+        <img
+                data-Admin--block-listing-item-target="image"
+                src="{% if item.image is not empty and item.image != '' %}{{ asset(item.image) }}{% else %}{{ asset('themes/mancali/assets/img/product/product-01.png') }}{% endif %}" style="width: 100%" class="card-img-top" alt="...">
+    </div>
+    <div class="card-body">
+        <h5 class="card-title"  data-Admin--block-listing-item-target="title"
+            contenteditable="true">{{ item.title }}</h5>
+        <div class="card-text tool-editor"
+             data-Admin--block-listing-item-target="description"
+             data-action="click->Admin--block-listing-item#requestOpenCkeditor"
+             data-Admin--block-listing-item-prop-param="description"
+             data-Admin--block-listing-item-uuid-param="{{ item.uuid }}"
+        >
+            {{ item.description | raw }}
+        </div>
+        <div style="display: flex; gap: 10px;">
+            <button data-action="click->Admin--block-listing-item#saveItem">Save</button>
+            <button data-action="click->Admin--block-listing-item#removeItem">Remove</button>
+        </div>
+    </div>
+</div>

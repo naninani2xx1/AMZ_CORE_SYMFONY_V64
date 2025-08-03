@@ -5,24 +5,28 @@
     {{ importmap('app') }}
 {% endblock %}
 {% block body %}
-    <style>
-        [data-Admin--block-listing-item-target="description"] > ul {
-            list-style: disc !important;
-        }
-    </style>
-<section class="block prune-block prune-trade bgColor3"
+<style>
+    [data-Admin--block-listing-item-target="description"] > ul {
+        list-style: disc !important;
+    }
+</style>
+<section class="block prune-block"
          data-controller="Admin--block-preview"
          data-Admin--block-preview-origin-value="{{ app.request.schemeAndHttpHost }}"
          data-Admin--block-preview-main-url-value="{{ path('app_admin_block_update', {'id': block.id}) | e('html_attr') }}"
          style="position: relative">
+
     <div style="display: flex; flex-direction: column; gap: 10px; position: sticky; z-index: 100; top: 0; right: 0; width: auto">
         <button style="position: absolute; z-index: 10; top: 10px; right: 20px; width: auto"
                 data-action="click->Admin--block-preview#addItem"
                 type="button">Add Item</button>
     </div>
     <div class="container" data-Admin--block-preview-target="listingItem">
-        {{ component('ListingItemBlockLiveComponent', {'id': 'ListingItemBlockLive', 'block': block, 'template': ('Admin/views/blockPreview/partials/item_prune_trade_and_food_services.html.twig') }) }}
+        {{ component('ListingItemBlockLiveComponent', {
+            'id': 'ListingItemBlockLive',
+            'block': block,
+            'template': 'Admin/views/blockPreview/partials/item_prune_product.html.twig'
+        }) }}
     </div>
 </section>
-
 {% endblock %}

@@ -1,0 +1,50 @@
+{% extends 'themes/mancali/base.html.twig' %}
+{% block header %} {% endblock %}
+{% block footer %} {% endblock %}
+{% block importmapp %}
+    {{ importmap('app') }}
+{% endblock %}
+
+{% block body %}
+<section class="prune-next"
+         data-controller="Admin--block-preview"
+         data-Admin--block-preview-origin-value="{{ app.request.schemeAndHttpHost }}"
+         data-Admin--block-preview-main-url-value="{{ path('app_admin_block_update', {'id': block.id}) | e('html_attr') }}"
+>
+    <div class="container maxW-800">
+        <div class="heading">
+            <h2 class="title underline"
+                data-Admin--block-preview-target="title"
+                contenteditable="true"
+                data-action="blur->Admin--block-preview#onChange"
+                data-Admin--block-preview-prop-param="title"
+            >{{ block.title ?? "DANH SÁCH nhà phân phối" }}</h2>
+            <div class=""
+                 data-Admin--block-preview-target="description"
+                 data-action="click->Admin--block-preview#requestOpenCkeditor"
+                 data-Admin--block-preview-prop-param="description"
+            >
+                {% if block.description is not empty %}
+                    {{ block.description | raw }}
+                {% else %}
+                <p style="color: black;">Mận khô California có nhiều đối tác và phân phối đáng tin cậy. Tất cả đều tuân thủ các tiêu chuẩn nghiêm ngặt từ Hiệp hội Mận khô California.</p>
+                {% endif %}
+            </div>
+            <a href="javascript:void(0)" class="btn btn-primary"
+               data-Admin--block-preview-target="subTitle"
+               contenteditable="true"
+               data-action="blur->Admin--block-preview#onChange"
+               data-Admin--block-preview-prop-param="subTitle"
+            >{{ block.subTitle ?? "KHÁM PHÁ" }}</a>
+            <div>
+                ButtonUrl: <span
+                                 data-Admin--block-preview-target="url"
+                                 contenteditable="true"
+                                 data-action="blur->Admin--block-preview#onChange"
+                                 data-Admin--block-preview-prop-param="url"
+                >{{ block.url ?? "#" }}</span>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

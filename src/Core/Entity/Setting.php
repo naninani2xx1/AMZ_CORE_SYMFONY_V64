@@ -5,12 +5,11 @@ namespace App\Core\Entity;
 use App\Core\Trait\DoctrineDescriptionTrait;
 use App\Core\Trait\DoctrineIdentifierTrait;
 use App\Core\ValueObject\LifecycleEntity;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\SettingRepository")
+ * @ORM\Entity(repositoryClass="App\Core\Repository\SettingRepository")
  * @ORM\Table(name="core_setting")
  * @ORM\HasLifecycleCallbacks
  */

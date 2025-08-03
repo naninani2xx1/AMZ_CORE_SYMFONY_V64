@@ -1,0 +1,14 @@
+<section class="block prune-block">
+    <div class="container maxW-800">
+        <div class="heading">
+            <h2 class="title">{{ block.title }}</h2>
+            <h2 class="subtitle underline">{{ block.subTitle }}</h2>
+            <div class="text tool-editor">
+                {% if block.description is not empty %}
+                    {{ block.description | raw }}
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</section>

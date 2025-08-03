@@ -1,9 +1,9 @@
 {% extends 'Admin/base.html.twig' %}
-{% block title %}CMS - Add page{% endblock %}
+{% block title %}CMS - {{ page.id is not null ? "Edit" : "Add" }} page{% endblock %}
 
 {% block toolbar %}
     {% embed 'Admin/partials/toolbar.html.twig' %}
-        {% block toolbar_title %}Add Page{% endblock toolbar_title %}
+        {% block toolbar_title %}{{ page.id is not null ? "Edit" : "Add" }} Page{% endblock toolbar_title %}
 
         {% block toolbar_breadcrumbs %}
             <!--begin::Item-->
@@ -17,7 +17,7 @@
             </li>
             <!--end::Item-->
             <!--begin::Item-->
-            <li class="breadcrumb-item text-muted">Add</li>
+            <li class="breadcrumb-item text-muted">{{ page.id is not null ? "Edit" : "Add" }}</li>
             <!--end::Item-->
         {% endblock toolbar_breadcrumbs %}
 
@@ -170,11 +170,11 @@
                 <!--end::Card header-->
                 <!--begin::Card body-->
                 <div class="card-body pt-0">
-                    {{ macros.toggle('Keep slug', '', false, 'keep-slug' ) }}
+                    {{ macros.toggle('Keep slug', 'keep_slug', false, 'keep-slug' ) }}
                     <div class="mb-2"></div>
-                    {{ macros.toggle('Hot', form.post.isHot.vars.full_name , false, form.post.isHot.vars.id ) }}
+                    {{ macros.toggle('Hot', form.post.isHot.vars.full_name , page.post.isHot == 2, form.post.isHot.vars.id ) }}
                     <div class="mb-2"></div>
-                    {{ macros.toggle('Lasted New', form.post.isNew.vars.full_name , false, form.post.isNew.vars.id ) }}
+                    {{ macros.toggle('Lasted New', form.post.isNew.vars.full_name , page.post.isNew == 2, form.post.isNew.vars.id ) }}
                 </div>
                 <!--end::Card body-->
             </div>

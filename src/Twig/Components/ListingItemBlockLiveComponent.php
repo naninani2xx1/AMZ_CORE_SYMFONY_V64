@@ -25,6 +25,9 @@ final class ListingItemBlockLiveComponent
     #[LiveProp(writable: true)]
     public ?Block $block = null;
 
+    #[LiveProp(writable: true)]
+    public ?string $template = '';
+
     #[LiveAction]
     public function addItem(): void
     {

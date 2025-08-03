@@ -12,18 +12,28 @@ final class BlockDTO
     private ?string $content;
     private ?int $sortOrder;
     private ?string $background;
+    private ?string $url;
     private ?string $listingItem;
     public function __construct(?string $title, ?int $sortOrder, ?string $background, ?string $subTitle, ?string $description,
-        ?string $content, ?string $listingItem
+        ?string $content, ?string $listingItem, ?string $url
     )
     {
         $this->content = $content;
+        $this->url = $url;
         $this->listingItem = $listingItem;
         $this->subTitle = $subTitle;
         $this->description = trim($description);
         $this->background = $background;
         $this->sortOrder = $sortOrder;
         $this->title = ucwords($title);
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getUrl(): ?string
+    {
+        return $this->url;
     }
 
     /**
@@ -121,9 +131,10 @@ final class BlockDTO
             $methodGetter =  'get' . ucfirst($prop);
             $methodSetter =  'set' . ucfirst($prop);
             if(method_exists($this, $methodGetter)  && !empty($value)) {
-                if(method_exists($this, $methodSetter))
+                if(method_exists($this, $methodSetter)){
                     call_user_func([$this, $methodSetter], $value, $entity);
-                continue;
+                    continue;
+                }
             }
             if (method_exists($entity, $methodGetter) && !empty($value)) {
                 if(method_exists($this, $methodSetter))

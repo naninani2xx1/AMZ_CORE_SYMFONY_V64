@@ -154,7 +154,7 @@ class Post extends LifecycleEntity
         return $this->isHot;
     }
 
-    public function setIsHot(?string $isHot): self
+    public function setIsHot(?int $isHot): self
     {
         $this->isHot = $isHot;
 
@@ -166,7 +166,7 @@ class Post extends LifecycleEntity
         return $this->isNew;
     }
 
-    public function setIsNew(?string $isNew): self
+    public function setIsNew(?int $isNew): self
     {
         $this->isNew = $isNew;
 

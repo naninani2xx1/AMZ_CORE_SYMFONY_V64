@@ -1,0 +1,60 @@
+{% embed 'Admin/partials/modal.html.twig' %}
+    {% block title %} {% if distributor is defined %}Edit{% else %}Add{% endif %} Distributor{% endblock %}
+    {% block modalClass %}modal-dialog-centered p-10 mw-900px{% endblock %}
+    {% block body %}
+        {{ form_start(form) }}
+        <div class="fv-row mb-7">
+            <!--begin::Label-->
+            <label class="required fs-6 fw-semibold mb-2">Company Name</label>
+            <!--end::Label-->
+            <!--begin::Input-->
+            {{ form_widget(form.companyName, {attr: {'class': "form-control fs-7", placeholder: "Enter company name"}}) }}
+            <!--end::Input-->
+        </div>
+        <div class="fv-row mb-7">
+            <!--begin::Label-->
+            <label class="required fs-6 fw-semibold mb-2">Company Address</label>
+            <!--end::Label-->
+            <!--begin::Input-->
+            {{ form_widget(form.companyAddress, {attr: {'class': "form-control fs-7", placeholder: "Enter company address"}}) }}
+            <!--end::Input-->
+        </div>
+        <div class="fv-row mb-7">
+            <!--begin::Label-->
+            <label class="required fs-6 fw-semibold mb-2">Phone</label>
+            <!--end::Label-->
+            <!--begin::Input-->
+            {{ form_widget(form.phone, {attr: {'class': "form-control fs-7", placeholder: "Enter phone"}}) }}
+            <!--end::Input-->
+        </div>
+        <div class="fv-row mb-7">
+            <!--begin::Label-->
+            <label class="required fs-6 fw-semibold mb-2">Email</label>
+            <!--end::Label-->
+            <!--begin::Input-->
+            {{ form_widget(form.email, {attr: {'class': "form-control fs-7", placeholder: "Enter mail"}}) }}
+            <!--end::Input-->
+        </div>
+        <div class="fv-row mb-7">
+            <!--begin::Label-->
+            <label class="fs-6 fw-semibold mb-2">WebLink</label>
+            <!--end::Label-->
+            <!--begin::Input-->
+            {{ form_widget(form.webLink, {attr: {'class': "form-control fs-7", placeholder: "Enter webLink"}}) }}
+            <!--end::Input-->
+        </div>
+        <div class="fv-row mb-7">
+            <!--begin::Label-->
+            <label class="required fs-6 fw-semibold mb-2">List of Products</label>
+            <!--end::Label-->
+            <!--begin::Input-->
+            {{ form_widget(form.products, {attr: {'class': "form-control fs-7"}}) }}
+            <!--end::Input-->
+        </div>
+        <button type="button" class="btn btn-primary"
+                data-action="click->Admin--distributor-add#onSubmit">
+            {% if distributor is defined %}Save changes{% else %}Submit{% endif %}
+        </button>
+        {{ form_end(form) }}
+    {% endblock %}
+{% endembed %}
